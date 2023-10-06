@@ -9,6 +9,8 @@ namespace Project_Slayer {
 	/// Represents the base data for any Entity.
 	/// </summary>
 	public abstract class Entity : IDrawable {
+		// __________
+		//(👍 ͡❛ ▭ ͡❛)👍 En(tit)y
 		protected string mobName;
 
 		protected int strength;
