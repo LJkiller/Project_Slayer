@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Project_Slayer {
-	public abstract class Entity {
+	/// <summary>
+	/// Represents the base data for any Entity.
+	/// </summary>
+	public abstract class Entity : IDrawable {
 		protected string mobName;
 
 		protected int strength;
@@ -14,6 +17,9 @@ namespace Project_Slayer {
 		protected int agility;
 
 		public Entity(string initialMobName, int initialStrength, int initialMana, int initialDurability, int initialAgility) {
+
+		}
+		public void Draw() {
 
 		}
 	}

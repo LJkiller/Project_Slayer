@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace Project_Slayer {
-	class Program {
-		static void Main(string[] args) {
-			Console.WriteLine("There's no balls for you");
-		}
+	public interface IDrawable {
+		void Draw();
 	}
 }
