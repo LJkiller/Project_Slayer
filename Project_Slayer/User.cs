@@ -23,6 +23,7 @@ namespace Project_Slayer {
 	//░░░░░░  ╚══════╝╚══════╝╚═╝░░╚══╝░░░╚═╝░░░╚═╝░░╚═╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░╚═╝
 
 
+
 	/// <summary>
 	/// Represents the base data for User.
 	/// </summary>
