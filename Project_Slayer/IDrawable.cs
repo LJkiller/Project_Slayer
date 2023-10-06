@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_Slayer {
 	public interface IDrawable {
+		//I forgor
 		void Draw();
 	}
 }
