@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace Project_Slayer {
 	class Program {
 		static void Main(string[] args) {
-			Console.WriteLine("These balls are reserved for GitHub, Slayer Project");
-			Console.WriteLine("Balls");
+			Console.WriteLine("There's no balls for you");
 		}
 	}
 }
