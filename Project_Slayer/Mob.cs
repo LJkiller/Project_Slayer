@@ -48,8 +48,8 @@ namespace Project_Slayer {
 
 		#region Mob Attributes
 		//Additional mob stats.
-		protected int coinDrop;
-		protected int expDrop;
+		protected double coinDrop;
+		protected double expDrop;
 		#endregion
 
 		#region Information & Initiator

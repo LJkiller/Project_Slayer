@@ -25,7 +25,7 @@ namespace Project_Slayer {
         /// <summary>
         /// The Mob's coin drop value.
         /// </summary>
-        public int CoinDrop {
+        public double CoinDrop {
             get { return coinDrop; }
             set {
                 coinDrop = rng.Next(minDropStat, maxDropStat);
@@ -34,7 +34,7 @@ namespace Project_Slayer {
         /// <summary>
         /// The Mob's exp drop value.
         /// </summary>
-        public int ExpDrop {
+        public double ExpDrop {
             get { return expDrop; }
             set {
                 expDrop = rng.Next(minDropStat, maxDropStat);
@@ -44,7 +44,7 @@ namespace Project_Slayer {
         /// <summary>
         /// The Mob's strength stat (Physical Attack Power).
         /// </summary>
-        public int Strength {
+        public double Strength {
             get { return strength; }
             set {
                 strength = rng.Next(minStat, maxStat);
@@ -53,7 +53,7 @@ namespace Project_Slayer {
         /// <summary>
         /// The Mob's mana stat (Magical Attack Power).
         /// </summary>
-        public int Mana {
+        public double Mana {
             get { return mana; }
             set {
                 mana = rng.Next(minStat, maxStat);
@@ -62,7 +62,7 @@ namespace Project_Slayer {
         /// <summary>
         /// The Mob's durability stat (Health Points).
         /// </summary>
-        public int Durability {
+        public double Durability {
             get { return durability; }
             set {
                 durability = rng.Next(minStat, maxStat);
@@ -71,7 +71,7 @@ namespace Project_Slayer {
         /// <summary>
         /// The Mob's agility stat.
         /// </summary>
-        public int Agility {
+        public double Agility {
             get { return agility; }
             set {
                 agility = rng.Next(minStat, maxStat);

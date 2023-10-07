@@ -97,6 +97,7 @@ namespace Project_Slayer {
 				File.WriteAllText(fileName, serialized);
 				Console.WriteLine("User data saved successfully.");
 			} catch (ArgumentException e) {
+				Error();
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
 		}
@@ -118,7 +119,8 @@ namespace Project_Slayer {
 					return null;
 				}
 			} catch (Exception e) {
-				Console.WriteLine($"An error occurred while loading user data: {e.Message}");
+				Error();
+				Console.WriteLine($"Something went wrong loading the user's data!\n{e.Message}");
 				return null;
 			}
 		}
@@ -131,32 +133,40 @@ namespace Project_Slayer {
 		/// An error message.
 		/// </summary>
 		static void Error() {
-			Console.WriteLine("(._.)\n   An Error.");
+			Console.WriteLine("(._.)\n\n    An Error.");
 		}
 		#endregion
 
 		static void Main(string[] args) {
+
+
+
 			Console.WriteLine("File name?");
 			string fileNameInput = Console.ReadLine();
 			string fileName = $"{fileNameInput}.json";
 
 			User user;
 
+			List<Entity> entityList = new List<Entity>();
+			entityList.Add(new Human());
+			entityList.Add(new Human());
+			entityList.Add(new Human());
+			entityList.Add(new Goblin());
+			entityList.Add(new Goblin());
+			entityList.Add(new Goblin());
+
 			Console.WriteLine("Save or Load?");
 			string opt = Console.ReadLine().ToLower();
 			if (opt == "save") {
+				Console.Clear();
 
 				Console.WriteLine("What do you want to be called?");
 				string userNameInput = Console.ReadLine();
 				user = new User(userNameInput, 0, 0, 0, 0); 
 				Save(fileName, user);
 
-				List<Entity> entityList = new List<Entity>();
 				entityList.Add(user);
 				entityList.Add(user);
-				entityList.Add(user);
-				entityList.Add(new Human());
-				entityList.Add(new Goblin());
 
 				Console.WriteLine();
 				for (int i = 0; i < entityList.Count; i++) {
@@ -165,9 +175,15 @@ namespace Project_Slayer {
 				}
 
 			} else if (opt == "load") {
-				User loadedUser = Load(fileName);
-				loadedUser.DisplayInfo();
-			}
+				Console.Clear();
+				User loadedUser = Load(fileName); 
+
+				Console.WriteLine();
+				for (int i = 0; i < entityList.Count; i++) {
+					DisplayEntityInfo(entityList[i]);
+					Console.WriteLine();
+				}
+			} 
 
 
 
