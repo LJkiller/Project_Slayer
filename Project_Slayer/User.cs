@@ -34,37 +34,37 @@ namespace Project_Slayer {
 		public string UserName { 
 			get { return mobName; }
 			set {
-
+				UserName = value;
 			}
 		}
-		
+
 		/// <summary>
-		/// The User's strength stat.
+		/// The User's strength stat (Physical Attack Power).
 		/// </summary>
 		public int Strength {
 			get { return strength; }
 			set {
-
+				Strength = rng.Next(minStat, maxStat);
 			}
 		}
 		
 		/// <summary>
-		/// The User's mana stat.
+		/// The User's mana stat (Magical Attack Power).
 		/// </summary>
 		public int Mana {
 			get { return mana; }
 			set {
-
+				Strength = rng.Next(minStat, maxStat);
 			}
 		}
 		
 		/// <summary>
-		/// The User's durability stat.
+		/// The User's durability stat (Health Points).
 		/// </summary>
 		public int Durability {
 			get { return durability; }
 			set {
-
+				Strength = rng.Next(minStat, maxStat);
 			}
 		}
 		
@@ -74,7 +74,7 @@ namespace Project_Slayer {
 		public int Agility {
 			get { return agility; }
 			set {
-
+				Strength = rng.Next(minStat, maxStat);
 			}
 		}
 
@@ -87,7 +87,12 @@ namespace Project_Slayer {
 		/// <param name="initialDurability"></param>
 		/// <param name="initialAgility"></param>
 		public User(string initialUserName, int initialStrength, int initialMana, int initialDurability, int initialAgility) 
-			: base(initialUserName, initialStrength, initialMana, initialDurability, initialAgility){
+			: base(initialUserName, initialStrength, initialMana, initialDurability, initialAgility) {
+			UserName = initialUserName;
+			Strength = initialStrength;
+			Mana = initialMana;
+			Durability = initialDurability;
+			Agility = initialAgility;
 
 		}
 	}

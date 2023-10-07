@@ -32,6 +32,11 @@ namespace Project_Slayer {
 			Console.WriteLine("There's no balls for you");
 
 			Console.ReadLine();
+
+			List<Entity> entityList = new List<Entity>();
+			entityList.Add(new User("balls", 1, 1, 1, 1));
+
+
 		}
 	}
 }

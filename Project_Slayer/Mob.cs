@@ -42,6 +42,11 @@ namespace Project_Slayer {
 		protected int coinDrop;
 		protected int expDrop;
 
+		//Mob stats for rng usage in inherited classes (ex Human).
+		//Use this as base stat, then calculate the values for all different races.
+		protected int minDropStat = 50;
+		protected int maxDropStat = 100;
+
 		/// <summary>
 		/// Initializes new instance of Mob class.
 		/// </summary>

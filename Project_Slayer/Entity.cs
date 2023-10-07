@@ -22,6 +22,9 @@ namespace Project_Slayer {
 	/// Represents the base data for any Entity.
 	/// </summary>
 	public abstract class Entity : IDrawable {
+		//random number generator: rng
+		protected Random rng = new Random();
+
 		// __________
 		//(👍 ͡❛ ▭ ͡❛)👍 En(tit)y
 		protected string mobName;
@@ -30,6 +33,12 @@ namespace Project_Slayer {
 		protected int mana;
 		protected int durability;
 		protected int agility;
+
+		//Mob and User stats for rng usage in inherited classes (ex Human).
+		//Use this as base stat, then calculate the values for mobs and user.
+		//(User spawns with rng stats)
+		protected int minStat = 5;
+		protected int maxStat = 10;
 
 		public Entity(string initialMobName, int initialStrength, int initialMana, int initialDurability, int initialAgility) {
 
@@ -40,7 +49,7 @@ namespace Project_Slayer {
 	}
 }
 
-//  ╱|、
-// (` -7
+//   ╱|、
+//  (` -7
 //  |、⁻〵
 //  じしˍ,)ノ
