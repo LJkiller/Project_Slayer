@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Project_Slayer {
+	//
+
+
+
 	/// <summary>
 	/// Drawing an object.
 	/// If implented to a class, class should provide the Draw() method

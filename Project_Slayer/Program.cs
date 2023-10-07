@@ -136,7 +136,7 @@ namespace Project_Slayer {
 		#endregion
 
 		static void Main(string[] args) {
-			Console.WriteLine("File?");
+			Console.WriteLine("File name?");
 			string fileNameInput = Console.ReadLine();
 			string fileName = $"{fileNameInput}.json";
 
@@ -153,6 +153,8 @@ namespace Project_Slayer {
 
 				List<Entity> entityList = new List<Entity>();
 				entityList.Add(user);
+				entityList.Add(user);
+				entityList.Add(user);
 				entityList.Add(new Human());
 				entityList.Add(new Goblin());
 
@@ -163,7 +165,8 @@ namespace Project_Slayer {
 				}
 
 			} else if (opt == "load") {
-				Load(fileName);
+				User loadedUser = Load(fileName);
+				loadedUser.DisplayInfo();
 			}
 
 

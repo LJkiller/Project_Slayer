@@ -125,15 +125,14 @@ namespace Project_Slayer {
 
 		#region Methods
 
-		//ATTACK, DODGE, ESCAPE
 		public override void Attack(string attackType = "physical") {
-
+			Console.WriteLine($"Whazaa, a {attackType} attack!");
 		}
 		public void Dodge() {
-
+			Console.WriteLine("You're fast enough to outmaneuver your enemy!");
 		}
 		public void Escape() {
-
+			Console.WriteLine("You've escaped!");
 		}
 
 		#endregion
