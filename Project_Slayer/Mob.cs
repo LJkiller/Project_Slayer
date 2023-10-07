@@ -38,7 +38,8 @@ namespace Project_Slayer {
 	/// Represents the base data for any Mob.
 	/// </summary>
 	public class Mob : Entity {
-		//Additional mob stats, not included in user.
+
+		//Additional mob stats.
 		protected int coinDrop;
 		protected int expDrop;
 

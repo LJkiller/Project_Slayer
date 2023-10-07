@@ -28,6 +28,7 @@ namespace Project_Slayer {
 	/// Represents the base data for User.
 	/// </summary>
 	public class User : Entity {
+
 		/// <summary>
 		/// The User's name.
 		/// </summary>

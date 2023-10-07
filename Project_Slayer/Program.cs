@@ -39,11 +39,15 @@ namespace Project_Slayer {
 		}
 
 		static void Main(string[] args) {
-			Console.WriteLine("There's no balls for you");
 
 			List<Entity> entityList = new List<Entity>();
-			entityList.Add(new User("Alice", 10, 20, 30, 40));
-			entityList.Add(new Human("Bob", 15, 25, 35, 45, 50, 60));
+			entityList.Add(new User("Alice", 1, 2, 3, 4));
+			entityList.Add(new Human("mob", 1, 2, 3, 4, 5, 6));
+			entityList.Add(new Human("mob", 2, 2, 3, 4, 5, 6));
+			entityList.Add(new Human("mob", 3, 2, 3, 4, 5, 6));
+			entityList.Add(new Goblin("mob", 3, 2, 3, 4, 5, 6));
+			entityList.Add(new Goblin("mob", 3, 2, 3, 4, 5, 6));
+			entityList.Add(new Goblin("mob", 3, 2, 3, 4, 5, 6));
 
 			for (int i = 0; i < entityList.Count; i++) {
 				DisplayEntityInfo(entityList[i]);

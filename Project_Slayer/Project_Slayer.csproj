@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity.cs" />
+    <Compile Include="Goblin.cs" />
     <Compile Include="Human.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="Mob.cs" />
