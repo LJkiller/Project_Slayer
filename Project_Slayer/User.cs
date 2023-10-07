@@ -29,6 +29,8 @@ namespace Project_Slayer {
 	/// </summary>
 	public class User : Entity {
 
+		#region User Attributes
+
 		/// <summary>
 		/// The User's name.
 		/// </summary>
@@ -76,6 +78,10 @@ namespace Project_Slayer {
 			}
 		}
 
+		#endregion
+
+		#region Information
+
 		/// <summary>
 		/// Displays the information of the User. 
 		/// Entity, Strength, Mana, Durability, Agility.
@@ -103,5 +109,13 @@ namespace Project_Slayer {
 			SetDefaultAttributes();
 			UserName = initialUserName;
 		}
+
+		#endregion
+
+		#region Methods
+
+		//ATTACK, DODGE, ESCAPE
+
+		#endregion
 	}
 }

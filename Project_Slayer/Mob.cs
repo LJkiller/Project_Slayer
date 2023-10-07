@@ -39,14 +39,20 @@ namespace Project_Slayer {
 	/// </summary>
 	public class Mob : Entity {
 
-		//Additional mob stats.
-		protected int coinDrop;
-		protected int expDrop;
-
+		#region RNG
 		//Mob stats for rng usage in inherited classes (ex Human).
 		//Use this as base stat, then calculate the values for all different races.
 		protected int minDropStat = 50;
 		protected int maxDropStat = 100;
+		#endregion
+
+		#region Mob Attributes
+		//Additional mob stats.
+		protected int coinDrop;
+		protected int expDrop;
+		#endregion
+
+		#region Information
 
 		/// <summary>
 		/// Displays the information of the mob. 
@@ -64,5 +70,8 @@ namespace Project_Slayer {
 		public Mob() : base() {
 
 		}
+
+		#endregion
+
 	}
 }
