@@ -55,7 +55,6 @@ namespace Project_Slayer {
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// </summary>
 		public virtual void DisplayInfo() {
-			Console.WriteLine($"Entity: {mobName}");
 			Console.WriteLine($"Strength: {strength}, Mana: {mana}, Durability: {durability}, Agility: {agility}");
 		}
 	}

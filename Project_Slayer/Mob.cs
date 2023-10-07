@@ -67,6 +67,7 @@ namespace Project_Slayer {
 		/// Additional info: CoinDrop, ExpDrop.
 		/// </summary>
 		public override void DisplayInfo() {
+			Console.WriteLine($"Entity: {mobName}");
 			base.DisplayInfo();
 			Console.WriteLine($"CoinDrop: {coinDrop}, ExpDrop: {expDrop}");
 		}

@@ -45,8 +45,8 @@ namespace Project_Slayer {
 			entityList.Add(new User("Alice", 10, 20, 30, 40));
 			entityList.Add(new Human("Bob", 15, 25, 35, 45, 50, 60));
 
-			foreach (var entity in entityList) {
-				DisplayEntityInfo(entity);
+			for (int i = 0; i < entityList.Count; i++) {
+				DisplayEntityInfo(entityList[i]);
 				Console.WriteLine();
 			}
 

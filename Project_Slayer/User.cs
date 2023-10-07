@@ -100,8 +100,8 @@ namespace Project_Slayer {
 		/// Additional info: UserName.
 		/// </summary>
 		public override void DisplayInfo() {
+			Console.WriteLine($"UserName: {mobName}");
 			base.DisplayInfo();
-			Console.WriteLine($"UserName: {UserName}");
 		}
 	}
 }
