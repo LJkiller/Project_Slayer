@@ -115,6 +115,15 @@ namespace Project_Slayer {
 		#region Methods
 
 		//ATTACK, DODGE, ESCAPE
+		public override void Attack(string attackType = "physical") {
+
+		}
+		public void Dodge() {
+
+		}
+		public void Escape() {
+
+		}
 
 		#endregion
 	}

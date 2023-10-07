@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Text.Json;
 
 namespace Project_Slayer {
 
@@ -29,6 +30,8 @@ namespace Project_Slayer {
 
 		#region In-game
 
+		#region Display Information
+
 		/// <summary>
 		/// Displays information about an Entity by calling its DisplayInfo-method.
 		/// </summary>
@@ -39,7 +42,45 @@ namespace Project_Slayer {
 
 		#endregion
 
+		#region Text Inputs		
+
+		/// <summary>
+		/// A string input arranging into a numerical position.
+		/// Input-filtering to a value in order to call different methods.
+		/// </summary>
+		/// <param name="inputString"></param>
+		static void InputArrangement(string inputString) {
+			List<string> inputCount = new List<String>();
+			string empty = "";
+
+			for (int i = 0; i < inputString.Length; i++) {
+				if (inputString[i] == ' ') {
+					inputCount.Add(empty);
+					empty = "";
+				} else {
+					empty += inputString[i];
+				}
+			}
+			if (empty != "") {
+				inputCount.Add(empty);
+				empty = "";
+			}
+
+			if (inputCount.Count <= 1) {
+				if (inputCount[0] == "balls") {
+					Console.WriteLine("Balls, it worked");
+				}
+			}
+		}
+
+		#endregion
+
+		#endregion
+
 		#region File-management
+		static void Save(string fileName) {
+
+		}
 
 		#endregion
 
@@ -55,6 +96,10 @@ namespace Project_Slayer {
 		#endregion
 
 		static void Main(string[] args) {
+			Console.WriteLine("Put something here");
+			string userTextInput = Console.ReadLine();
+			InputArrangement(userTextInput);
+
 			Console.WriteLine("What do you want to be called?");
 			string userNameInput = Console.ReadLine();
 
