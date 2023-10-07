@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Text.Json.Serialization;
 
 namespace Project_Slayer {
 
@@ -34,6 +35,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// The User's name.
 		/// </summary>
+		[JsonPropertyName("UserName")]
 		public string UserName { 
 			get { return mobName; }
 			set {
@@ -44,6 +46,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// The User's strength stat (Physical Attack Power).
 		/// </summary>
+		[JsonPropertyName("Strength")]
 		public int Strength {
 			get { return strength; }
 			set {
@@ -53,6 +56,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// The User's mana stat (Magical Attack Power).
 		/// </summary>
+		[JsonPropertyName("Mana")]
 		public int Mana {
 			get { return mana; }
 			set {
@@ -62,6 +66,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// The User's durability stat (Health Points).
 		/// </summary>
+		[JsonPropertyName("Durability")]
 		public int Durability {
 			get { return durability; }
 			set {
@@ -71,6 +76,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// The User's agility stat.
 		/// </summary>
+		[JsonPropertyName("Agility")]
 		public int Agility {
 			get { return agility; }
 			set {
@@ -105,10 +111,15 @@ namespace Project_Slayer {
 		/// Initializes new instance of User class.
 		/// </summary>
 		/// <param name="initialUserName"></param>
-		public User(string initialUserName) {
-			SetDefaultAttributes();
-			UserName = initialUserName;
+		[JsonConstructor]
+		public User(string UserName, int Strength, int Mana, int Durability, int Agility) {
+			this.UserName = UserName;
+			this.Strength = Strength;
+			this.Mana = Mana;
+			this.Durability = Durability;
+			this.Agility = Agility;
 		}
+
 
 		#endregion
 

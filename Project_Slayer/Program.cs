@@ -89,18 +89,39 @@ namespace Project_Slayer {
 				string serialized = JsonSerializer.Serialize(user);
 
 				if (File.Exists(fileName)) {
-					Console.WriteLine("The file already exists and will be overwritten.");
+					Console.WriteLine("\nThe file already exists and will be overwritten.");
 				} else {
-					Console.WriteLine("The file does not exist. Creating a new file.");
+					Console.WriteLine("\nThe file does not exist. Creating a new file.");
 				}
 
 				File.WriteAllText(fileName, serialized);
 				Console.WriteLine("User data saved successfully.");
 			} catch (ArgumentException e) {
-				Console.WriteLine($"Something went wrong! {e.Message}");
+				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
 		}
+		/// <summary>
+		/// Load User from Json-file.
+		/// </summary>
+		/// <param name="fileName"></param>
+		/// <returns></returns>
+		static User Load(string fileName) {
+			try {
+				if (File.Exists(fileName)) {
+					Console.WriteLine("\nFile found!");
+					string serializedFromFile = File.ReadAllText(fileName);
+					Console.WriteLine($"Serialized JSON from file:\n{serializedFromFile}");
 
+					return JsonSerializer.Deserialize<User>(serializedFromFile);
+				} else {
+					Console.WriteLine($"File not found! Cannot load user.");
+					return null;
+				}
+			} catch (Exception e) {
+				Console.WriteLine($"An error occurred while loading user data: {e.Message}");
+				return null;
+			}
+		}
 		#endregion
 
 		#endregion
@@ -115,27 +136,38 @@ namespace Project_Slayer {
 		#endregion
 
 		static void Main(string[] args) {
-
-			Console.WriteLine("What do you want to be called?");
-			string userNameInput = Console.ReadLine();
-			User user = new User(userNameInput);
-
-			Console.WriteLine("File Name to save progress?");
+			Console.WriteLine("File?");
 			string fileNameInput = Console.ReadLine();
 			string fileName = $"{fileNameInput}.json";
 
-			Save(fileName, user);
+			User user;
 
-			List<Entity> entityList = new List<Entity>();
-			entityList.Add(user);
-			entityList.Add(new Human());
-			entityList.Add(new Goblin());
+			Console.WriteLine("Save or Load?");
+			string opt = Console.ReadLine().ToLower();
+			if (opt == "save") {
 
-			Console.WriteLine();
-			for (int i = 0; i < entityList.Count; i++) {
-				DisplayEntityInfo(entityList[i]);
+				Console.WriteLine("What do you want to be called?");
+				string userNameInput = Console.ReadLine();
+				user = new User(userNameInput, 0, 0, 0, 0); 
+				Save(fileName, user);
+
+				List<Entity> entityList = new List<Entity>();
+				entityList.Add(user);
+				entityList.Add(new Human());
+				entityList.Add(new Goblin());
+
 				Console.WriteLine();
+				for (int i = 0; i < entityList.Count; i++) {
+					DisplayEntityInfo(entityList[i]);
+					Console.WriteLine();
+				}
+
+			} else if (opt == "load") {
+				Load(fileName);
 			}
+
+
+
 
 			Console.ReadLine();
 		}
