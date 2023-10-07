@@ -52,7 +52,7 @@ namespace Project_Slayer {
 		protected int expDrop;
 		#endregion
 
-		#region Information
+		#region Information & Initiator
 
 		/// <summary>
 		/// Displays the information of the mob. 

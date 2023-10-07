@@ -43,7 +43,7 @@ namespace Project_Slayer {
 		protected int agility;
 		#endregion
 
-		#region Information
+		#region Information & Initiator
 
 		/// <summary>
 		/// Displays the information of an Entity.
@@ -83,6 +83,7 @@ namespace Project_Slayer {
 			Console.WriteLine("The Entity should've attacked!");
 		}
 		#endregion
+	
 	}
 }
 

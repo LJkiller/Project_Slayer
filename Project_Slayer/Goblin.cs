@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace Project_Slayer {
 	class Goblin : Mob {
 
+		#region Race Attributes
+
 		/// <summary>
 		/// The Mob's race-name (Name).
 		/// </summary>
@@ -73,6 +75,10 @@ namespace Project_Slayer {
 			}
 		}
 
+		#endregion
+
+		#region Information & Initiator
+
 		/// <summary>
 		/// Default attribute holder.
 		/// </summary>
@@ -91,5 +97,12 @@ namespace Project_Slayer {
 		public Goblin() : base() {
 			SetDefaultAttributes();
 		}
+
+		#endregion
+
+		#region Methods
+
+		#endregion
+
 	}
 }

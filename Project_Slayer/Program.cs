@@ -78,6 +78,12 @@ namespace Project_Slayer {
 		#endregion
 
 		#region File-management
+
+		/// <summary>
+		/// Saves the user's data into a json-file.
+		/// </summary>
+		/// <param name="fileName"></param>
+		/// <param name="user"></param>
 		static void Save(string fileName, User user) {
 			try {
 				string serialized = JsonSerializer.Serialize(user);

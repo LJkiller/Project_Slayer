@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 namespace Project_Slayer {
 	class Human : Mob {
 
-        /// <summary>
-        /// The Mob's race-name (Name).
-        /// </summary>
-        public string MobName {
+		#region Race Attributes
+
+		/// <summary>
+		/// The Mob's race-name (Name).
+		/// </summary>
+		public string MobName {
             get { return mobName; }
             set {
                 mobName = "Human";
@@ -73,6 +75,10 @@ namespace Project_Slayer {
             }
         }
 
+        #endregion
+
+        #region Information & Initiator
+
         /// <summary>
         /// Default attribute holder.
         /// </summary>
@@ -91,5 +97,12 @@ namespace Project_Slayer {
         public Human() : base() {
             SetDefaultAttributes();
         }
+
+        #endregion
+
+        #region Methods
+
+        #endregion
+
     }
 }

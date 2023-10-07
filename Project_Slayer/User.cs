@@ -80,7 +80,7 @@ namespace Project_Slayer {
 
 		#endregion
 
-		#region Information
+		#region Information & Initiator
 
 		/// <summary>
 		/// Displays the information of the User. 
@@ -126,5 +126,6 @@ namespace Project_Slayer {
 		}
 
 		#endregion
+
 	}
 }
