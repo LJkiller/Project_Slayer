@@ -61,5 +61,14 @@ namespace Project_Slayer {
 			: base(initialMobName, initialStrength, initialMana, initialDurability, initialAgility) {
 
 		}
+		/// <summary>
+		/// Displays the information of the mob. 
+		/// Entity, Strength, Mana, Durability, Agility.
+		/// Additional info: CoinDrop, ExpDrop.
+		/// </summary>
+		public override void DisplayInfo() {
+			base.DisplayInfo();
+			Console.WriteLine($"CoinDrop: {coinDrop}, ExpDrop: {expDrop}");
+		}
 	}
 }

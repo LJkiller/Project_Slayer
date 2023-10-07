@@ -12,7 +12,7 @@ namespace Project_Slayer {
 		public string MobName {
 			get { return mobName; }
 			set {
-				MobName = "Human";
+				mobName = "Human";
 			}
 		}
 
@@ -22,7 +22,7 @@ namespace Project_Slayer {
 		public int CoinDrop {
 			get { return coinDrop; }
 			set {
-				CoinDrop = rng.Next(minDropStat, maxDropStat);
+				coinDrop = rng.Next(minDropStat, maxDropStat);
 			}
 		}
 		/// <summary>
@@ -31,7 +31,7 @@ namespace Project_Slayer {
 		public int ExpDrop {
 			get { return expDrop; }
 			set {
-				ExpDrop = rng.Next(minDropStat, maxDropStat);
+				expDrop = rng.Next(minDropStat, maxDropStat);
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace Project_Slayer {
 		public int Strength {
 			get { return strength; }
 			set {
-				Strength = rng.Next(minStat, maxStat);
+				strength = rng.Next(minStat, maxStat);
 			}
 		}
 		/// <summary>
@@ -50,7 +50,7 @@ namespace Project_Slayer {
 		public int Mana {
 			get { return mana; }
 			set {
-				Mana = rng.Next(minStat, maxStat);
+				mana = rng.Next(minStat, maxStat);
 			}
 		}
 		/// <summary>
@@ -59,7 +59,7 @@ namespace Project_Slayer {
 		public int Durability {
 			get { return durability; }
 			set {
-				Durability = rng.Next(minStat, maxStat);
+				durability = rng.Next(minStat, maxStat);
 			}
 		}
 		/// <summary>
@@ -68,7 +68,7 @@ namespace Project_Slayer {
 		public int Agility {
 			get { return agility; }
 			set {
-				Agility = rng.Next(minStat, maxStat);
+				agility = rng.Next(minStat, maxStat);
 			}
 		}
 

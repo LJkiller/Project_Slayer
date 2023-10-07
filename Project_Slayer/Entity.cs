@@ -41,10 +41,22 @@ namespace Project_Slayer {
 		protected int maxStat = 10;
 
 		public Entity(string initialMobName, int initialStrength, int initialMana, int initialDurability, int initialAgility) {
-
+			mobName = initialMobName;
+			strength = initialStrength;
+			mana = initialMana;
+			durability = initialDurability;
+			agility = initialAgility;
 		}
 		public void Draw() {
 
+		}
+		/// <summary>
+		/// Displays the information of an Entity.
+		/// Entity, Strength, Mana, Durability, Agility.
+		/// </summary>
+		public virtual void DisplayInfo() {
+			Console.WriteLine($"Entity: {mobName}");
+			Console.WriteLine($"Strength: {strength}, Mana: {mana}, Durability: {durability}, Agility: {agility}");
 		}
 	}
 }

@@ -34,7 +34,7 @@ namespace Project_Slayer {
 		public string UserName { 
 			get { return mobName; }
 			set {
-				UserName = value;
+				mobName = value;
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Project_Slayer {
 		public int Strength {
 			get { return strength; }
 			set {
-				Strength = rng.Next(minStat, maxStat);
+				strength = rng.Next(minStat, maxStat);
 			}
 		}
 		
@@ -54,7 +54,7 @@ namespace Project_Slayer {
 		public int Mana {
 			get { return mana; }
 			set {
-				Strength = rng.Next(minStat, maxStat);
+				mana = rng.Next(minStat, maxStat);
 			}
 		}
 		
@@ -64,7 +64,7 @@ namespace Project_Slayer {
 		public int Durability {
 			get { return durability; }
 			set {
-				Strength = rng.Next(minStat, maxStat);
+				durability = rng.Next(minStat, maxStat);
 			}
 		}
 		
@@ -74,7 +74,7 @@ namespace Project_Slayer {
 		public int Agility {
 			get { return agility; }
 			set {
-				Strength = rng.Next(minStat, maxStat);
+				agility = rng.Next(minStat, maxStat);
 			}
 		}
 
@@ -93,7 +93,15 @@ namespace Project_Slayer {
 			Mana = initialMana;
 			Durability = initialDurability;
 			Agility = initialAgility;
-
+		}
+		/// <summary>
+		/// Displays the information of the User. 
+		/// Entity, Strength, Mana, Durability, Agility.
+		/// Additional info: UserName.
+		/// </summary>
+		public override void DisplayInfo() {
+			base.DisplayInfo();
+			Console.WriteLine($"UserName: {UserName}");
 		}
 	}
 }
