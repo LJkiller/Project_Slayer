@@ -24,12 +24,11 @@ namespace Project_Slayer {
 
 
 	class Program {
-		/// <summary>
-		/// An error message.
-		/// </summary>
-		static void Error() {
-			Console.WriteLine("(._.)\n   An Error.");
-		}
+
+		#region Information-handling
+
+		#region In-game
+
 		/// <summary>
 		/// Displays information about an Entity by calling its DisplayInfo-method.
 		/// </summary>
@@ -38,23 +37,36 @@ namespace Project_Slayer {
 			entity.DisplayInfo();
 		}
 
+		#endregion
+
+		#region File-management
+
+		#endregion
+
+		#endregion
+
+		#region Debugging
+		/// <summary>
+		/// An error message.
+		/// </summary>
+		static void Error() {
+			Console.WriteLine("(._.)\n   An Error.");
+		}
+		#endregion
+
 		static void Main(string[] args) {
+			Console.WriteLine("What do you want to be called?");
+			string userNameInput = Console.ReadLine();
 
 			List<Entity> entityList = new List<Entity>();
-			entityList.Add(new User("Alice", 1, 2, 3, 4));
-			entityList.Add(new Human("mob", 1, 2, 3, 4, 5, 6));
-			entityList.Add(new Human("mob", 2, 2, 3, 4, 5, 6));
-			entityList.Add(new Human("mob", 3, 2, 3, 4, 5, 6));
-			entityList.Add(new Goblin("mob", 3, 2, 3, 4, 5, 6));
-			entityList.Add(new Goblin("mob", 3, 2, 3, 4, 5, 6));
-			entityList.Add(new Goblin("mob", 3, 2, 3, 4, 5, 6));
+			entityList.Add(new User(userNameInput));
+			entityList.Add(new Human());
+			entityList.Add(new Goblin());
 
 			for (int i = 0; i < entityList.Count; i++) {
 				DisplayEntityInfo(entityList[i]);
 				Console.WriteLine();
 			}
-
-
 
 			Console.ReadLine();
 		}

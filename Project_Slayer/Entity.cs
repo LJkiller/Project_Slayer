@@ -22,15 +22,18 @@ namespace Project_Slayer {
 	/// Represents the base data for any Entity.
 	/// </summary>
 	public abstract class Entity : IDrawable {
+		// __________
+		//(👍 ͡❛ ▭ ͡❛)👍 En(tit)y
+
 		//Mob and User stats for rng usage in inherited classes (ex Human).
 		//Use this as base stat, then calculate the values for mobs and user.
 		//(User spawns with rng stats)
 		protected int minStat = 5;
 		protected int maxStat = 10;
 
-		protected static Random rng = new Random((int)DateTime.Now.Ticks);
-		// __________
-		//(👍 ͡❛ ▭ ͡❛)👍 En(tit)y
+		protected static Random rng = new Random();
+
+
 		protected string mobName;
 
 		protected int strength;
@@ -38,15 +41,19 @@ namespace Project_Slayer {
 		protected int durability;
 		protected int agility;
 
-		public Entity(string initialMobName, int initialStrength, int initialMana, int initialDurability, int initialAgility) {
-			mobName = initialMobName;
-			strength = initialStrength;
-			mana = initialMana;
-			durability = initialDurability;
-			agility = initialAgility;
+		/// <summary>
+		/// Initializes new instance of Entity class.
+		/// </summary>
+		public Entity() {
+
 		}
 		public void Draw() {
-
+			for (int i = 0; i < 5; i++) {
+				for (int j = 0; j < 5; j++) {
+					Console.Write('*');
+				}
+				Console.WriteLine();
+			}
 		}
 		/// <summary>
 		/// Displays the information of an Entity.

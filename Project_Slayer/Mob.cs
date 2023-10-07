@@ -49,20 +49,6 @@ namespace Project_Slayer {
 		protected int maxDropStat = 100;
 
 		/// <summary>
-		/// Initializes new instance of Mob class.
-		/// </summary>
-		/// <param name="initialMobName"></param>
-		/// <param name="initialCoinDrop"></param>
-		/// <param name="initialExpDrop"></param>
-		/// <param name="initialStrength"></param>
-		/// <param name="initialMana"></param>
-		/// <param name="initialDurability"></param>
-		/// <param name="initialAgility"></param>
-		public Mob(string initialMobName, int initialCoinDrop, int initialExpDrop, int initialStrength, int initialMana, int initialDurability, int initialAgility) 
-			: base(initialMobName, initialStrength, initialMana, initialDurability, initialAgility) {
-
-		}
-		/// <summary>
 		/// Displays the information of the mob. 
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// Additional info: CoinDrop, ExpDrop.
@@ -71,6 +57,12 @@ namespace Project_Slayer {
 			Console.WriteLine($"Entity: {mobName}");
 			base.DisplayInfo();
 			Console.WriteLine($"CoinDrop: {coinDrop}, ExpDrop: {expDrop}");
+		}
+		/// <summary>
+		/// Initializes new instance of Mob class.
+		/// </summary>
+		public Mob() : base() {
+
 		}
 	}
 }

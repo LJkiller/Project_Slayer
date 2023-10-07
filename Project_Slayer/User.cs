@@ -77,29 +77,31 @@ namespace Project_Slayer {
 		}
 
 		/// <summary>
-		/// Initializes new instance of User class.
-		/// </summary>
-		/// <param name="initialUserName"></param>
-		/// <param name="initialStrength"></param>
-		/// <param name="initialMana"></param>
-		/// <param name="initialDurability"></param>
-		/// <param name="initialAgility"></param>
-		public User(string initialUserName, int initialStrength, int initialMana, int initialDurability, int initialAgility) 
-			: base(initialUserName, initialStrength, initialMana, initialDurability, initialAgility) {
-			UserName = initialUserName;
-			Strength = initialStrength;
-			Mana = initialMana;
-			Durability = initialDurability;
-			Agility = initialAgility;
-		}
-		/// <summary>
 		/// Displays the information of the User. 
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// Additional info: UserName.
 		/// </summary>
 		public override void DisplayInfo() {
-			Console.WriteLine($"UserName: {mobName}");
+			Console.WriteLine($"Username: {mobName}");
 			base.DisplayInfo();
+		}
+		/// <summary>
+		/// Default attribute holder.
+		/// </summary>
+		private void SetDefaultAttributes() {
+			UserName = "DefaultEntity";
+			Strength = 0;
+			Mana = 0;
+			Durability = 0;
+			Agility = 0;
+		}
+		/// <summary>
+		/// Initializes new instance of User class.
+		/// </summary>
+		/// <param name="initialUserName"></param>
+		public User(string initialUserName) {
+			SetDefaultAttributes();
+			UserName = initialUserName;
 		}
 	}
 }

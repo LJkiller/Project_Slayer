@@ -72,25 +72,24 @@ namespace Project_Slayer {
 				agility = rng.Next(minStat, maxStat);
 			}
 		}
+
 		/// <summary>
-		/// Initializes new instance of Human class.
+		/// Default attribute holder.
 		/// </summary>
-		/// <param name="initialMobName"></param>
-		/// <param name="initialCoinDrop"></param>
-		/// <param name="initialExpDrop"></param>
-		/// <param name="initialStrength"></param>
-		/// <param name="initialMana"></param>
-		/// <param name="initialDurability"></param>
-		/// <param name="initialAgility"></param>
-		public Goblin(string initialMobName, int initialCoinDrop, int initialExpDrop, int initialStrength, int initialMana, int initialDurability, int initialAgility)
-			: base(initialMobName, initialCoinDrop, initialExpDrop, initialStrength, initialMana, initialDurability, initialAgility) {
-			MobName = initialMobName;
-			CoinDrop = initialCoinDrop;
-			ExpDrop = initialExpDrop;
-			Strength = initialStrength;
-			Mana = initialMana;
-			Durability = initialDurability;
-			Agility = initialAgility;
+		private void SetDefaultAttributes() {
+			MobName = "DefaultGoblin";
+			CoinDrop = 0;
+			ExpDrop = 0;
+			Strength = 0;
+			Mana = 0;
+			Durability = 0;
+			Agility = 0;
+		}
+		/// <summary>
+		/// Initializes new instance of Goblin class.
+		/// </summary>
+		public Goblin() : base() {
+			SetDefaultAttributes();
 		}
 	}
 }

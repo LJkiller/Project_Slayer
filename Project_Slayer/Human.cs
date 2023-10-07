@@ -26,7 +26,6 @@ namespace Project_Slayer {
                 coinDrop = rng.Next(minDropStat, maxDropStat);
             }
         }
-
         /// <summary>
         /// The Mob's exp drop value.
         /// </summary>
@@ -46,7 +45,6 @@ namespace Project_Slayer {
                 strength = rng.Next(minStat, maxStat);
             }
         }
-
         /// <summary>
         /// The Mob's mana stat (Magical Attack Power).
         /// </summary>
@@ -56,7 +54,6 @@ namespace Project_Slayer {
                 mana = rng.Next(minStat, maxStat);
             }
         }
-
         /// <summary>
         /// The Mob's durability stat (Health Points).
         /// </summary>
@@ -66,7 +63,6 @@ namespace Project_Slayer {
                 durability = rng.Next(minStat, maxStat);
             }
         }
-
         /// <summary>
         /// The Mob's agility stat.
         /// </summary>
@@ -76,25 +72,24 @@ namespace Project_Slayer {
                 agility = rng.Next(minStat, maxStat);
             }
         }
+
+        /// <summary>
+        /// Default attribute holder.
+        /// </summary>
+        private void SetDefaultAttributes() {
+            MobName = "DefaultHuman";
+            CoinDrop = 0;
+            ExpDrop = 0;
+            Strength = 0;
+            Mana = 0;
+            Durability = 0;
+            Agility = 0;
+        }
         /// <summary>
         /// Initializes new instance of Human class.
         /// </summary>
-        /// <param name="initialMobName"></param>
-        /// <param name="initialCoinDrop"></param>
-        /// <param name="initialExpDrop"></param>
-        /// <param name="initialStrength"></param>
-        /// <param name="initialMana"></param>
-        /// <param name="initialDurability"></param>
-        /// <param name="initialAgility"></param>
-        public Human(string initialMobName, int initialCoinDrop, int initialExpDrop, int initialStrength, int initialMana, int initialDurability, int initialAgility)
-            : base(initialMobName, initialCoinDrop, initialExpDrop, initialStrength, initialMana, initialDurability, initialAgility) {
-            MobName = initialMobName;
-            CoinDrop = initialCoinDrop;
-            ExpDrop = initialExpDrop;
-            Strength = initialStrength;
-            Mana = initialMana;
-            Durability = initialDurability;
-            Agility = initialAgility;
+        public Human() : base() {
+            SetDefaultAttributes();
         }
     }
 }
