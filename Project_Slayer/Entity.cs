@@ -25,8 +25,8 @@ namespace Project_Slayer {
 		//Mob and User stats for rng usage in inherited classes (ex Human).
 		//Use this as base stat, then calculate the values for mobs and user.
 		//(User spawns with rng stats)
-		protected int minStat = 5;  // Flyttade till static för att vara åtkomlig för alla arvsklasser
-		protected int maxStat = 10; // Flyttade till static för att vara åtkomlig för alla arvsklasser
+		protected int minStat = 5;
+		protected int maxStat = 10;
 
 		protected static Random rng = new Random((int)DateTime.Now.Ticks);
 		// __________

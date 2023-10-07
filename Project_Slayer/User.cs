@@ -48,7 +48,6 @@ namespace Project_Slayer {
 				strength = rng.Next(minStat, maxStat);
 			}
 		}
-		
 		/// <summary>
 		/// The User's mana stat (Magical Attack Power).
 		/// </summary>
@@ -58,7 +57,6 @@ namespace Project_Slayer {
 				mana = rng.Next(minStat, maxStat);
 			}
 		}
-		
 		/// <summary>
 		/// The User's durability stat (Health Points).
 		/// </summary>
@@ -68,7 +66,6 @@ namespace Project_Slayer {
 				durability = rng.Next(minStat, maxStat);
 			}
 		}
-		
 		/// <summary>
 		/// The User's agility stat.
 		/// </summary>

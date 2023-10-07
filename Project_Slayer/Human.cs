@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_Slayer {
 	class Human : Mob {
+
         /// <summary>
         /// The Mob's race-name (Name).
         /// </summary>
@@ -75,7 +76,16 @@ namespace Project_Slayer {
                 agility = rng.Next(minStat, maxStat);
             }
         }
-
+        /// <summary>
+        /// Initializes new instance of Human class.
+        /// </summary>
+        /// <param name="initialMobName"></param>
+        /// <param name="initialCoinDrop"></param>
+        /// <param name="initialExpDrop"></param>
+        /// <param name="initialStrength"></param>
+        /// <param name="initialMana"></param>
+        /// <param name="initialDurability"></param>
+        /// <param name="initialAgility"></param>
         public Human(string initialMobName, int initialCoinDrop, int initialExpDrop, int initialStrength, int initialMana, int initialDurability, int initialAgility)
             : base(initialMobName, initialCoinDrop, initialExpDrop, initialStrength, initialMana, initialDurability, initialAgility) {
             MobName = initialMobName;
