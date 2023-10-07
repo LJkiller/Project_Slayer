@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Project_Slayer {
+	/// <summary>
+	/// Represents base data for Human Class.
+	/// </summary>
 	class Goblin : Mob {
 
 		#region Race Attributes
@@ -101,6 +104,15 @@ namespace Project_Slayer {
 		#endregion
 
 		#region Methods
+
+		/// <summary>
+		/// Attacks opponent and inflicts damage. 
+		/// Damage is scaled by Strength or Mana.
+		/// </summary>
+		/// <param name="attackType"></param>
+		public override void Attack(string attackType = "physical") {
+			Console.WriteLine($"{MobName} has attacked!\nInflicted {Strength} damage!");
+		}
 
 		#endregion
 

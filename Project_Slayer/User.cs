@@ -125,12 +125,23 @@ namespace Project_Slayer {
 
 		#region Methods
 
+		/// <summary>
+		/// Attacks opponent and inflicts damage. 
+		/// Damage is scaled by Strength or Mana.
+		/// </summary>
+		/// <param name="attackType"></param>
 		public override void Attack(string attackType = "physical") {
 			Console.WriteLine($"Whazaa, a {attackType} attack!");
 		}
+		/// <summary>
+		/// Perfectly dodges your opponent's incoming attack.
+		/// </summary>
 		public void Dodge() {
 			Console.WriteLine("You're fast enough to outmaneuver your enemy!");
 		}
+		/// <summary>
+		/// Escapes from the current opponent, resores your health to 100%.
+		/// </summary>
 		public void Escape() {
 			Console.WriteLine("You've escaped!");
 		}

@@ -79,7 +79,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of attacking.
 		/// </summary>
-		public virtual void Attack(string attackType = "physical") {
+		public virtual void Attack(string attackType) {
 			Console.WriteLine("The Entity should've attacked!");
 		}
 		#endregion
