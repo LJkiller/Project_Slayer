@@ -139,8 +139,6 @@ namespace Project_Slayer {
 
 		static void Main(string[] args) {
 
-
-
 			Console.WriteLine("File name?");
 			string fileNameInput = Console.ReadLine();
 			string fileName = $"{fileNameInput}.json";
@@ -162,7 +160,7 @@ namespace Project_Slayer {
 
 				Console.WriteLine("What do you want to be called?");
 				string userNameInput = Console.ReadLine();
-				user = new User(userNameInput, 0, 0, 0, 0); 
+				user = new User(userNameInput, 0,0,0,0,0,0,0); 
 				Save(fileName, user);
 
 				entityList.Add(user);

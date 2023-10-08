@@ -86,16 +86,85 @@ namespace Project_Slayer {
 
 		#endregion
 
+		#region Floor - Enemies - Combat
+		private int enemyCount;
+		private int dodgeCount;
+
+		#region Floor
+
+		/// <summary>
+		/// The User's current floor-level. 0 to 5.
+		/// </summary>
+		[JsonPropertyName("FloorLevel")]
+		public int FloorLevel {
+			get { return EnemyCount / 10; }
+			set {
+				if (EnemyCount % 10 == 0 && EnemyCount > 0) {
+					FloorLevel++;
+					FloorChange(FloorLevel);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Method responsible of changing floors.
+		/// </summary>
+		/// <param name="floorLevel"></param>
+		public void FloorChange(int floorLevel) {
+
+		}
+
+		#endregion
+
+		#region Enemies
+
+		/// <summary>
+		/// The number of enemy slain increases by 1.
+		/// </summary>
+		public void EnemySlain() {
+			enemyCount++;
+		}
+		/// <summary>
+		/// The number of User's slain enemies.
+		/// </summary>
+		[JsonPropertyName("EnemyCount")]
+		public int EnemyCount {
+			get { return enemyCount; }
+			set {
+				enemyCount = value;
+			}
+		}
+
+		#endregion
+
+		#region Combat
+
+		/// <summary>
+		/// The number of times the user has dodged.
+		/// </summary>
+		[JsonPropertyName("DodgeCount")]
+		public int DodgeCount {
+			get { return dodgeCount; }
+			set { }
+		}
+
+		#endregion
+
+		#endregion
+
 		#region Information & Initiator
 
 		/// <summary>
 		/// Displays the information of the User. 
 		/// Entity, Strength, Mana, Durability, Agility.
-		/// Additional info: UserName.
+		/// Additional info: UserName, EnemyCount, FloorLevel.
 		/// </summary>
 		public override void DisplayInfo() {
-			Console.WriteLine($"Username: {mobName}");
+			Console.WriteLine($"Username: {UserName}");
 			base.DisplayInfo();
+			Console.WriteLine($"EnemyCount: {EnemyCount}");
+			Console.WriteLine($"FloorLevel: {FloorLevel}");
+			Console.WriteLine($"DodgeCount: {DodgeCount}");
 		}
 		/// <summary>
 		/// Default attribute holder.
@@ -106,18 +175,26 @@ namespace Project_Slayer {
 			Mana = 0;
 			Durability = 0;
 			Agility = 0;
+
+			EnemyCount = 0;
+			FloorLevel = 0;
+			DodgeCount = 0;
 		}
 		/// <summary>
 		/// Initializes new instance of User class.
 		/// </summary>
 		/// <param name="initialUserName"></param>
 		[JsonConstructor]
-		public User(string UserName, int Strength, int Mana, int Durability, int Agility) {
-			this.UserName = UserName;
-			this.Strength = Strength;
-			this.Mana = Mana;
-			this.Durability = Durability;
-			this.Agility = Agility;
+		public User(string userName, int strength, int mana, int durability, int agility, int enemyCount, int floorLevel, int dodgeCount) {
+			this.UserName = userName;
+			this.Strength = strength;
+			this.Mana = mana;
+			this.Durability = durability;
+			this.Agility = agility;
+
+			this.EnemyCount = enemyCount;
+			this.FloorLevel = floorLevel;
+			this.DodgeCount = dodgeCount;
 		}
 
 
@@ -138,6 +215,7 @@ namespace Project_Slayer {
 		/// </summary>
 		public void Dodge() {
 			Console.WriteLine("You're fast enough to outmaneuver your enemy!");
+			dodgeCount++;
 		}
 		/// <summary>
 		/// Escapes from the current opponent, resores your health to 100%.
