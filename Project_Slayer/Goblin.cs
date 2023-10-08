@@ -65,7 +65,7 @@ namespace Project_Slayer {
 		public double Durability {
 			get { return durability; }
 			set {
-				durability = rng.Next((int)(minStat*0.6), (int)(maxStat*0.6));
+				durability = rng.Next((int)(minStat*6), (int)(maxStat*6));
 			}
 		}
 		/// <summary>

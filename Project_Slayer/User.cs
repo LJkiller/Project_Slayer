@@ -70,7 +70,7 @@ namespace Project_Slayer {
 		public int Durability {
 			get { return durability; }
 			set {
-				durability = rng.Next(minStat, maxStat);
+				durability = rng.Next((int)(minStat*10), (int)(maxStat*10));
 			}
 		}
 		/// <summary>
