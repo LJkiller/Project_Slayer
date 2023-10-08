@@ -38,6 +38,7 @@ namespace Project_Slayer {
 	/// with a visual representation.
 	/// </summary>
 	public interface IDrawable {
+
 		/// <summary>
 		/// Method responsible of rendering an object in the game.
 		/// </summary>

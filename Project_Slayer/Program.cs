@@ -129,12 +129,14 @@ namespace Project_Slayer {
 		#endregion
 
 		#region Debugging
+
 		/// <summary>
 		/// An error message.
 		/// </summary>
 		static void Error() {
 			Console.WriteLine("(._.)\n\n    An Error.");
 		}
+		
 		#endregion
 
 		static void Main(string[] args) {
@@ -172,7 +174,8 @@ namespace Project_Slayer {
 					Console.WriteLine();
 				}
 
-			} else if (opt == "load") {
+			} 
+			else if (opt == "load") {
 				Console.Clear();
 				User loadedUser = Load(fileName); 
 

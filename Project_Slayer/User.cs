@@ -197,7 +197,6 @@ namespace Project_Slayer {
 			this.DodgeCount = dodgeCount;
 		}
 
-
 		#endregion
 
 		#region Methods
