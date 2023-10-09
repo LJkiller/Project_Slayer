@@ -35,7 +35,7 @@ namespace Project_Slayer {
 
 
 	/// <summary>
-	/// Represents the base data for any Mob.
+	/// Represents the base data for any Mob Class.
 	/// </summary>
 	public class Mob : Entity {
 

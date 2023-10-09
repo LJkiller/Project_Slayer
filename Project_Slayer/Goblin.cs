@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_Slayer {
 	/// <summary>
-	/// Represents base data for Human Class.
+	/// Represents base data for Goblin Class.
 	/// </summary>
 	class Goblin : Mob {
 

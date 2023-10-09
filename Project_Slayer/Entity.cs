@@ -19,7 +19,7 @@ namespace Project_Slayer {
 
 
 	/// <summary>
-	/// Represents the base data for any Entity.
+	/// Represents the base data for Entity Class.
 	/// </summary>
 	public abstract class Entity : IDrawable {
 		// __________
