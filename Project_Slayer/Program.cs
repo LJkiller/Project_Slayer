@@ -61,7 +61,7 @@ namespace Project_Slayer {
 		/// <param name="fileNameInput"></param>
 		/// <returns>Converted text to FileName.json</returns>
 		static string FileInputConversion(string fileNameInput) {
-			string fileName = $"{fileNameInput}.json";
+			string fileName = $"SaveFile-{fileNameInput}.json";
 			return fileName;
 		}
 		/// <summary>
@@ -95,7 +95,11 @@ namespace Project_Slayer {
 					Save(FileInputConversion(FileNameInput), User);
 				} else if (inputCount[0].ToLower() == "quit" || inputCount[0] == "q") {
 
+				} else {
+
 				}
+
+			} else if (inputCount.Count > 1) {
 
 			} else {
 
@@ -124,9 +128,10 @@ namespace Project_Slayer {
 				}
 
 				File.WriteAllText(fileName, serialized);
-				Console.WriteLine("User data saved successfully.\nUser created successfully!");
-				Console.WriteLine($"Your stats:");
+				Console.WriteLine("User data saved successfully!");
+				Console.WriteLine("Saved data:");
 				User.DisplayInfo();
+				Console.WriteLine(serialized);
 			} catch (ArgumentException e) {
 				Error();
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
@@ -142,7 +147,8 @@ namespace Project_Slayer {
 				if (File.Exists(fileName)) {
 					Console.WriteLine("\nFile found!");
 					string serializedFromFile = File.ReadAllText(fileName);
-					Console.WriteLine($"Serialized JSON from file:\n{serializedFromFile}");
+					Console.WriteLine($"Data successfully extracted!\nSerialized JSON from file: " +
+						$"{fileName}.\n{serializedFromFile}");
 
 					return JsonSerializer.Deserialize<User>(serializedFromFile);
 				} else {
@@ -173,6 +179,8 @@ namespace Project_Slayer {
 
 				File.WriteAllText(fileName, serialized);
 				Console.WriteLine("User data saved successfully.\nUser created successfully.");
+				Console.WriteLine($"Your data:");
+				User.DisplayInfo();
 			} catch (ArgumentException e) {
 				Error();
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
@@ -207,10 +215,10 @@ namespace Project_Slayer {
 		/// </summary>
 		static void SetUp() {
 			GameTitle();
-			Console.WriteLine("\nDo you want to start a new game? Write 'Start'.");
-			Console.WriteLine("Do you want to continue from a save file? Write 'continue'.");
-			Console.WriteLine("Do you want help? Write 'help'.");
-			Console.WriteLine("Do you want to quit? Write 'quit'.");
+			Console.WriteLine("\nDo you want to start a new game?            Write 'Start'.");
+			Console.WriteLine("Do you want to continue from a save file?   Write 'continue'.");
+			Console.WriteLine("Do you want help?                           Write 'help'.");
+			Console.WriteLine("Do you want to quit?                        Write 'quit'.");
 
 			while (run1) {
 				string setUpInput = Console.ReadLine();
@@ -218,7 +226,8 @@ namespace Project_Slayer {
 					run1 = false;
 					Console.Clear();
 					UserCreationScreen(User);
-				} else if (setUpInput.ToLower() == "continue" || setUpInput.ToLower() == "fortsätt") {
+				} else if (setUpInput.ToLower() == "continue" || setUpInput.ToLower() == "load" || 
+					setUpInput.ToLower() == "fortsätt") {
 					run1 = false;
 					Console.Clear();
 					Console.WriteLine("kys");
@@ -257,11 +266,29 @@ namespace Project_Slayer {
 
 		static void Main(string[] args) {
 
+			//Load Test
+			/*
+			Console.WriteLine("File?");
+			string file = Console.ReadLine();
+			Console.WriteLine("Load me up");
+			string opt = Console.ReadLine();
+			if (opt.ToLower() == "load") {
+				Load(FileInputConversion(file));
+			} else {
+
+			}
+			*/
+
+			//Set up Test
+			
 			SetUp();
 			Console.WriteLine("Function:");
 			string input = Console.ReadLine();
 			InputArrangement(input);
+			
 
+			//Entity List
+			/*
 			List<Entity> entityList = new List<Entity>();
 			entityList.Add(new Human());
 			entityList.Add(new Human());
@@ -276,6 +303,7 @@ namespace Project_Slayer {
 				DisplayEntityInfo(entityList[i]);
 				Console.WriteLine();
 			}
+			*/
 
 
 
