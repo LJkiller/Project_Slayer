@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Project_Slayer {
 	/// <summary>
@@ -10,8 +13,32 @@ namespace Project_Slayer {
 	/// </summary>
 	public class TextManager {
 
-		public void FileInputConversion() {
-
+		/// <summary>
+		/// Method responsible of taking a string and returning the savefile-version.
+		/// </summary>
+		/// <param name="fileNameInput"></param>
+		/// <returns></returns>
+		public string SaveFileConversion(string fileNameInput) {
+			string fileName = $"SaveFile-{fileNameInput}.json";
+			return fileName;
 		}
+
+		/// <summary>
+		/// An error message.
+		/// </summary>
+		public void Error() {
+			Console.WriteLine("(._.)\n\n    An Error.");
+		}
+
+		/// <summary>
+		/// Displays the game's title in a stylized text.
+		/// </summary>
+		public void GameTitle() {
+			Console.WriteLine("███████████████████████████████████████████████████████");
+			Console.WriteLine("█─▄─▄─█─█─█▄─▄▄─███─▄▄▄▄█▄─▄████▀▄─██▄─█─▄█▄─▄▄─█▄─▄▄▀█");
+			Console.WriteLine("███─███─▄─██─▄█▀███▄▄▄▄─██─██▀██─▀─███▄─▄███─▄█▀██─▄─▄█");
+			Console.WriteLine("██▄▄▄██▄█▄█▄▄▄▄▄███▄▄▄▄▄█▄▄▄▄▄█▄▄█▄▄██▄▄▄██▄▄▄▄▄█▄▄█▄▄█");
+		}
+
 	}
 }

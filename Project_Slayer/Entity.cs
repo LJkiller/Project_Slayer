@@ -52,6 +52,7 @@ namespace Project_Slayer {
 		public virtual void DisplayInfo() {
 			Console.WriteLine($"Strength: {strength}, Mana: {mana}, Durability: {durability}, Agility: {agility}");
 		}
+
 		/// <summary>
 		/// Initializes new instance of Entity class.
 		/// </summary>
@@ -82,8 +83,9 @@ namespace Project_Slayer {
 		public virtual void Attack(string attackType) {
 			Console.WriteLine("The Entity should've attacked!");
 		}
+
 		#endregion
-	
+
 	}
 }
 

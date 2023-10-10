@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Project_Slayer {
@@ -166,6 +167,7 @@ namespace Project_Slayer {
 			Console.WriteLine($"FloorLevel: {FloorLevel}");
 			Console.WriteLine($"DodgeCount: {DodgeCount}");
 		}
+		
 		/// <summary>
 		/// Default attribute holder.
 		/// </summary>
@@ -180,6 +182,7 @@ namespace Project_Slayer {
 			FloorLevel = 0;
 			DodgeCount = 0;
 		}
+		
 		/// <summary>
 		/// Initializes new instance of User class.
 		/// </summary>
@@ -202,6 +205,55 @@ namespace Project_Slayer {
 		#region Methods
 
 		/// <summary>
+		/// Creates the user and saves the data into a json-file.
+		/// </summary>
+		/// <param name="usernameInput"></param>
+		/// <param name="fileName"></param>
+		/// <param name="User"></param>
+		public void CreateUser(string usernameInput, string fileName, User User) {
+			try {
+				string serialized = JsonSerializer.Serialize(User);
+
+				if (File.Exists(fileName)) {
+					Console.WriteLine("\nThe file already exists and will be overwritten.");
+				} else {
+					Console.WriteLine("\nThe file does not exist. Creating a new file.");
+				}
+
+				File.WriteAllText(fileName, serialized);
+				Console.WriteLine("User data saved successfully.\nUser created successfully.");
+				Console.WriteLine($"Your data:");
+				User.DisplayInfo();
+			} catch (ArgumentException e) {
+				Console.WriteLine($"\nSomething went wrong! {e.Message}");
+			}
+		}
+
+		/// <summary>
+		/// Load User from Json-file.
+		/// </summary>
+		/// <param name="fileName"></param>
+		/// <returns></returns>
+		public User Load(string fileName) {
+			try {
+				if (File.Exists(fileName)) {
+					Console.WriteLine("\nFile found!");
+					string serializedFromFile = File.ReadAllText(fileName);
+					Console.WriteLine($"Data successfully extracted!\nSerialized JSON from file: " +
+						$"{fileName}.\n{serializedFromFile}");
+
+					return JsonSerializer.Deserialize<User>(serializedFromFile);
+				} else {
+					Console.WriteLine($"File not found! Cannot load user.");
+					return null;
+				}
+			} catch (Exception e) {
+				Console.WriteLine($"Something went wrong loading the user's data!\n{e.Message}");
+				return null;
+			}
+		}
+
+		/// <summary>
 		/// Attacks opponent and inflicts damage. 
 		/// Damage is scaled by Strength or Mana.
 		/// </summary>
@@ -209,6 +261,7 @@ namespace Project_Slayer {
 		public override void Attack(string attackType = "physical") {
 			Console.WriteLine($"Whazaa, a {attackType} attack!");
 		}
+
 		/// <summary>
 		/// Perfectly dodges your opponent's incoming attack.
 		/// </summary>
@@ -216,13 +269,13 @@ namespace Project_Slayer {
 			Console.WriteLine("You're fast enough to outmaneuver your enemy!");
 			dodgeCount++;
 		}
+
 		/// <summary>
 		/// Escapes from the current opponent, resores your health to 100%.
 		/// </summary>
 		public void Escape() {
 			Console.WriteLine("You've escaped!");
 		}
-
 		#endregion
 
 	}

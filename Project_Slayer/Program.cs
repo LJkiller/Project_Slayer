@@ -33,15 +33,13 @@ namespace Project_Slayer {
 		static bool run2 = true;
 		static bool run3 = true;
 
-		static User User;
+		private static TextManager textManager;
+		private static FileManager fileManager;
+		private static User user;
 
 		#endregion
 
 		#region Information-handling
-
-		#region In-game
-
-		#region Display Information
 
 		/// <summary>
 		/// Displays information about an Entity by calling its DisplayInfo-method.
@@ -53,17 +51,8 @@ namespace Project_Slayer {
 
 		#endregion
 
-		#region Text Input		
+		#region Text Input	
 
-		/// <summary>
-		/// Converting fileNameInput into a file-name.
-		/// </summary>
-		/// <param name="fileNameInput"></param>
-		/// <returns>Converted text to FileName.json</returns>
-		static string FileInputConversion(string fileNameInput) {
-			string fileName = $"SaveFile-{fileNameInput}.json";
-			return fileName;
-		}
 		/// <summary>
 		/// A string input arranging into a numerical position.
 		/// Input-filtering to a value in order to call different methods.
@@ -92,7 +81,7 @@ namespace Project_Slayer {
 				if (inputCount[0].ToLower() == "save") {
 					Console.WriteLine("Which file do you want to save to?");
 					FileNameInput = Console.ReadLine();
-					Save(FileInputConversion(FileNameInput), User);
+					fileManager.Save(textManager.SaveFileConversion(FileNameInput), user);
 				} else if (inputCount[0].ToLower() == "quit" || inputCount[0] == "q") {
 
 				} else {
@@ -105,88 +94,6 @@ namespace Project_Slayer {
 
 			}
 		}
-
-		#endregion
-
-		#endregion
-
-		#region File-management
-
-		/// <summary>
-		/// Saves the user's data into a json-file.
-		/// </summary>
-		/// <param name="fileName"></param>
-		/// <param name="user"></param>
-		static void Save(string fileName, User User) {
-			try {
-				string serialized = JsonSerializer.Serialize(User);
-
-				if (File.Exists(fileName)) {
-					Console.WriteLine("\nThe file already exists and will be overwritten.");
-				} else {
-					Console.WriteLine("\nThe file does not exist. Creating a new file.");
-				}
-
-				File.WriteAllText(fileName, serialized);
-				Console.WriteLine("User data saved successfully!");
-				Console.WriteLine("Saved data:");
-				User.DisplayInfo();
-				Console.WriteLine(serialized);
-			} catch (ArgumentException e) {
-				Error();
-				Console.WriteLine($"\nSomething went wrong! {e.Message}");
-			}
-		}
-		/// <summary>
-		/// Load User from Json-file.
-		/// </summary>
-		/// <param name="fileName"></param>
-		/// <returns></returns>
-		static User Load(string fileName) {
-			try {
-				if (File.Exists(fileName)) {
-					Console.WriteLine("\nFile found!");
-					string serializedFromFile = File.ReadAllText(fileName);
-					Console.WriteLine($"Data successfully extracted!\nSerialized JSON from file: " +
-						$"{fileName}.\n{serializedFromFile}");
-
-					return JsonSerializer.Deserialize<User>(serializedFromFile);
-				} else {
-					Console.WriteLine($"File not found! Cannot load user.");
-					return null;
-				}
-			} catch (Exception e) {
-				Error();
-				Console.WriteLine($"Something went wrong loading the user's data!\n{e.Message}");
-				return null;
-			}
-		}
-
-		/// <summary>
-		/// Creates the user and saves the data into a json-file.
-		/// </summary>
-		/// <param name="usernameInput"></param>
-		/// <param name="User"></param>
-		static void CreateUser(string usernameInput, string fileName, User User) {
-			try {
-				string serialized = JsonSerializer.Serialize(User);
-
-				if (File.Exists(fileName)) {
-					Console.WriteLine("\nThe file already exists and will be overwritten.");
-				} else {
-					Console.WriteLine("\nThe file does not exist. Creating a new file.");
-				}
-
-				File.WriteAllText(fileName, serialized);
-				Console.WriteLine("User data saved successfully.\nUser created successfully.");
-				Console.WriteLine($"Your data:");
-				User.DisplayInfo();
-			} catch (ArgumentException e) {
-				Error();
-				Console.WriteLine($"\nSomething went wrong! {e.Message}");
-			}
-		}
-		#endregion
 
 		#endregion
 
@@ -204,17 +111,16 @@ namespace Project_Slayer {
 			string userNameInput = Console.ReadLine();
 			Console.WriteLine("To which file do you want to save your character?");
 			FileNameInput = Console.ReadLine();
-			User = new User(userNameInput, 0, 0, 0, 0, 0, 0, 0);
-			CreateUser(userNameInput, FileInputConversion(FileNameInput), User);
+			Program.user = new User(userNameInput, 0, 0, 0, 0, 0, 0, 0);
+			Program.user.CreateUser(userNameInput, textManager.SaveFileConversion(FileNameInput), Program.user);
 		}
 
-		#endregion
-
 		/// <summary>
-		/// Set ups the game's initial configurations.
+		/// The game's start screen.
 		/// </summary>
-		static void SetUp() {
-			GameTitle();
+		static void StartScreen() {
+			SetUp();
+			textManager.GameTitle();
 			Console.WriteLine("\nDo you want to start a new game?            Write 'Start'.");
 			Console.WriteLine("Do you want to continue from a save file?   Write 'continue'.");
 			Console.WriteLine("Do you want help?                           Write 'help'.");
@@ -225,8 +131,8 @@ namespace Project_Slayer {
 				if (setUpInput.ToLower() == "start" || setUpInput.ToLower() == "new game") {
 					run1 = false;
 					Console.Clear();
-					UserCreationScreen(User);
-				} else if (setUpInput.ToLower() == "continue" || setUpInput.ToLower() == "load" || 
+					UserCreationScreen(user);
+				} else if (setUpInput.ToLower() == "continue" || setUpInput.ToLower() == "load" ||
 					setUpInput.ToLower() == "fortsätt") {
 					run1 = false;
 					Console.Clear();
@@ -241,54 +147,41 @@ namespace Project_Slayer {
 				}
 			}
 		}
+
+		#endregion
+
 		/// <summary>
-		/// Displays the game's title in a stylized text.
+		/// Set ups the game's initial configuration.
 		/// </summary>
-		static void GameTitle() {
-			Console.WriteLine("███████████████████████████████████████████████████████");
-			Console.WriteLine("█─▄─▄─█─█─█▄─▄▄─███─▄▄▄▄█▄─▄████▀▄─██▄─█─▄█▄─▄▄─█▄─▄▄▀█");
-			Console.WriteLine("███─███─▄─██─▄█▀███▄▄▄▄─██─██▀██─▀─███▄─▄███─▄█▀██─▄─▄█");
-			Console.WriteLine("██▄▄▄██▄█▄█▄▄▄▄▄███▄▄▄▄▄█▄▄▄▄▄█▄▄█▄▄██▄▄▄██▄▄▄▄▄█▄▄█▄▄█");
+		static void SetUp() {
+			textManager = new TextManager();
+			fileManager = new FileManager();
 		}
 
 		#endregion
 
-		#region Debugging
+		#region Sandbox
 
-		/// <summary>
-		/// An error message.
-		/// </summary>
-		static void Error() {
-			Console.WriteLine("(._.)\n\n    An Error.");
-		}
-		
-		#endregion
-
-		static void Main(string[] args) {
-
-			//Load Test
-			/*
+		static void LoadTest() {
 			Console.WriteLine("File?");
-			string file = Console.ReadLine();
+			FileNameInput = Console.ReadLine();
 			Console.WriteLine("Load me up");
 			string opt = Console.ReadLine();
 			if (opt.ToLower() == "load") {
-				Load(FileInputConversion(file));
+				user.Load(textManager.SaveFileConversion(FileNameInput));
 			} else {
 
 			}
-			*/
+		}
 
-			//Set up Test
-			
-			SetUp();
+		static void SetUpTest() {
+			StartScreen();
 			Console.WriteLine("Function:");
 			string input = Console.ReadLine();
 			InputArrangement(input);
-			
+		}
 
-			//Entity List
-			/*
+		static void EntityListTest() {
 			List<Entity> entityList = new List<Entity>();
 			entityList.Add(new Human());
 			entityList.Add(new Human());
@@ -303,7 +196,21 @@ namespace Project_Slayer {
 				DisplayEntityInfo(entityList[i]);
 				Console.WriteLine();
 			}
-			*/
+		}
+
+		#endregion
+
+		static void Main(string[] args) {
+
+			//Load Test
+			LoadTest();
+
+			//Set up Test
+			//SetUpTest();
+			
+
+			//Entity List
+			//EntityListTest();
 
 
 
