@@ -26,9 +26,12 @@ namespace Project_Slayer {
 
 	class Program {
 
-		#region Static Variables
+		#region Variables
 
 		static string FileNameInput;
+		static bool run1 = true;
+		static bool run2 = true;
+		static bool run3 = true;
 
 		static User User;
 
@@ -89,10 +92,12 @@ namespace Project_Slayer {
 				if (inputCount[0].ToLower() == "save") {
 					Console.WriteLine("Which file do you want to save to?");
 					FileNameInput = Console.ReadLine();
-
+					Save(FileInputConversion(FileNameInput), User);
 				} else if (inputCount[0].ToLower() == "quit" || inputCount[0] == "q") {
 
 				}
+
+			} else {
 
 			}
 		}
@@ -108,8 +113,24 @@ namespace Project_Slayer {
 		/// </summary>
 		/// <param name="fileName"></param>
 		/// <param name="user"></param>
-		static void Save(string fileName, User user) {
+		static void Save(string fileName, User User) {
+			try {
+				string serialized = JsonSerializer.Serialize(User);
 
+				if (File.Exists(fileName)) {
+					Console.WriteLine("\nThe file already exists and will be overwritten.");
+				} else {
+					Console.WriteLine("\nThe file does not exist. Creating a new file.");
+				}
+
+				File.WriteAllText(fileName, serialized);
+				Console.WriteLine("User data saved successfully.\nUser created successfully!");
+				Console.WriteLine($"Your stats:");
+				User.DisplayInfo();
+			} catch (ArgumentException e) {
+				Error();
+				Console.WriteLine($"\nSomething went wrong! {e.Message}");
+			}
 		}
 		/// <summary>
 		/// Load User from Json-file.
@@ -163,18 +184,62 @@ namespace Project_Slayer {
 
 		#region SetUp
 
+		#region Screens
+
 		/// <summary>
-		/// Represents a frame for creating a user by gathering necessary information.
+		/// Represents a screen for creating a user by gathering necessary information.
 		/// Information is then sent to CreateUser().
 		/// </summary>
 		/// <param name="user"></param>
-		static void UserCreationFrame(User user) {
+		static void UserCreationScreen(User user) {
 			Console.WriteLine("What do you want to be called?");
 			string userNameInput = Console.ReadLine();
-			Console.WriteLine("To which file do you want to save first?");
+			Console.WriteLine("To which file do you want to save your character?");
 			FileNameInput = Console.ReadLine();
 			User = new User(userNameInput, 0, 0, 0, 0, 0, 0, 0);
 			CreateUser(userNameInput, FileInputConversion(FileNameInput), User);
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Set ups the game's initial configurations.
+		/// </summary>
+		static void SetUp() {
+			GameTitle();
+			Console.WriteLine("\nDo you want to start a new game? Write 'Start'.");
+			Console.WriteLine("Do you want to continue from a save file? Write 'continue'.");
+			Console.WriteLine("Do you want help? Write 'help'.");
+			Console.WriteLine("Do you want to quit? Write 'quit'.");
+
+			while (run1) {
+				string setUpInput = Console.ReadLine();
+				if (setUpInput.ToLower() == "start" || setUpInput.ToLower() == "new game") {
+					run1 = false;
+					Console.Clear();
+					UserCreationScreen(User);
+				} else if (setUpInput.ToLower() == "continue" || setUpInput.ToLower() == "fortsätt") {
+					run1 = false;
+					Console.Clear();
+					Console.WriteLine("kys");
+				} else if (setUpInput.ToLower() == "help" || setUpInput.ToLower() == "!help") {
+
+				} else if (setUpInput.ToLower() == "quit" || setUpInput.ToLower() == "q") {
+					run1 = false;
+
+				} else {
+					Console.WriteLine("Write an appropiate input: 'start', 'continue', 'help' or 'quit'\n");
+				}
+			}
+		}
+		/// <summary>
+		/// Displays the game's title in a stylized text.
+		/// </summary>
+		static void GameTitle() {
+			Console.WriteLine("███████████████████████████████████████████████████████");
+			Console.WriteLine("█─▄─▄─█─█─█▄─▄▄─███─▄▄▄▄█▄─▄████▀▄─██▄─█─▄█▄─▄▄─█▄─▄▄▀█");
+			Console.WriteLine("███─███─▄─██─▄█▀███▄▄▄▄─██─██▀██─▀─███▄─▄███─▄█▀██─▄─▄█");
+			Console.WriteLine("██▄▄▄██▄█▄█▄▄▄▄▄███▄▄▄▄▄█▄▄▄▄▄█▄▄█▄▄██▄▄▄██▄▄▄▄▄█▄▄█▄▄█");
 		}
 
 		#endregion
@@ -192,7 +257,10 @@ namespace Project_Slayer {
 
 		static void Main(string[] args) {
 
-			UserCreationFrame(User);
+			SetUp();
+			Console.WriteLine("Function:");
+			string input = Console.ReadLine();
+			InputArrangement(input);
 
 			List<Entity> entityList = new List<Entity>();
 			entityList.Add(new Human());
@@ -201,7 +269,6 @@ namespace Project_Slayer {
 			entityList.Add(new Goblin());
 			entityList.Add(new Goblin());
 			entityList.Add(new Goblin());
-			entityList.Add(User);
 
 
 			Console.WriteLine();
