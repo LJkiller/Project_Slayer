@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Project_Slayer {
 
@@ -202,19 +203,9 @@ namespace Project_Slayer {
 
 		static void Main(string[] args) {
 
-			//Load Test
-			LoadTest();
-
-			//Set up Test
+			//LoadTest();
 			//SetUpTest();
-			
-
-			//Entity List
 			//EntityListTest();
-
-
-
-
 
 			Console.ReadLine();
 		}

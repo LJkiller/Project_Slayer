@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Project_Slayer {
+
 	/// <summary>
 	/// Data class to invoke methods in order to manage files.
 	/// </summary>
@@ -37,8 +38,8 @@ namespace Project_Slayer {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
 		}
-		public void Load() {
-
+		public User Load() {
+			return null;
 		}
 		public void DisplayAllFiles() {
 
