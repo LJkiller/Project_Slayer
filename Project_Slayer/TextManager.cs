@@ -15,16 +15,6 @@ namespace Project_Slayer {
 	public class TextManager {
 
 		/// <summary>
-		/// Method responsible of taking a string and returning the savefile-version.
-		/// </summary>
-		/// <param name="fileNameInput"></param>
-		/// <returns></returns>
-		public string SaveFileConversion(string fileNameInput) {
-			string fileName = $"SaveFile-{fileNameInput}.json";
-			return fileName;
-		}
-
-		/// <summary>
 		/// An error message.
 		/// </summary>
 		public void PrintError() {

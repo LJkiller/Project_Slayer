@@ -19,9 +19,11 @@ namespace Project_Slayer {
 		/// </summary>
 		/// <param name="fileName"></param>
 		/// <param name="user"></param>
-		public  void Save(string fileName, User User) {
+		public  void Save(string fileNameInput, User user) {
+			string fileName = $"SaveFile-{fileNameInput}.json";
+			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
-				string serialized = JsonSerializer.Serialize(User);
+				string serialized = JsonSerializer.Serialize(user);
 
 				if (File.Exists(fileName)) {
 					Console.WriteLine("\nThe file already exists and will be overwritten.");
@@ -30,17 +32,38 @@ namespace Project_Slayer {
 				}
 
 				File.WriteAllText(fileName, serialized);
+				File.WriteAllText(backupFileName, serialized);
+
 				Console.WriteLine("User data saved successfully!");
 				Console.WriteLine("Saved data:");
-				User.DisplayInfo();
+				user.DisplayInfo();
 				Console.WriteLine(serialized);
 			} catch (ArgumentException e) {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
 		}
 
+		/// <summary>
+		/// Displays all save files and backup files.
+		/// </summary>
 		public void DisplayAllFiles() {
+			string filePath = AppDomain.CurrentDomain.BaseDirectory;
+
+			Console.WriteLine("All current savefiles:");
+			try {
+				string[] saveFiles = Directory.GetFiles(filePath, "SaveFile-*");
+				string[] saveFileBackups = Directory.GetFiles(filePath, "SaveFile-*-Backup");
+
+				for (int i = 0; i<saveFiles.Length; i++) {
+					Console.WriteLine($"{Path.GetFileName(saveFiles[i])} : {Path.GetFileName(saveFileBackups[i])})");
+				}
+				Console.WriteLine();
+
+			} catch (ArgumentException e) {
+				Console.WriteLine($"\nSomething went wrong! {e.Message}");
+			}
 
 		}
+	
 	}
 }

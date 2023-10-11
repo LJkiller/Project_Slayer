@@ -77,12 +77,13 @@ namespace Project_Slayer {
 				empty = "";
 			}
 
+			//Quick functions
 			if (inputCount.Count <= 1) {
 
 				if (inputCount[0].ToLower() == "save") {
 					Console.WriteLine("Which file do you want to save to?");
 					FileNameInput = Console.ReadLine();
-					fileManager.Save(textManager.SaveFileConversion(FileNameInput), user);
+					fileManager.Save(FileNameInput, user);
 				} else if (inputCount[0].ToLower() == "quit" || inputCount[0] == "q") {
 
 				} else {
@@ -113,7 +114,7 @@ namespace Project_Slayer {
 			Console.WriteLine("To which file do you want to save your character?");
 			FileNameInput = Console.ReadLine();
 			Program.user = new User(userNameInput, 0, 0, 0, 0, 0, 0, 0);
-			Program.user.CreateUser(userNameInput, textManager.SaveFileConversion(FileNameInput), Program.user);
+			Program.user.CreateUser(userNameInput, FileNameInput, Program.user);
 		}
 
 		/// <summary>
@@ -171,7 +172,7 @@ namespace Project_Slayer {
 			string opt = Console.ReadLine();
 			if (opt.ToLower() == "load") {
 				try {
-					user.GetUserInfo(textManager.SaveFileConversion(FileNameInput));
+					user.GetUserInfo(FileNameInput);
 				} catch (ArgumentException e) {
 					Console.WriteLine($"Slight problem; {e}");
 				}
@@ -209,9 +210,11 @@ namespace Project_Slayer {
 		static void Main(string[] args) {
 
 			SetUp();
-			//SetUpTest();
-			LoadTest();
+			SetUpTest();
+			//LoadTest();
 			//EntityListTest();
+
+			//fileManager.DisplayAllFiles();
 
 			Console.ReadLine();
 		}

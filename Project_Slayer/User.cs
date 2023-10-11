@@ -208,9 +208,11 @@ namespace Project_Slayer {
 		/// Creates the user and saves the data into a json-file.
 		/// </summary>
 		/// <param name="usernameInput"></param>
-		/// <param name="fileName"></param>
+		/// <param name="fileNameInput"></param>
 		/// <param name="User"></param>
-		public void CreateUser(string usernameInput, string fileName, User User) {
+		public void CreateUser(string usernameInput, string fileNameInput, User User) {
+			string fileName = $"SaveFile-{fileNameInput}.json";
+			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
 				string serialized = JsonSerializer.Serialize(User);
 
@@ -221,6 +223,8 @@ namespace Project_Slayer {
 				}
 
 				File.WriteAllText(fileName, serialized);
+				File.WriteAllText(backupFileName, serialized);
+
 				Console.WriteLine("User data saved successfully.\nUser created successfully.");
 				Console.WriteLine($"Your data:");
 				User.DisplayInfo();
@@ -234,9 +238,11 @@ namespace Project_Slayer {
 		/// </summary>
 		/// <param name="fileName"></param>
 		/// <returns></returns>
-		public User GetUserInfo(string fileName) {
+		public User GetUserInfo(string fileNameInput) {
+			string fileName = $"SaveFile-{fileNameInput}.json";
+			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
-				if (File.Exists(fileName)) {
+				if (File.Exists(fileName) || File.Exists(backupFileName)) {
 					Console.WriteLine("\nFile found!");
 					string serializedFromFile = File.ReadAllText(fileName);
 					Console.WriteLine($"Serialized JSON from file:\n{serializedFromFile}");
