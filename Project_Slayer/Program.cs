@@ -220,11 +220,11 @@ namespace Project_Slayer {
 		static void Main(string[] args) {
 
 			SetUp();
-			SetUpTest();
+			//SetUpTest();
 			//LoadTest();
 			//EntityListTest();
 
-			//fileManager.DisplayAllFiles();
+			fileManager.DisplayAllFiles();
 
 			Console.ReadLine();
 		}

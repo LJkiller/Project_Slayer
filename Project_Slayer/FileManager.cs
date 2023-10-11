@@ -46,6 +46,8 @@ namespace Project_Slayer {
 	//⣿⣿⣿⣿⣷⣿⣟⣯⣿⡿⣟⣾⣯⡿⣷⢿⣳⣯⢷⣯⣟⡷⣯⢿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⢯⢷⣻⣽⣳⢿⣽⣻⢾⣯⣷⢿⣾⣿⣻⣯⣿⣿⢿⣿⣿⣿⣿⣿⣿
 	//⣿⣿⣿⣿⣿⣯⣿⣿⣻⣿⢿⣯⣷⡿⣟⣿⢯⣿⣟⣾⣽⣻⣽⣻⣞⣯⣟⣿⣻⢿⣿⢿⣿⢿⣿⣿⣿⣿⣿⢿⣿⢻⢿⣹⣏⡷⡽⣞⣧⣟⣯⢷⣯⣟⡿⣾⣽⢿⣳⣿⢿⣻⣾⣿⢿⣻⣿⣿⣿⣿⣿⣿⣿⣿
 
+
+
 	/// <summary>
 	/// Data class to invoke methods in order to manage files.
 	/// </summary>
@@ -87,14 +89,16 @@ namespace Project_Slayer {
 			string filePath = AppDomain.CurrentDomain.BaseDirectory;
 
 			Console.WriteLine("All current savefiles:");
-			try {
-				string[] saveFiles = Directory.GetFiles(filePath, "SaveFile-*");
-				string[] saveFileBackups = Directory.GetFiles(filePath, "SaveFile-*-Backup");
+			string[] saveFiles = Directory.GetFiles(filePath, "SaveFile-*.json");
+			string[] saveFileBackups = Directory.GetFiles(filePath, "SaveFile-*-Backup.json");
 
-				for (int i = 0; i<saveFiles.Length; i++) {
-					Console.WriteLine($"{Path.GetFileName(saveFiles[i])} : {Path.GetFileName(saveFileBackups[i])})");
+			try {
+				for (int i = 0; i < saveFiles.Length; i++) {
+					if () {
+
+					}
+					Console.WriteLine($"{Path.GetFileName(saveFiles[i])} : {Path.GetFileName(saveFiles[i])}");
 				}
-				Console.WriteLine();
 
 			} catch (ArgumentException e) {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
