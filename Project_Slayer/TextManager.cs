@@ -27,14 +27,14 @@ namespace Project_Slayer {
 		/// <summary>
 		/// An error message.
 		/// </summary>
-		public void Error() {
+		public void PrintError() {
 			Console.WriteLine("(._.)\n\n    An Error.");
 		}
 
 		/// <summary>
 		/// Displays the game's title in a stylized text.
 		/// </summary>
-		public void GameTitle() {
+		public void PrintTitle() {
 			Console.WriteLine("███████████████████████████████████████████████████████");
 			Console.WriteLine("█─▄─▄─█─█─█▄─▄▄─███─▄▄▄▄█▄─▄████▀▄─██▄─█─▄█▄─▄▄─█▄─▄▄▀█");
 			Console.WriteLine("███─███─▄─██─▄█▀███▄▄▄▄─██─██▀██─▀─███▄─▄███─▄█▀██─▄─▄█");

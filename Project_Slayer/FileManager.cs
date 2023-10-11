@@ -38,9 +38,7 @@ namespace Project_Slayer {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
 		}
-		public User Load() {
-			return null;
-		}
+
 		public void DisplayAllFiles() {
 
 		}

@@ -165,7 +165,7 @@ namespace Project_Slayer {
 			base.DisplayInfo();
 			Console.WriteLine($"EnemyCount: {EnemyCount}");
 			Console.WriteLine($"FloorLevel: {FloorLevel}");
-			Console.WriteLine($"DodgeCount: {DodgeCount}");
+			Console.WriteLine($"DodgeCount: {DodgeCount}\n");
 		}
 		
 		/// <summary>
@@ -230,17 +230,16 @@ namespace Project_Slayer {
 		}
 
 		/// <summary>
-		/// Load User from Json-file.
+		/// Get User info (load user) from Json-file.
 		/// </summary>
 		/// <param name="fileName"></param>
 		/// <returns></returns>
-		public User Load(string fileName) {
+		public User GetUserInfo(string fileName) {
 			try {
 				if (File.Exists(fileName)) {
 					Console.WriteLine("\nFile found!");
 					string serializedFromFile = File.ReadAllText(fileName);
-					Console.WriteLine($"Data successfully extracted!\nSerialized JSON from file: " +
-						$"{fileName}.\n{serializedFromFile}");
+					Console.WriteLine($"Serialized JSON from file:\n{serializedFromFile}");
 
 					return JsonSerializer.Deserialize<User>(serializedFromFile);
 				} else {
@@ -248,7 +247,7 @@ namespace Project_Slayer {
 					return null;
 				}
 			} catch (Exception e) {
-				Console.WriteLine($"Something went wrong loading the user's data!\n{e.Message}");
+				Console.WriteLine($"An error occurred while loading user data: {e.Message}");
 				return null;
 			}
 		}

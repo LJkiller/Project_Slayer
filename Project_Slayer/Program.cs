@@ -86,13 +86,13 @@ namespace Project_Slayer {
 				} else if (inputCount[0].ToLower() == "quit" || inputCount[0] == "q") {
 
 				} else {
-
+					Console.WriteLine("Invalid input, please try again?");
 				}
 
 			} else if (inputCount.Count > 1) {
 
 			} else {
-
+				Console.WriteLine("Invalid input, please try again?");
 			}
 		}
 
@@ -121,11 +121,11 @@ namespace Project_Slayer {
 		/// </summary>
 		static void StartScreen() {
 			SetUp();
-			textManager.GameTitle();
+			textManager.PrintTitle();
 			Console.WriteLine("\nDo you want to start a new game?            Write 'Start'.");
 			Console.WriteLine("Do you want to continue from a save file?   Write 'continue'.");
 			Console.WriteLine("Do you want help?                           Write 'help'.");
-			Console.WriteLine("Do you want to quit?                        Write 'quit'.");
+			Console.WriteLine("Do you want to quit?                        Write 'quit'.\n");
 
 			while (run1) {
 				string setUpInput = Console.ReadLine();
@@ -157,6 +157,7 @@ namespace Project_Slayer {
 		static void SetUp() {
 			textManager = new TextManager();
 			fileManager = new FileManager();
+			user = new User("Username",0,0,0,0,0,0,0);
 		}
 
 		#endregion
@@ -169,7 +170,11 @@ namespace Project_Slayer {
 			Console.WriteLine("Load me up");
 			string opt = Console.ReadLine();
 			if (opt.ToLower() == "load") {
-				user.Load(textManager.SaveFileConversion(FileNameInput));
+				try {
+					user.GetUserInfo(textManager.SaveFileConversion(FileNameInput));
+				} catch (ArgumentException e) {
+					Console.WriteLine($"Slight problem; {e}");
+				}
 			} else {
 
 			}
@@ -203,8 +208,9 @@ namespace Project_Slayer {
 
 		static void Main(string[] args) {
 
-			//LoadTest();
+			SetUp();
 			//SetUpTest();
+			LoadTest();
 			//EntityListTest();
 
 			Console.ReadLine();
