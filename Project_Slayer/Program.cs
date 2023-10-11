@@ -90,9 +90,10 @@ namespace Project_Slayer {
 					Console.WriteLine("Invalid input, please try again?");
 				}
 
-			} else if (inputCount.Count > 1) {
-
-			} else {
+			} 
+			else if (inputCount.Count > 1) {
+			} 
+			else {
 				Console.WriteLine("Invalid input, please try again?");
 			}
 		}
@@ -163,8 +164,11 @@ namespace Project_Slayer {
 
 		#endregion
 
-		#region Sandbox
+		#region Sandbox - Testing
 
+		/// <summary>
+		/// Testing the loading function.
+		/// </summary>
 		static void LoadTest() {
 			Console.WriteLine("File?");
 			FileNameInput = Console.ReadLine();
@@ -181,6 +185,9 @@ namespace Project_Slayer {
 			}
 		}
 
+		/// <summary>
+		/// Testing the StartScreen & SetUp in the beginning.
+		/// </summary>
 		static void SetUpTest() {
 			StartScreen();
 			Console.WriteLine("Function:");
@@ -188,6 +195,9 @@ namespace Project_Slayer {
 			InputArrangement(input);
 		}
 
+		/// <summary>
+		/// Testing RNG value for different races.
+		/// </summary>
 		static void EntityListTest() {
 			List<Entity> entityList = new List<Entity>();
 			entityList.Add(new Human());

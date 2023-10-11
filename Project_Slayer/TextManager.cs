@@ -15,7 +15,7 @@ namespace Project_Slayer {
 	public class TextManager {
 
 		/// <summary>
-		/// An error message.
+		/// Displays an error message.
 		/// </summary>
 		public void PrintError() {
 			Console.WriteLine("(._.)\n\n    An Error.");
