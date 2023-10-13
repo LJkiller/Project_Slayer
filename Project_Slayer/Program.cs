@@ -36,7 +36,7 @@ namespace Project_Slayer {
 
 		private static TextManager textManager;
 		private static FileManager fileManager;
-		public static User user = new User("DefaultName",0,0,0,0,0,0,0);
+		public static User user;
 
 		#endregion
 
@@ -171,14 +171,13 @@ namespace Project_Slayer {
 		static void SetUp() {
 			textManager = new TextManager();
 			fileManager = new FileManager();
+			user = new User("DefaultUsername",0,0,0,0,0,0,0);
 			run1 = true;
 			run2 = true;
 			run3 = true;
 		}
 
 		#endregion
-
-		#region User
 
 		#region Sandbox - Testing
 
