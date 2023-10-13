@@ -87,16 +87,18 @@ namespace Project_Slayer {
 		/// </summary>
 		public void DisplayAllFiles() {
 			string filePath = AppDomain.CurrentDomain.BaseDirectory;
+			string[] saveFiles = Directory.GetFiles(filePath, "SaveFile-*.json");
+			int fileAmount = 0;
 
 			Console.WriteLine("All current savefiles:\n(Alphabetical Order)\n");
-			string[] saveFiles = Directory.GetFiles(filePath, "SaveFile-*.json");
 
 			try {
 				for (int i = 0; i < saveFiles.Length; i += 2) {
 					int saveIndex = i+1;
 					int backupIndex = i;
+					fileAmount++;
 
-					Console.Write($"{Path.GetFileName(saveFiles[saveIndex]), -30} : {Path.GetFileName(saveFiles[backupIndex])}\n");
+					Console.Write($"{fileAmount,+5}: {Path.GetFileName(saveFiles[saveIndex]), -30} : {Path.GetFileName(saveFiles[backupIndex])}\n");
 				}
 				Console.WriteLine();
 
