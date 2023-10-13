@@ -58,7 +58,7 @@ namespace Project_Slayer {
 		/// </summary>
 		/// <param name="fileName"></param>
 		/// <param name="user"></param>
-		public  void Save(string fileNameInput, User user) {
+		public void Save(string fileNameInput, User user) {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
@@ -88,22 +88,21 @@ namespace Project_Slayer {
 		public void DisplayAllFiles() {
 			string filePath = AppDomain.CurrentDomain.BaseDirectory;
 
-			Console.WriteLine("All current savefiles:");
+			Console.WriteLine("All current savefiles:\n(Alphabetical Order)\n");
 			string[] saveFiles = Directory.GetFiles(filePath, "SaveFile-*.json");
-			string[] saveFileBackups = Directory.GetFiles(filePath, "SaveFile-*-Backup.json");
 
 			try {
-				for (int i = 0; i < saveFiles.Length; i++) {
-					if () {
+				for (int i = 0; i < saveFiles.Length; i += 2) {
+					int saveIndex = i+1;
+					int backupIndex = i;
 
-					}
-					Console.WriteLine($"{Path.GetFileName(saveFiles[i])} : {Path.GetFileName(saveFiles[i])}");
+					Console.Write($"{Path.GetFileName(saveFiles[saveIndex]), -30} : {Path.GetFileName(saveFiles[backupIndex])}\n");
 				}
+				Console.WriteLine();
 
 			} catch (ArgumentException e) {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
-
 		}
 	
 	}
