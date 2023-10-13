@@ -205,6 +205,93 @@ namespace Project_Slayer {
 		#region Methods
 
 		/// <summary>
+		/// Creates the user and saves the data into a json-file.
+		/// </summary>
+		/// <param name="usernameInput"></param>
+		/// <param name="fileNameInput"></param>
+		/// <param name="User"></param>
+		public void CreateUser(string usernameInput, string fileNameInput, User User) {
+			string fileName = $"SaveFile-{fileNameInput}.json";
+			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
+			try {
+				string serialized = JsonSerializer.Serialize(User);
+
+				if (File.Exists(fileName)) {
+					Console.WriteLine("\nThe file already exists and will be overwritten.");
+				} else {
+					Console.WriteLine("\nThe file does not exist. Creating a new file.");
+				}
+
+				File.WriteAllText(fileName, serialized);
+				File.WriteAllText(backupFileName, serialized);
+
+				Console.WriteLine("User data saved successfully.\nUser created successfully.");
+				Console.WriteLine($"Your data:");
+				User.DisplayInfo();
+			} catch (ArgumentException e) {
+				Console.WriteLine($"\nSomething went wrong! {e.Message}");
+			}
+		}
+
+		/// <summary>
+		/// Get User info (load user) from Json-file.
+		/// </summary>
+		/// <param name="fileName"></param>
+		/// <returns></returns>
+		public User GetUserInfo(string fileNameInput) {
+			string fileName = $"SaveFile-{fileNameInput}.json";
+			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
+			try {
+				if (File.Exists(fileName) || File.Exists(backupFileName)) {
+					Console.WriteLine("\nFile found!");
+					string serializedFromFile = File.ReadAllText(fileName);
+
+					Console.WriteLine($"Serialized JSON from file:");
+
+					Console.WriteLine($"UserName:   {UserName}");
+					Console.WriteLine($"Strength:   {Strength}");
+					Console.WriteLine($"Mana:       {Mana}");
+					Console.WriteLine($"Durability: {Durability}");
+					Console.WriteLine($"Agility:    {Agility}");
+					Console.WriteLine($"FloorLevel: {FloorLevel}");
+					Console.WriteLine($"EnemyCount: {EnemyCount}");
+					Console.WriteLine($"DodgeCount: {DodgeCount}");
+
+					return JsonSerializer.Deserialize<User>(serializedFromFile);
+				} else {
+					Console.WriteLine($"File not found! Cannot load user.");
+					return null;
+				}
+			} catch (Exception e) {
+				Console.WriteLine($"An error occurred while loading user data: {e.Message}");
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// Method resonsible of checking a user's stats.
+		/// </summary>
+		/// <param name="user"></param>
+		public void CheckUserInfo(User user) {
+			try {
+				if (user != null) {
+					Console.WriteLine($"UserName:   {user.UserName}");
+					Console.WriteLine($"Strength:   {user.Strength}");
+					Console.WriteLine($"Mana:       {user.Mana}");
+					Console.WriteLine($"Durability: {user.Durability}");
+					Console.WriteLine($"Agility:    {user.Agility}");
+					Console.WriteLine($"FloorLevel: {user.FloorLevel}");
+					Console.WriteLine($"EnemyCount: {user.EnemyCount}");
+					Console.WriteLine($"DodgeCount: {user.DodgeCount}\n");
+				} else {
+					Console.WriteLine("The user object is not initialized.");
+				}
+			} catch (ArgumentException e) {
+				Console.WriteLine($"Something went wrong! {e.Message}");
+			}
+		}
+
+		/// <summary>
 		/// Attacks opponent and inflicts damage. 
 		/// Damage is scaled by Strength or Mana.
 		/// </summary>

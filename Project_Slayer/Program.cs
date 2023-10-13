@@ -115,7 +115,7 @@ namespace Project_Slayer {
 			Console.WriteLine("To which file do you want to save your character?");
 			FileNameInput = Console.ReadLine();
 			Program.user = new User(userNameInput, 0, 0, 0, 0, 0, 0, 0);
-			Program.CreateUser(userNameInput, FileNameInput, Program.user);
+			Program.user.CreateUser(userNameInput, FileNameInput, Program.user);
 		}
 
 		/// <summary>
@@ -155,7 +155,7 @@ namespace Project_Slayer {
 					Console.Clear();
 				} 
 				else if (setUpInput.ToLower() == "cmds-check") {
-					CheckUserInfo(user);
+					user.CheckUserInfo(user);
 				}
 				else {
 					Console.WriteLine("Write an appropiate input: 'start', 'continue', 'help' or 'quit'\n");
@@ -180,96 +180,6 @@ namespace Project_Slayer {
 
 		#region User
 
-		/// <summary>
-		/// Creates the user and saves the data into a json-file.
-		/// </summary>
-		/// <param name="usernameInput"></param>
-		/// <param name="fileNameInput"></param>
-		/// <param name="User"></param>
-		static void CreateUser(string usernameInput, string fileNameInput, User User) {
-			string fileName = $"SaveFile-{fileNameInput}.json";
-			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
-			try {
-				string serialized = JsonSerializer.Serialize(User);
-
-				if (File.Exists(fileName)) {
-					Console.WriteLine("\nThe file already exists and will be overwritten.");
-				} else {
-					Console.WriteLine("\nThe file does not exist. Creating a new file.");
-				}
-
-				File.WriteAllText(fileName, serialized);
-				File.WriteAllText(backupFileName, serialized);
-
-				Console.WriteLine("User data saved successfully.\nUser created successfully.");
-				Console.WriteLine($"Your data:");
-				User.DisplayInfo();
-			} catch (ArgumentException e) {
-				Console.WriteLine($"\nSomething went wrong! {e.Message}");
-			}
-		}
-
-		/// <summary>
-		/// Get User info (load user) from Json-file.
-		/// </summary>
-		/// <param name="fileName"></param>
-		/// <returns></returns>
-		static User GetUserInfo(string fileNameInput) {
-			string fileName = $"SaveFile-{fileNameInput}.json";
-			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
-			try {
-				if (File.Exists(fileName) || File.Exists(backupFileName)) {
-					Console.WriteLine("\nFile found!");
-					string serializedFromFile = File.ReadAllText(fileName);
-
-					Console.WriteLine($"Serialized JSON from file:");
-
-					Console.WriteLine($"UserName:   {user.UserName}");
-					Console.WriteLine($"Strength:   {user.Strength}");
-					Console.WriteLine($"Mana:       {user.Mana}");
-					Console.WriteLine($"Durability: {user.Durability}");
-					Console.WriteLine($"Agility:    {user.Agility}");
-					Console.WriteLine($"FloorLevel: {user.FloorLevel}");
-					Console.WriteLine($"EnemyCount: {user.EnemyCount}");
-					Console.WriteLine($"DodgeCount: {user.DodgeCount}");
-
-					return JsonSerializer.Deserialize<User>(serializedFromFile);
-				} else {
-					Console.WriteLine($"File not found! Cannot load user.");
-					return null;
-				}
-			} catch (Exception e) {
-				Console.WriteLine($"An error occurred while loading user data: {e.Message}");
-				return null;
-			}
-		}
-
-		/// <summary>
-		/// Method resonsible of checking a user's stats.
-		/// </summary>
-		/// <param name="user"></param>
-		static void CheckUserInfo(User user) {
-			try {
-				if (user != null) {
-					Console.WriteLine($"UserName:   {user.UserName}");
-					Console.WriteLine($"Strength:   {user.Strength}");
-					Console.WriteLine($"Mana:       {user.Mana}");
-					Console.WriteLine($"Durability: {user.Durability}");
-					Console.WriteLine($"Agility:    {user.Agility}");
-					Console.WriteLine($"FloorLevel: {user.FloorLevel}");
-					Console.WriteLine($"EnemyCount: {user.EnemyCount}");
-					Console.WriteLine($"DodgeCount: {user.DodgeCount}\n");
-				} else {
-					Console.WriteLine("The user object is not initialized.");
-				}
-			} catch (ArgumentException e) {
-				Console.WriteLine($"Something went wrong! {e.Message}");
-			}
-		}
-
-
-		#endregion
-
 		#region Sandbox - Testing
 
 		/// <summary>
@@ -277,12 +187,12 @@ namespace Project_Slayer {
 		/// </summary>
 		static void LoadTest() {
 			Console.WriteLine("File?");
-			string fileNameInput = Console.ReadLine();
+			FileNameInput = Console.ReadLine();
 			Console.WriteLine("Load me up");
 			string opt = Console.ReadLine();
 			if (opt.ToLower() == "load") {
 				try {
-					user = Program.GetUserInfo(fileNameInput);
+					user = user.GetUserInfo(FileNameInput);
 					StartScreen(false);
 				} catch (ArgumentException e) {
 					Console.WriteLine($"Slight problem; {e}");
