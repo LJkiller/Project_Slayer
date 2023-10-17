@@ -51,9 +51,10 @@ namespace Project_Slayer {
 		public int Strength {
 			get { return strength; }
 			set {
-				strength = rng.Next(minStat, maxStat);
+				strength = value;
 			}
 		}
+		
 		/// <summary>
 		/// The User's mana stat (Magical Attack Power).
 		/// </summary>
@@ -61,9 +62,10 @@ namespace Project_Slayer {
 		public int Mana {
 			get { return mana; }
 			set {
-				mana = rng.Next(minStat, maxStat);
+				mana = value;
 			}
 		}
+		
 		/// <summary>
 		/// The User's durability stat (Health Points).
 		/// </summary>
@@ -71,9 +73,10 @@ namespace Project_Slayer {
 		public int Durability {
 			get { return durability; }
 			set {
-				durability = rng.Next((int)(minStat*10), (int)(maxStat*10));
+				durability = value;
 			}
 		}
+		
 		/// <summary>
 		/// The User's agility stat.
 		/// </summary>
@@ -81,7 +84,7 @@ namespace Project_Slayer {
 		public int Agility {
 			get { return agility; }
 			set {
-				agility = rng.Next(minStat, maxStat);
+				agility = value;
 			}
 		}
 
@@ -214,6 +217,11 @@ namespace Project_Slayer {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
+				User.strength = rng.Next(minStat, maxStat);
+				User.mana = rng.Next(minStat, maxStat);
+				User.durability = rng.Next((int)(minStat * 10), (int)(maxStat * 10));
+				User.agility = rng.Next(minStat, maxStat);
+
 				string serialized = JsonSerializer.Serialize(User);
 
 				if (File.Exists(fileName)) {
