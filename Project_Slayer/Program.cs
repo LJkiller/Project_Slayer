@@ -114,7 +114,7 @@ namespace Project_Slayer {
 			string userNameInput = Console.ReadLine();
 			Console.WriteLine("To which file do you want to save your character?");
 			FileNameInput = Console.ReadLine();
-			Program.user = new User(userNameInput, 0, 0, 0, 0, 0, 0, 0);
+			Program.user = new User(userNameInput);
 			Program.user.CreateUser(userNameInput, FileNameInput, Program.user);
 		}
 
@@ -171,7 +171,7 @@ namespace Project_Slayer {
 		static void SetUp() {
 			textManager = new TextManager();
 			fileManager = new FileManager();
-			user = new User("DefaultUsername",0,0,0,0,0,0,0);
+			user = new User("DefaultUsername");
 			run1 = true;
 			run2 = true;
 			run3 = true;
@@ -192,6 +192,7 @@ namespace Project_Slayer {
 			if (opt.ToLower() == "load") {
 				try {
 					user = user.GetUserInfo(FileNameInput);
+					user.DisplayInfo();
 					StartScreen(false);
 				} catch (ArgumentException e) {
 					Console.WriteLine($"Slight problem; {e}");
@@ -236,8 +237,8 @@ namespace Project_Slayer {
 		static void Main(string[] args) {
 
 			SetUp();
-			SetUpTest();
-			//LoadTest();
+			//SetUpTest();
+			LoadTest();
 			//EntityListTest();
 
 			//fileManager.DisplayAllFiles();

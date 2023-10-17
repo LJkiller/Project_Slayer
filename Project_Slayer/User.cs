@@ -191,16 +191,8 @@ namespace Project_Slayer {
 		/// </summary>
 		/// <param name="initialUserName"></param>
 		[JsonConstructor]
-		public User(string userName, int strength, int mana, int durability, int agility, int enemyCount, int floorLevel, int dodgeCount) {
+		public User(string userName) {
 			this.UserName = userName;
-			this.Strength = strength;
-			this.Mana = mana;
-			this.Durability = durability;
-			this.Agility = agility;
-
-			this.EnemyCount = enemyCount;
-			this.FloorLevel = floorLevel;
-			this.DodgeCount = dodgeCount;
 		}
 
 		#endregion
@@ -255,15 +247,6 @@ namespace Project_Slayer {
 					string serializedFromFile = File.ReadAllText(fileName);
 
 					Console.WriteLine($"Serialized JSON from file:");
-
-					Console.WriteLine($"UserName:   {UserName}");
-					Console.WriteLine($"Strength:   {Strength}");
-					Console.WriteLine($"Mana:       {Mana}");
-					Console.WriteLine($"Durability: {Durability}");
-					Console.WriteLine($"Agility:    {Agility}");
-					Console.WriteLine($"FloorLevel: {FloorLevel}");
-					Console.WriteLine($"EnemyCount: {EnemyCount}");
-					Console.WriteLine($"DodgeCount: {DodgeCount}");
 
 					return JsonSerializer.Deserialize<User>(serializedFromFile);
 				} else {

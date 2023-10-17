@@ -98,7 +98,7 @@ namespace Project_Slayer {
 					int backupIndex = i;
 					fileAmount++;
 
-					Console.Write($"{fileAmount,+5}: {Path.GetFileName(saveFiles[saveIndex]), -30} : {Path.GetFileName(saveFiles[backupIndex])}\n");
+					Console.Write($"{fileAmount,+5}: {Path.GetFileName(saveFiles[saveIndex]), -30} ({fileAmount}: {Path.GetFileName(saveFiles[backupIndex])})\n");
 				}
 				Console.WriteLine();
 
