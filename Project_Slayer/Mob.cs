@@ -64,6 +64,7 @@ namespace Project_Slayer {
 			base.DisplayInfo();
 			Console.WriteLine($"CoinDrop: {coinDrop}, ExpDrop: {expDrop}");
 		}
+		
 		/// <summary>
 		/// Initializes new instance of Mob class.
 		/// </summary>

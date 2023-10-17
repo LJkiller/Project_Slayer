@@ -24,6 +24,7 @@ namespace Project_Slayer {
 	public abstract class Entity : IDrawable {
 		// __________
 		//(👍 ͡❛ ▭ ͡❛)👍 En(tit)y
+		//	  /   \
 
 		#region RNG
 		//Mob and User stats for rng usage in inherited classes (ex Human).
@@ -81,7 +82,7 @@ namespace Project_Slayer {
 		/// Method responsible of attacking.
 		/// </summary>
 		public virtual void Attack(string attackType) {
-			Console.WriteLine("The Entity should've attacked!");
+			Console.WriteLine("Whaazaa! The Entity should've attacked!");
 		}
 
 		#endregion

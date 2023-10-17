@@ -91,14 +91,29 @@ namespace Project_Slayer {
 			int fileAmount = 0;
 
 			Console.WriteLine("All current savefiles:\n(Alphabetical Order)\n");
-
 			try {
 				for (int i = 0; i < saveFiles.Length; i += 2) {
 					int saveIndex = i+1;
 					int backupIndex = i;
 					fileAmount++;
 
-					Console.Write($"{fileAmount,+5}: {Path.GetFileName(saveFiles[saveIndex]), -30} ({fileAmount}: {Path.GetFileName(saveFiles[backupIndex])})\n");
+					Console.WriteLine($"{fileAmount}: {Path.GetFileName(saveFiles[saveIndex]), -30} : {Path.GetFileName(saveFiles[backupIndex])}");
+				}
+				if (saveFiles.Length > 0) {
+					//Gets filenames from filepaths.
+					//Converts to an array for next method to function.
+					string[] fileNames = saveFiles.Select(file => Path.GetFileName(file)).ToArray();
+
+					//Sorts for last modified file.
+					string latestFile = saveFiles
+						.OrderByDescending(f => File.GetLastWriteTime(f))
+						.FirstOrDefault();
+					DateTime lastWriteTime = File.GetLastWriteTime(latestFile);
+
+					Console.WriteLine($"Latest saved file: {lastWriteTime}:\n{Path.GetFileName(latestFile)}");
+				} 
+				else {
+					Console.WriteLine("No matching files found.");
 				}
 				Console.WriteLine();
 

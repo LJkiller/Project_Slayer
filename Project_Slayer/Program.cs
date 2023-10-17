@@ -186,13 +186,13 @@ namespace Project_Slayer {
 		/// </summary>
 		static void LoadTest() {
 			Console.WriteLine("File?");
+			fileManager.DisplayAllFiles();
 			FileNameInput = Console.ReadLine();
 			Console.WriteLine("Load me up");
 			string opt = Console.ReadLine();
 			if (opt.ToLower() == "load") {
 				try {
 					user = user.GetUserInfo(FileNameInput);
-					user.DisplayInfo();
 					StartScreen(false);
 				} catch (ArgumentException e) {
 					Console.WriteLine($"Slight problem; {e}");
@@ -240,8 +240,6 @@ namespace Project_Slayer {
 			//SetUpTest();
 			LoadTest();
 			//EntityListTest();
-
-			//fileManager.DisplayAllFiles();
 
 			Console.ReadLine();
 		}

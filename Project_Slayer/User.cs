@@ -242,13 +242,20 @@ namespace Project_Slayer {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
-				if (File.Exists(fileName) || File.Exists(backupFileName)) {
-					Console.WriteLine("\nFile found!");
-					string serializedFromFile = File.ReadAllText(fileName);
+				if (File.Exists(backupFileName)) {
+					if (File.Exists(fileName)) {
+						Console.WriteLine("\nFile found!");
+						string serializedFromFile = File.ReadAllText(fileName);
 
-					Console.WriteLine($"Serialized JSON from file:");
+						Console.WriteLine($"Serialized JSON from file:");
+						return JsonSerializer.Deserialize<User>(serializedFromFile);
+					} else {
+						Console.WriteLine("\nFile found!");
+						string serializedBackupFromFile = File.ReadAllText(fileName);
 
-					return JsonSerializer.Deserialize<User>(serializedFromFile);
+						Console.WriteLine($"Serialized JSON from file:");
+						return JsonSerializer.Deserialize<User>(serializedBackupFromFile);
+					}					
 				} else {
 					Console.WriteLine($"File not found! Cannot load user.");
 					return null;
