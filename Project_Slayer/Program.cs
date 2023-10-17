@@ -114,8 +114,9 @@ namespace Project_Slayer {
 			string userNameInput = Console.ReadLine();
 			Console.WriteLine("To which file do you want to save your character?");
 			FileNameInput = Console.ReadLine();
-			Program.user = new User(userNameInput);
-			Program.user.CreateUser(userNameInput, FileNameInput, Program.user);
+			user = new User(userNameInput);
+			user.CreateUser(userNameInput, FileNameInput, user);
+			//Continue to game.
 		}
 
 		/// <summary>
@@ -195,6 +196,7 @@ namespace Project_Slayer {
 					user = user.GetUserInfo(FileNameInput);
 					Console.WriteLine("Recieved data from JSON:");
 					user.DisplayInfo();
+					//Continue here to game.
 					StartScreen(false);
 				} catch (ArgumentException e) {
 					Console.WriteLine($"Slight problem; {e}");
@@ -239,8 +241,8 @@ namespace Project_Slayer {
 		static void Main(string[] args) {
 
 			SetUp();
-			//SetUpTest();
-			LoadTest();
+			SetUpTest();
+			//LoadTest();
 			//EntityListTest();
 
 			Console.ReadLine();
