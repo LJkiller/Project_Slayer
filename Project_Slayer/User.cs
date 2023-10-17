@@ -246,14 +246,10 @@ namespace Project_Slayer {
 					if (File.Exists(fileName)) {
 						Console.WriteLine("\nFile found!");
 						string serializedFromFile = File.ReadAllText(fileName);
-
-						Console.WriteLine($"Serialized JSON from file:");
 						return JsonSerializer.Deserialize<User>(serializedFromFile);
 					} else {
 						Console.WriteLine("\nFile found!");
 						string serializedBackupFromFile = File.ReadAllText(fileName);
-
-						Console.WriteLine($"Serialized JSON from file:");
 						return JsonSerializer.Deserialize<User>(serializedBackupFromFile);
 					}					
 				} else {

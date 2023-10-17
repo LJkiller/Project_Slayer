@@ -193,6 +193,8 @@ namespace Project_Slayer {
 			if (opt.ToLower() == "load") {
 				try {
 					user = user.GetUserInfo(FileNameInput);
+					Console.WriteLine("Recieved data from JSON:");
+					user.DisplayInfo();
 					StartScreen(false);
 				} catch (ArgumentException e) {
 					Console.WriteLine($"Slight problem; {e}");
