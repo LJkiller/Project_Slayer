@@ -32,6 +32,8 @@ namespace Project_Slayer {
 	public class User : Entity {
 
 		#region User Attributes
+		private int coins;
+		private int exp;
 
 		/// <summary>
 		/// The User's name.
@@ -85,6 +87,30 @@ namespace Project_Slayer {
 			get { return agility; }
 			set {
 				agility = value;
+			}
+		}
+
+
+
+		/// <summary>
+		/// The User's amount of coins.
+		/// </summary>
+		[JsonPropertyName("Coins")]
+		public int Coins {
+			get { return coins; }
+			set {
+				coins = value;
+			}
+		}
+
+		/// <summary>
+		/// The User's amount of exp.
+		/// </summary>
+		[JsonPropertyName("Exp")]
+		public int Exp {
+			get { return exp; }
+			set {
+				exp = value;
 			}
 		}
 
@@ -164,11 +190,13 @@ namespace Project_Slayer {
 		/// Additional info: UserName, EnemyCount, FloorLevel.
 		/// </summary>
 		public override void DisplayInfo() {
-			Console.WriteLine($"Username: {UserName}");
+			Console.WriteLine($"{UserName,21}: Username");
 			base.DisplayInfo();
-			Console.WriteLine($"EnemyCount: {EnemyCount}");
-			Console.WriteLine($"FloorLevel: {FloorLevel}");
-			Console.WriteLine($"DodgeCount: {DodgeCount}\n");
+			Console.WriteLine($"{Coins,21}: Coins");
+			Console.WriteLine($"{Exp,21}: Exp");
+			Console.WriteLine($"{EnemyCount,21}: EnemyCount");
+			Console.WriteLine($"{FloorLevel,21}: FloorLevel");
+			Console.WriteLine($"{DodgeCount,21}: DodgeCount\n");
 		}
 		
 		/// <summary>
@@ -180,6 +208,8 @@ namespace Project_Slayer {
 			Mana = 0;
 			Durability = 0;
 			Agility = 0;
+			Coins = 0;
+			Exp = 0;
 
 			EnemyCount = 0;
 			FloorLevel = 0;
@@ -274,6 +304,8 @@ namespace Project_Slayer {
 					Console.WriteLine($"Mana:       {user.Mana}");
 					Console.WriteLine($"Durability: {user.Durability}");
 					Console.WriteLine($"Agility:    {user.Agility}");
+					Console.WriteLine($"Coins:		{user.Coins}");
+					Console.WriteLine($"Exp:		{user.Exp}");
 					Console.WriteLine($"FloorLevel: {user.FloorLevel}");
 					Console.WriteLine($"EnemyCount: {user.EnemyCount}");
 					Console.WriteLine($"DodgeCount: {user.DodgeCount}\n");
@@ -308,6 +340,7 @@ namespace Project_Slayer {
 		public void Escape() {
 			Console.WriteLine("You've escaped!");
 		}
+		
 		#endregion
 
 	}

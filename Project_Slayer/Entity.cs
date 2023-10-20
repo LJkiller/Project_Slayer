@@ -51,7 +51,10 @@ namespace Project_Slayer {
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// </summary>
 		public virtual void DisplayInfo() {
-			Console.WriteLine($"Strength: {strength}, Mana: {mana}, Durability: {durability}, Agility: {agility}");
+			Console.WriteLine($"{strength,21}: Strength");
+			Console.WriteLine($"{mana,21}: Mana");
+			Console.WriteLine($"{durability,21}: Durability");
+			Console.WriteLine($"{agility,21}: Agility");
 		}
 
 		/// <summary>
