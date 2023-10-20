@@ -94,7 +94,7 @@ namespace Project_Slayer {
 			else if (inputCount.Count > 1) {
 			} 
 			else {
-				Console.WriteLine("Invalid input, please try again?");
+				Console.WriteLine("Invalid input, please try again. If you need help: [!HELP]");
 			}
 		}
 
@@ -110,13 +110,30 @@ namespace Project_Slayer {
 		/// </summary>
 		/// <param name="user"></param>
 		static void UserCreationScreen(User user) {
-			Console.WriteLine("What do you want to be called?");
-			string userNameInput = Console.ReadLine();
-			Console.WriteLine("To which file do you want to save your character?");
-			FileNameInput = Console.ReadLine();
-			user = new User(userNameInput);
-			user.CreateUser(userNameInput, FileNameInput, user);
-			//Continue to game.
+			while (run2) {
+				Console.WriteLine("What do you want to be called? (Max 20 Characters)");
+				string userNameInput = Console.ReadLine();
+				Console.WriteLine("Are you sure?\n[YES] or [NO]");
+				string opt = Console.ReadLine();
+				if (opt.ToLower() == "yes" || opt.ToLower() == "y") {
+					Console.WriteLine("To which file do you want to save your character?");
+					FileNameInput = Console.ReadLine();
+					user = new User(userNameInput);
+					user.CreateUser(userNameInput, FileNameInput, user);
+					Console.WriteLine("Press any [KEY] to continue.");
+					Console.ReadKey();
+					//Continue to game
+				} else if (opt.ToLower() == "no" || opt.ToLower() == "n") {
+					Console.Clear();
+					continue;
+				} else if (opt.ToLower() == "quit" || opt.ToLower() == "q") {
+					Console.Clear();
+					run1 = false;
+					run2 = false;
+				} else {
+					Console.WriteLine("[YES] or [NO].");
+				}
+			}
 		}
 
 		/// <summary>
@@ -139,11 +156,10 @@ namespace Project_Slayer {
 					Console.Clear();
 					UserCreationScreen(user);
 				} 
-				else if (setUpInput.ToLower() == "continue" || setUpInput.ToLower() == "load" ||
-					setUpInput.ToLower() == "fortsätt") {
+				else if (setUpInput.ToLower() == "continue" || setUpInput.ToLower() == "load") {
 					run1 = false;
 					Console.Clear();
-					LoadTest();
+					LoadScreen();
 				} 
 				else if (setUpInput.ToLower() == "help" || setUpInput.ToLower() == "!help") {
 					run1 = false;
@@ -160,6 +176,37 @@ namespace Project_Slayer {
 				}
 				else {
 					Console.WriteLine("Write an appropiate input: 'start', 'continue', 'help' or 'quit'\n");
+				}
+			}
+		}
+
+		/// <summary>
+		/// Load Screen.
+		/// </summary>
+		static void LoadScreen() {
+			while (run2) {
+				Console.WriteLine("Select your preferred file:");
+				fileManager.DisplayAllFiles();
+				FileNameInput = Console.ReadLine();
+				Console.WriteLine("[CONTINUE] or [CHANGE]?");
+				string opt = Console.ReadLine();
+				if (opt.ToLower() == "continue") {
+					try {
+						user = user.GetUserInfo(FileNameInput);
+						Console.WriteLine("Recieved data from JSON:\n");
+						user.DisplayInfo();
+						//Continue here to game.
+						StartScreen(false);
+					} catch (ArgumentException e) {
+						Console.WriteLine($"Slight problem; {e}");
+					}
+				} else if (opt.ToLower() == "change") {
+					Console.Clear();
+					continue;
+				} else if (opt.ToLower() == "quit" || opt.ToLower() == "q") {
+					Console.Clear();
+					run1 = false;
+					run2 = false;
 				}
 			}
 		}
@@ -181,30 +228,6 @@ namespace Project_Slayer {
 		#endregion
 
 		#region Sandbox - Testing
-
-		/// <summary>
-		/// Testing the loading function.
-		/// </summary>
-		static void LoadTest() {
-			Console.WriteLine("File?");
-			fileManager.DisplayAllFiles();
-			FileNameInput = Console.ReadLine();
-			Console.WriteLine("Load me up");
-			string opt = Console.ReadLine();
-			if (opt.ToLower() == "load") {
-				try {
-					user = user.GetUserInfo(FileNameInput);
-					Console.WriteLine("Recieved data from JSON:");
-					user.DisplayInfo();
-					//Continue here to game.
-					StartScreen(false);
-				} catch (ArgumentException e) {
-					Console.WriteLine($"Slight problem; {e}");
-				}
-			} else {
-
-			}
-		}
 
 		/// <summary>
 		/// Testing the StartScreen & SetUp in the beginning.
@@ -241,9 +264,10 @@ namespace Project_Slayer {
 		static void Main(string[] args) {
 
 			SetUp();
-			SetUpTest();
-			//LoadTest();
 			//EntityListTest();
+
+			SetUpTest();
+			//LoadScreen();
 
 			Console.ReadLine();
 		}

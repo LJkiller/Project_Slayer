@@ -256,7 +256,7 @@ namespace Project_Slayer {
 				File.WriteAllText(backupFileName, serialized);
 
 				Console.WriteLine("User data saved successfully.\nUser created successfully.");
-				Console.WriteLine($"Your data:");
+				Console.WriteLine($"Your data:\n");
 				User.DisplayInfo();
 			} catch (ArgumentException e) {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
