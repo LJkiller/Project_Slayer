@@ -30,9 +30,9 @@ namespace Project_Slayer {
 		#region Variables
 
 		static string FileNameInput;
-		static bool run1 = true;
-		static bool run2 = true;
-		static bool run3 = true;
+		static bool run1;
+		static bool run2;
+		static bool run3;
 
 		private static TextManager textManager;
 		private static FileManager fileManager;
@@ -91,6 +91,7 @@ namespace Project_Slayer {
 				}
 
 			} 
+			
 			else if (inputCount.Count > 1) {
 			} 
 			else {
@@ -123,6 +124,7 @@ namespace Project_Slayer {
 					Console.WriteLine("Press any [KEY] to continue.");
 					Console.ReadKey();
 					//Continue to game
+					run2 = false;
 				} else if (opt.ToLower() == "no" || opt.ToLower() == "n") {
 					Console.Clear();
 					continue;
@@ -144,7 +146,7 @@ namespace Project_Slayer {
 			if (displayTitle) {
 				textManager.PrintTitle();
 			}
-			Console.WriteLine("\nDo you want to start a new game?            Write 'Start'.");
+			Console.WriteLine("Do you want to start a new game?            Write 'Start'.");
 			Console.WriteLine("Do you want to continue from a save file?   Write 'continue'.");
 			Console.WriteLine("Do you want help?                           Write 'help'.");
 			Console.WriteLine("Do you want to quit?                        Write 'quit'.\n");
@@ -264,9 +266,9 @@ namespace Project_Slayer {
 		static void Main(string[] args) {
 
 			SetUp();
-			//EntityListTest();
+			EntityListTest();
 
-			SetUpTest();
+			//SetUpTest();
 			//LoadScreen();
 
 			Console.ReadLine();
