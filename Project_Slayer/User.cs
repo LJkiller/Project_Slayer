@@ -289,8 +289,8 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Get User info (load user) from Json-file.
 		/// </summary>
-		/// <param name="fileName"></param>
-		/// <returns></returns>
+		/// <param name="fileNameInput"></param>
+		/// <returns>The user information loaded from the JSON file.</returns>
 		public User GetUserInfo(string fileNameInput) {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
