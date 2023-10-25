@@ -27,6 +27,14 @@ namespace Project_Slayer {
 
 	class Program {
 
+		/// <summary>
+		/// Just holding it for the time being.
+		/// </summary>
+		static void Game() {
+			SetUp();
+
+		}
+
 		#region Variables
 
 		static string FileNameInput;
@@ -175,8 +183,11 @@ namespace Project_Slayer {
 				} 
 				else if (setUpInput.ToLower() == "cmds-check") {
 					user.CheckUserInfo(user);
-				}
-				else {
+				} 
+				else if (setUpInput.ToLower() == "cmds-test") {
+					Console.Clear();
+					EntityListTest();
+				} else {
 					Console.WriteLine("Write an appropiate input: 'start', 'continue', 'help' or 'quit'\n");
 				}
 			}
@@ -197,12 +208,13 @@ namespace Project_Slayer {
 						user = user.GetUserInfo(FileNameInput);
 						Console.WriteLine("Recieved data from JSON:\n");
 						user.DisplayInfo();
-						//Continue here to game.
-						StartScreen(false);
+						run2 = false;
+						Game();
 					} catch (ArgumentException e) {
 						Console.WriteLine($"Slight problem; {e}");
 					}
-				} else if (opt.ToLower() == "change") {
+				} 
+				else if (opt.ToLower() == "change") {
 					Console.Clear();
 					continue;
 				} else if (opt.ToLower() == "quit" || opt.ToLower() == "q") {
@@ -252,6 +264,7 @@ namespace Project_Slayer {
 			entityList.Add(new Goblin());
 			entityList.Add(new Goblin());
 			entityList.Add(new Goblin());
+			entityList.Add(new GoblinLord());
 
 
 			Console.WriteLine();
@@ -266,9 +279,9 @@ namespace Project_Slayer {
 		static void Main(string[] args) {
 
 			SetUp();
-			EntityListTest();
+			//EntityListTest();
 
-			//SetUpTest();
+			SetUpTest();
 			//LoadScreen();
 
 			Console.ReadLine();

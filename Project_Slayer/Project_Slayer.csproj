@@ -71,9 +71,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boss.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="Goblin.cs" />
+    <Compile Include="GoblinLord.cs" />
     <Compile Include="Human.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="Mob.cs" />

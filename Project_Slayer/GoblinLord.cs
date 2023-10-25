@@ -5,11 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Project_Slayer {
-
-	/// <summary>
-	/// Represents base data for Goblin Class.
-	/// </summary>
-	class Goblin : Mob {
+	public class GoblinLord : Boss {
 
 		#region Race Attributes
 
@@ -19,7 +15,7 @@ namespace Project_Slayer {
 		public string MobName {
 			get { return mobName; }
 			set {
-				mobName = "Goblin";
+				mobName = "Goblin Lord";
 			}
 		}
 
@@ -29,7 +25,7 @@ namespace Project_Slayer {
 		public double CoinDrop {
 			get { return coinDrop; }
 			set {
-				coinDrop = rng.Next((int)(minDropStat*1.5), (int)(maxDropStat*1.5));
+				coinDrop = rng.Next((int)(minDropStat * 1.5*3), (int)(maxDropStat * 1.5*3));
 			}
 		}
 		/// <summary>
@@ -38,7 +34,7 @@ namespace Project_Slayer {
 		public double ExpDrop {
 			get { return expDrop; }
 			set {
-				expDrop = rng.Next((int)(minDropStat*0.7), (int)(maxDropStat*0.7));
+				expDrop = rng.Next((int)(minDropStat * 0.7*3), (int)(maxDropStat * 0.7*3));
 			}
 		}
 
@@ -48,7 +44,7 @@ namespace Project_Slayer {
 		public double Strength {
 			get { return strength; }
 			set {
-				strength = rng.Next((int)(minStat*1.2), (int)(maxStat*1.2));
+				strength = rng.Next((int)(minStat * 1.2*2), (int)(maxStat * 1.2*2));
 			}
 		}
 		/// <summary>
@@ -57,7 +53,7 @@ namespace Project_Slayer {
 		public double Mana {
 			get { return mana; }
 			set {
-				mana = rng.Next((int)(minStat*0.7), (int)(maxStat*0.7));
+				mana = rng.Next((int)(minStat * 0.7*1.5), (int)(maxStat * 0.7*1.5));
 			}
 		}
 		/// <summary>
@@ -66,7 +62,7 @@ namespace Project_Slayer {
 		public double Durability {
 			get { return durability; }
 			set {
-				durability = rng.Next((int)(minStat*6), (int)(maxStat*6));
+				durability = rng.Next((int)(minStat * 6*3), (int)(maxStat * 6*3));
 			}
 		}
 		/// <summary>
@@ -75,10 +71,9 @@ namespace Project_Slayer {
 		public double Agility {
 			get { return agility; }
 			set {
-				agility = rng.Next((int)(minStat*1.3), (int)(maxStat*1.3));
+				agility = rng.Next((int)(minStat * 1.3*1.5), (int)(maxStat * 1.3*1.5));
 			}
 		}
-		
 		#endregion
 
 		#region Information & Initiator
@@ -87,7 +82,7 @@ namespace Project_Slayer {
 		/// Default attribute holder.
 		/// </summary>
 		private void SetDefaultAttributes() {
-			MobName = "DefaultGoblin";
+			MobName = "DefaultGoblinLord";
 			CoinDrop = 0;
 			ExpDrop = 0;
 			Strength = 0;
@@ -98,7 +93,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Initializes new instance of Goblin class.
 		/// </summary>
-		public Goblin() : base() {
+		public GoblinLord() : base() {
 			SetDefaultAttributes();
 		}
 

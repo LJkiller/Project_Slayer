@@ -119,6 +119,7 @@ namespace Project_Slayer {
 		#region Floor - Enemies - Combat
 		private int enemyCount;
 		private int dodgeCount;
+		private int bossCount;
 
 		#region Floor
 
@@ -149,7 +150,7 @@ namespace Project_Slayer {
 		#region Enemies
 
 		/// <summary>
-		/// The number of enemy slain increases by 1.
+		/// The number of enemy slain, increases by 1.
 		/// </summary>
 		public void EnemySlain() {
 			enemyCount++;
@@ -162,6 +163,23 @@ namespace Project_Slayer {
 			get { return enemyCount; }
 			set {
 				enemyCount = value;
+			}
+		}
+
+		/// <summary>
+		/// The number of bosses slain, increases by 1.
+		/// </summary>
+		public void BossSlain() {
+			bossCount++;
+		}
+		/// <summary>
+		/// The number of User's slain bosses.
+		/// </summary>
+		[JsonPropertyName("BossCount")]
+		public int BossCount {
+			get { return bossCount; }
+			set {
+				bossCount = value;
 			}
 		}
 
@@ -194,9 +212,13 @@ namespace Project_Slayer {
 			base.DisplayInfo();
 			Console.WriteLine($"{Coins,21}: Coins");
 			Console.WriteLine($"{Exp,21}: Exp");
-			Console.WriteLine($"{EnemyCount,21}: EnemyCount");
+			Console.WriteLine($"{EnemyCount,21}: EnemyCount\n");
+
+			/* Information that should not be displayed.
+			Console.WriteLine($"{BossCount,21}: BossCount");
 			Console.WriteLine($"{FloorLevel,21}: FloorLevel");
 			Console.WriteLine($"{DodgeCount,21}: DodgeCount\n");
+			*/
 		}
 		
 		/// <summary>
@@ -212,6 +234,7 @@ namespace Project_Slayer {
 			Exp = 0;
 
 			EnemyCount = 0;
+			BossCount = 0;
 			FloorLevel = 0;
 			DodgeCount = 0;
 		}
@@ -299,16 +322,20 @@ namespace Project_Slayer {
 		public void CheckUserInfo(User user) {
 			try {
 				if (user != null) {
-					Console.WriteLine($"UserName:   {user.UserName}");
-					Console.WriteLine($"Strength:   {user.Strength}");
-					Console.WriteLine($"Mana:       {user.Mana}");
-					Console.WriteLine($"Durability: {user.Durability}");
-					Console.WriteLine($"Agility:    {user.Agility}");
-					Console.WriteLine($"Coins:		{user.Coins}");
-					Console.WriteLine($"Exp:		{user.Exp}");
-					Console.WriteLine($"FloorLevel: {user.FloorLevel}");
-					Console.WriteLine($"EnemyCount: {user.EnemyCount}");
-					Console.WriteLine($"DodgeCount: {user.DodgeCount}\n");
+					Console.WriteLine($"{user.UserName,21}: UserName");
+					Console.WriteLine($"{user.Strength,21}: Strength");
+					Console.WriteLine($"{user.Mana,21}: Mana");
+					Console.WriteLine($"{user.Durability,21}: Durability");
+					Console.WriteLine($"{user.Agility,21}: Agility");
+					Console.WriteLine($"{user.Coins,21}: Coins");
+					Console.WriteLine($"{user.Exp,21}: Exp");
+					Console.WriteLine($"{user.FloorLevel,21}: FloorLevel\n");
+
+					/* information that should not be diplayed.
+					Console.WriteLine($"{user.EnemyCount,21}: EnemyCount");
+					Console.WriteLine($"{user.EnemyCount,21}: BossCount");
+					Console.WriteLine($"{user.DodgeCount,21}: DodgeCount\n");
+					*/
 				} else {
 					Console.WriteLine("The user object is not initialized.");
 				}
