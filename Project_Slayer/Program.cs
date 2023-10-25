@@ -32,7 +32,26 @@ namespace Project_Slayer {
 		/// </summary>
 		static void Game() {
 			SetUp();
+		}
+		/// <summary>
+		/// Just holding it for the time being.
+		/// </summary>
+		static void HelpScreen() {
+			SetUp();
+			Console.WriteLine("What kind of help do you need?\n[GAME] or [COMMANDS].");
+			while (run1) {
+				string inputHelp = Console.ReadLine();
 
+				if (inputHelp.ToLower() == "game") {
+					Console.WriteLine("");
+				} 
+				else if (inputHelp.ToLower() == "commands" || inputHelp.ToLower() == "cmds") {
+					Console.WriteLine("");
+				} 
+				else {
+					Console.WriteLine("[GAME] or [COMMANDS]");
+				}
+			}
 		}
 
 		#region Variables
@@ -140,8 +159,7 @@ namespace Project_Slayer {
 				} 
 				else if (setUpInput.ToLower() == "help" || setUpInput.ToLower() == "!help") {
 					Console.Clear();
-					Console.WriteLine("kys");
-
+					HelpScreen();
 				} 
 				else if (setUpInput.ToLower() == "quit" || setUpInput.ToLower() == "q") {
 					run1 = false;
@@ -183,6 +201,7 @@ namespace Project_Slayer {
 						user.CreateUser(userNameInput, FileNameInput, user);
 						Console.WriteLine("Press any [KEY] to continue.");
 						Console.ReadKey();
+						run1 = false;
 						run2 = false;
 						Game();
 					} else if (opt.ToLower() == "no" || opt.ToLower() == "n") {
@@ -207,6 +226,7 @@ namespace Project_Slayer {
 				Console.WriteLine("Select your preferred file:");
 				fileManager.DisplayAllFiles();
 				FileNameInput = Console.ReadLine();
+
 				Console.WriteLine("[CONTINUE] or [CHANGE]?");
 				string opt = Console.ReadLine();
 				if (opt.ToLower() == "continue") {
@@ -214,10 +234,13 @@ namespace Project_Slayer {
 						user = user.GetUserInfo(FileNameInput);
 						Console.WriteLine("Recieved data from JSON:\n");
 						user.DisplayInfo();
+						run1 = false;
 						run2 = false;
+						Console.WriteLine("Press any [KEY] to continue.");
+						Console.ReadKey();
 						Game();
 					} catch (ArgumentException e) {
-						Console.WriteLine($"Slight problem; {e}");
+						Console.WriteLine($"Slight problem; {e.Message}");
 					}
 				} 
 				else if (opt.ToLower() == "change") {
