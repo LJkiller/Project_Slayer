@@ -169,29 +169,32 @@ namespace Project_Slayer {
 			while (run2) {
 				Console.WriteLine("What do you want to be called? (Max 20 Characters)");
 				string userNameInput = Console.ReadLine();
-				Console.WriteLine("Are you sure?\n[YES] or [NO]");
-				string opt = Console.ReadLine();
-				if (opt.ToLower() == "yes" || opt.ToLower() == "y") {
-					Console.WriteLine("To which file do you want to save your character?");
-					FileNameInput = Console.ReadLine();
-					user = new User(userNameInput);
-					user.CreateUser(userNameInput, FileNameInput, user);
-					Console.WriteLine("Press any [KEY] to continue.");
-					Console.ReadKey();
-					run2 = false;
-					Game();
-				} 
-				else if (opt.ToLower() == "no" || opt.ToLower() == "n") {
-					Console.Clear();
-					continue;
-				} 
-				else if (opt.ToLower() == "quit" || opt.ToLower() == "q") {
-					Console.Clear();
-					run1 = false;
-					run2 = false;
+
+				if (userNameInput.Length > 20) {
+					Console.WriteLine($"Max 20 characters ({userNameInput.Length} Characters).");
 				} 
 				else {
-					Console.WriteLine("[YES] or [NO].");
+					Console.WriteLine("Are you sure?\n[YES] or [NO]");
+					string opt = Console.ReadLine();
+					if (opt.ToLower() == "yes" || opt.ToLower() == "y") {
+						Console.WriteLine("To which file do you want to save your character?");
+						FileNameInput = Console.ReadLine();
+						user = new User(userNameInput);
+						user.CreateUser(userNameInput, FileNameInput, user);
+						Console.WriteLine("Press any [KEY] to continue.");
+						Console.ReadKey();
+						run2 = false;
+						Game();
+					} else if (opt.ToLower() == "no" || opt.ToLower() == "n") {
+						Console.Clear();
+						continue;
+					} else if (opt.ToLower() == "quit" || opt.ToLower() == "q") {
+						Console.Clear();
+						run1 = false;
+						run2 = false;
+					} else {
+						Console.WriteLine("[YES] or [NO].");
+					}
 				}
 			}
 		}
