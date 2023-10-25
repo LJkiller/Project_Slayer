@@ -24,7 +24,6 @@ namespace Project_Slayer {
 	public abstract class Entity : IDrawable {
 		// __________
 		//(👍 ͡❛ ▭ ͡❛)👍 En(tit)y
-		//	  /   \
 
 		#region RNG
 		//Mob and User stats for rng usage in inherited classes (ex Human).

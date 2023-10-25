@@ -114,39 +114,6 @@ namespace Project_Slayer {
 		#region Screens
 
 		/// <summary>
-		/// Represents a screen for creating a user by gathering necessary information.
-		/// Information is then sent to CreateUser().
-		/// </summary>
-		/// <param name="user"></param>
-		static void UserCreationScreen(User user) {
-			while (run2) {
-				Console.WriteLine("What do you want to be called? (Max 20 Characters)");
-				string userNameInput = Console.ReadLine();
-				Console.WriteLine("Are you sure?\n[YES] or [NO]");
-				string opt = Console.ReadLine();
-				if (opt.ToLower() == "yes" || opt.ToLower() == "y") {
-					Console.WriteLine("To which file do you want to save your character?");
-					FileNameInput = Console.ReadLine();
-					user = new User(userNameInput);
-					user.CreateUser(userNameInput, FileNameInput, user);
-					Console.WriteLine("Press any [KEY] to continue.");
-					Console.ReadKey();
-					//Continue to game
-					run2 = false;
-				} else if (opt.ToLower() == "no" || opt.ToLower() == "n") {
-					Console.Clear();
-					continue;
-				} else if (opt.ToLower() == "quit" || opt.ToLower() == "q") {
-					Console.Clear();
-					run1 = false;
-					run2 = false;
-				} else {
-					Console.WriteLine("[YES] or [NO].");
-				}
-			}
-		}
-
-		/// <summary>
 		/// The game's start screen.
 		/// </summary>
 		static void StartScreen(bool displayTitle) {
@@ -172,7 +139,6 @@ namespace Project_Slayer {
 					LoadScreen();
 				} 
 				else if (setUpInput.ToLower() == "help" || setUpInput.ToLower() == "!help") {
-					run1 = false;
 					Console.Clear();
 					Console.WriteLine("kys");
 
@@ -181,14 +147,51 @@ namespace Project_Slayer {
 					run1 = false;
 					Console.Clear();
 				} 
-				else if (setUpInput.ToLower() == "cmds-check") {
-					user.CheckUserInfo(user);
+				else if (setUpInput.ToLower() == "cmds-check" || setUpInput.ToLower() == "check") {
+					Console.WriteLine();
+					user.CheckUserInfo(user, setUpInput);
 				} 
 				else if (setUpInput.ToLower() == "cmds-test") {
 					Console.Clear();
 					EntityListTest();
 				} else {
 					Console.WriteLine("Write an appropiate input: 'start', 'continue', 'help' or 'quit'\n");
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Represents a screen for creating a user by gathering necessary information.
+		/// Information is then sent to CreateUser().
+		/// </summary>
+		/// <param name="user"></param>
+		static void UserCreationScreen(User user) {
+			while (run2) {
+				Console.WriteLine("What do you want to be called? (Max 20 Characters)");
+				string userNameInput = Console.ReadLine();
+				Console.WriteLine("Are you sure?\n[YES] or [NO]");
+				string opt = Console.ReadLine();
+				if (opt.ToLower() == "yes" || opt.ToLower() == "y") {
+					Console.WriteLine("To which file do you want to save your character?");
+					FileNameInput = Console.ReadLine();
+					user = new User(userNameInput);
+					user.CreateUser(userNameInput, FileNameInput, user);
+					Console.WriteLine("Press any [KEY] to continue.");
+					Console.ReadKey();
+					run2 = false;
+					Game();
+				} 
+				else if (opt.ToLower() == "no" || opt.ToLower() == "n") {
+					Console.Clear();
+					continue;
+				} 
+				else if (opt.ToLower() == "quit" || opt.ToLower() == "q") {
+					Console.Clear();
+					run1 = false;
+					run2 = false;
+				} 
+				else {
+					Console.WriteLine("[YES] or [NO].");
 				}
 			}
 		}

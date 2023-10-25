@@ -319,7 +319,8 @@ namespace Project_Slayer {
 		/// Method resonsible of checking a user's stats.
 		/// </summary>
 		/// <param name="user"></param>
-		public void CheckUserInfo(User user) {
+		public void CheckUserInfo(User user, string input) {
+
 			try {
 				if (user != null) {
 					Console.WriteLine($"{user.UserName,21}: UserName");
@@ -331,11 +332,12 @@ namespace Project_Slayer {
 					Console.WriteLine($"{user.Exp,21}: Exp");
 					Console.WriteLine($"{user.FloorLevel,21}: FloorLevel\n");
 
-					/* information that should not be diplayed.
-					Console.WriteLine($"{user.EnemyCount,21}: EnemyCount");
-					Console.WriteLine($"{user.EnemyCount,21}: BossCount");
-					Console.WriteLine($"{user.DodgeCount,21}: DodgeCount\n");
-					*/
+					if (input == "cmds-check") {
+						Console.WriteLine($"{user.EnemyCount,21}: EnemyCount");
+						Console.WriteLine($"{user.EnemyCount,21}: BossCount");
+						Console.WriteLine($"{user.DodgeCount,21}: DodgeCount\n");
+					}
+
 				} else {
 					Console.WriteLine("The user object is not initialized.");
 				}
