@@ -32,7 +32,12 @@ namespace Project_Slayer {
 		/// </summary>
 		static void Game() {
 			SetUp();
+			Console.WriteLine("Game:");
+			while (run1) {
+				Console.WriteLine("Yes.");
+			}
 		}
+		
 		/// <summary>
 		/// Just holding it for the time being.
 		/// </summary>
@@ -40,21 +45,43 @@ namespace Project_Slayer {
 			SetUp();
 			Console.WriteLine("What kind of help do you need?\n[GAME] or [COMMANDS].");
 			while (run1) {
-				string inputHelp = Console.ReadLine();
+				string inputHelp = Console.ReadLine().ToLower();
 
-				if (inputHelp.ToLower() == "game") {
+				if (inputHelp == "game") {
+					Console.Clear();
+					textManager.PrintGameHelp();
+					run2 = true;
+				} else if (inputHelp == "commands" || inputHelp == "cmds") {
 					Console.WriteLine("");
-				} 
-				else if (inputHelp.ToLower() == "commands" || inputHelp.ToLower() == "cmds") {
-					Console.WriteLine("");
-				} 
-				else {
+				} else {
 					Console.WriteLine("[GAME] or [COMMANDS]");
+					continue;
+				}
+
+				Console.WriteLine("Do you wish to continue to game or check out more?\n[GAME] or [MORE]");
+				while (run2) {
+					string furtherInput = Console.ReadLine().ToLower();
+
+					if (furtherInput == "game" || furtherInput == "g") {
+						run1 = false;
+						run2 = false;
+						Console.Clear();
+						Game();
+					} else if (furtherInput == "more" || furtherInput == "m") {
+						Console.Clear();
+						Console.WriteLine("Available options: [GAME], [COMMANDS]");
+						break;
+					} else {
+						Console.WriteLine("[GAME] or [MORE].");
+					}
 				}
 			}
 		}
 
 		#region Variables
+
+		public static int availableFloors = 2;
+		public static string gameVersion = "v0.6.9-b";
 
 		static string FileNameInput;
 		static bool run1;
@@ -104,14 +131,19 @@ namespace Project_Slayer {
 				empty = "";
 			}
 
+			//Change every character to a small letter.
+			for (int i = 0; i < inputCount.Count; i++) {
+				inputCount[i].ToLower();
+			}
+
 			//Quick functions
 			if (inputCount.Count <= 1) {
 
-				if (inputCount[0].ToLower() == "save") {
+				if (inputCount[0] == "save") {
 					Console.WriteLine("Which file do you want to save to?");
 					FileNameInput = Console.ReadLine();
 					fileManager.Save(FileNameInput, user);
-				} else if (inputCount[0].ToLower() == "quit" || inputCount[0] == "q") {
+				} else if (inputCount[0] == "quit" || inputCount[0] == "q") {
 
 				} else {
 					Console.WriteLine("Invalid input, please try again?");
@@ -146,30 +178,30 @@ namespace Project_Slayer {
 			Console.WriteLine("Do you want to quit?                        Write 'quit'.\n");
 
 			while (run1) {
-				string setUpInput = Console.ReadLine();
-				if (setUpInput.ToLower() == "start" || setUpInput.ToLower() == "new game") {
+				string setUpInput = Console.ReadLine().ToLower();
+				if (setUpInput == "start" || setUpInput == "new game") {
 					run1 = false;
 					Console.Clear();
 					UserCreationScreen(user);
 				} 
-				else if (setUpInput.ToLower() == "continue" || setUpInput.ToLower() == "load") {
+				else if (setUpInput == "continue" || setUpInput == "load") {
 					run1 = false;
 					Console.Clear();
 					LoadScreen();
 				} 
-				else if (setUpInput.ToLower() == "help" || setUpInput.ToLower() == "!help") {
+				else if (setUpInput == "help" || setUpInput == "!help") {
 					Console.Clear();
 					HelpScreen();
 				} 
-				else if (setUpInput.ToLower() == "quit" || setUpInput.ToLower() == "q") {
+				else if (setUpInput == "quit" || setUpInput == "q") {
 					run1 = false;
 					Console.Clear();
 				} 
-				else if (setUpInput.ToLower() == "cmds-check" || setUpInput.ToLower() == "check") {
+				else if (setUpInput == "cmds-check" || setUpInput == "check") {
 					Console.WriteLine();
 					user.CheckUserInfo(user, setUpInput);
 				} 
-				else if (setUpInput.ToLower() == "cmds-test") {
+				else if (setUpInput == "cmds-test") {
 					Console.Clear();
 					EntityListTest();
 				} else {
