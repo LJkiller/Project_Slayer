@@ -34,52 +34,9 @@ namespace Project_Slayer {
 			SetUp();
 			Console.WriteLine("Game:");
 			while (run1) {
-				Console.WriteLine("Yes.");
-				Console.ReadLine();
-			}
-		}
-		
-		/// <summary>
-		/// Just holding it for the time being.
-		/// </summary>
-		static void HelpScreen() {
-			SetUp();
-			Console.WriteLine("What kind of help do you need?\n[GAME] or [COMMANDS].");
-			while (run1) {
-				string inputHelp = Console.ReadLine().ToLower();
-
-				if (inputHelp == "game") {
-					Console.Clear();
-					textManager.PrintGameHelp();
-					run2 = true;
-				} 
-				else if (inputHelp == "commands" || inputHelp == "cmds") {
-					Console.Clear();
-					textManager.PrintCMDSHelp();
-					run2 = true;
-				} 
-				else {
-					Console.WriteLine("[GAME] or [COMMANDS]");
-					continue;
-				}
-
-				Console.WriteLine("Do you wish to continue to game or check out more?\n[GAME] or [MORE]");
-				while (run2) {
-					string furtherInput = Console.ReadLine().ToLower();
-
-					if (furtherInput == "game" || furtherInput == "g") {
-						run1 = false;
-						run2 = false;
-						Console.Clear();
-						Game();
-					} else if (furtherInput == "more" || furtherInput == "m") {
-						Console.Clear();
-						Console.WriteLine("Available options: [GAME], [COMMANDS]");
-						break;
-					} else {
-						Console.WriteLine("[GAME] or [MORE].");
-					}
-				}
+				Console.WriteLine("Function:");
+				string input = Console.ReadLine();
+				InputArrangement(input);
 			}
 		}
 
@@ -120,48 +77,50 @@ namespace Project_Slayer {
 		/// <param name="inputString"></param>
 		static void InputArrangement(string inputString) {
 
-			List<string> inputCount = new List<String>();
+			List<string> inputCount = new List<string>();
 			string empty = "";
 
 			for (int i = 0; i < inputString.Length; i++) {
-				if (inputString[i] == ' ') {
-					inputCount.Add(empty);
-					empty = "";
-				} else {
-					empty += inputString[i];
+				char c = inputString[i];
+				if (c == ' ') {
+					if (!string.IsNullOrEmpty(empty)) {
+						inputCount.Add(empty.ToLower());
+						empty = "";
+					}
+				} 
+				else {
+					empty += c;
 				}
 			}
-			if (empty != "") {
-				inputCount.Add(empty);
-				empty = "";
+			if (!string.IsNullOrEmpty(empty)) {
+				inputCount.Add(empty.ToLower());
 			}
 
-			//Change every character to a small letter.
-			for (int i = 0; i < inputCount.Count; i++) {
-				inputCount[i].ToLower();
-			}
+			if (inputCount.Count == 0) {
+				Console.WriteLine("Invalid input, please try again. If you need help: [HELP]");
+			} 
 
-			//Quick functions
-			if (inputCount.Count <= 1) {
-
-				if (inputCount[0] == "save") {
+			//Quick functions.
+			else if (inputCount.Count == 1) {
+				if (inputCount[0] == "save" || inputCount[0] == "s") {
 					Console.WriteLine("Which file do you want to save to?");
 					FileNameInput = Console.ReadLine();
 					fileManager.Save(FileNameInput, user);
 				} 
+				else if (inputCount[0] == "help" || inputCount[0] == "h") {
+					HelpScreen(false);
+				}
 				else if (inputCount[0] == "quit" || inputCount[0] == "q") {
-
+					//Put 
+					run1 = false;
+					run2 = false;
+					run3 = false;
 				} 
 				else {
-					Console.WriteLine("Invalid input, please try again?");
+					Console.WriteLine("Invalid input, please try again.");
 				}
-
-			} 
-			
-			else if (inputCount.Count > 1) {
-			} 
-			else {
-				Console.WriteLine("Invalid input, please try again. If you need help: [!HELP]");
+			} else {
+				// Handle the case when there are multiple input parts
 			}
 		}
 
@@ -179,10 +138,10 @@ namespace Project_Slayer {
 			if (displayTitle) {
 				textManager.PrintTitle();
 			}
-			Console.WriteLine("Do you want to start a new game?            Write 'Start'.");
-			Console.WriteLine("Do you want to continue from a save file?   Write 'continue'.");
-			Console.WriteLine("Do you want help?                           Write 'help'.");
-			Console.WriteLine("Do you want to quit?                        Write 'quit'.\n");
+			Console.WriteLine("Do you want to start a new game?            Write 'S' or 'Start'.");
+			Console.WriteLine("Do you want to continue from a save file?   Write 'C' or 'continue'.");
+			Console.WriteLine("Do you want help?                           Write 'H' or 'help'.");
+			Console.WriteLine("Do you want to quit?                        Write 'Q' or 'quit'.\n");
 
 			while (run1) {
 				string setUpInput = Console.ReadLine().ToLower();
@@ -196,9 +155,9 @@ namespace Project_Slayer {
 					Console.Clear();
 					LoadScreen();
 				} 
-				else if (setUpInput == "help" || setUpInput == "!help") {
+				else if (setUpInput == "help" || setUpInput == "h") {
 					Console.Clear();
-					HelpScreen();
+					HelpScreen(true);
 				} 
 				else if (setUpInput == "quit" || setUpInput == "q") {
 					run1 = false;
@@ -293,6 +252,70 @@ namespace Project_Slayer {
 			}
 		}
 
+
+		/// <summary>
+		/// The game's help screens.
+		/// </summary>
+		static void HelpScreen(bool StartAtGame) {
+			SetUp();
+			Console.WriteLine("What kind of help do you need?\n[GAME] or [COMMANDS].");
+			while (run1) {
+				string inputHelp = Console.ReadLine().ToLower();
+
+				if (inputHelp == "game") {
+					Console.Clear();
+					textManager.PrintGameHelp();
+					run2 = true;
+				} 
+				else if (inputHelp == "commands" || inputHelp == "cmds") {
+					Console.Clear();
+					textManager.PrintCMDSHelp();
+					run2 = true;
+				} 
+				else {
+					Console.WriteLine("[GAME] or [COMMANDS]");
+					continue;
+				}
+
+				Console.WriteLine("Do you wish to continue to game or check out more?\n[GAME] or [MORE]");
+				while (run2) {
+					string furtherInput = Console.ReadLine().ToLower();
+
+					if (furtherInput == "game" || furtherInput == "g") {
+						if (StartAtGame == true) {
+							run1 = false;
+							run2 = false;
+							Console.Clear();
+							Console.WriteLine("");
+							while (run3) {
+								string gameContinuationInput = Console.ReadLine().ToLower();
+								if (gameContinuationInput == "") {
+									LoadScreen();
+								} 
+								else if (gameContinuationInput == "") {
+									UserCreationScreen(user);
+								}
+							}
+						}
+						else if (!StartAtGame == true) {
+							run1 = false;
+							run2 = false;
+							Console.Clear();
+							Game();
+						}
+					} 
+					else if (furtherInput == "more" || furtherInput == "m") {
+						Console.Clear();
+						Console.WriteLine("Available options: [GAME], [COMMANDS]");
+						break;
+					} 
+					else {
+						Console.WriteLine("[GAME] or [MORE].");
+					}
+				}
+			}
+		}
+
 		#endregion
 
 		/// <summary>
@@ -316,9 +339,6 @@ namespace Project_Slayer {
 		/// </summary>
 		static void SetUpTest() {
 			StartScreen(true);
-			Console.WriteLine("Function:");
-			string input = Console.ReadLine();
-			InputArrangement(input);
 		}
 
 		/// <summary>
@@ -349,8 +369,11 @@ namespace Project_Slayer {
 			SetUp();
 			//EntityListTest();
 
-			SetUpTest();
+			//SetUpTest();
 			//LoadScreen();
+
+			//Testing
+			Game();
 
 			Console.ReadLine();
 		}
