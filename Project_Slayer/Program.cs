@@ -27,19 +27,6 @@ namespace Project_Slayer {
 
 	class Program {
 
-		/// <summary>
-		/// Just holding it for the time being.
-		/// </summary>
-		static void Game() {
-			Console.WriteLine("Game:");
-			while (run1) {
-				SetUp();
-				Console.WriteLine("Function:");
-				string input = Console.ReadLine();
-				InputArrangement(input);
-			}
-		}
-
 		#region Variables
 
 		public static int availableFloors = 2;
@@ -68,7 +55,7 @@ namespace Project_Slayer {
 
 		#endregion
 
-		#region Text Input	
+		#region TextInput	
 
 		/// <summary>
 		/// A string input arranging into a numerical position.
@@ -152,16 +139,49 @@ namespace Project_Slayer {
 				else {
 					Console.WriteLine("Invalid input, please try again.");
 				}
-			} else {
+			} 
+			else {
 				// Handle the case when there are multiple input parts
 			}
 		}
 
 		#endregion
 
-		#region SetUp
+		#region Game Components
+
+		/// <summary>
+		/// Set ups the game's initial configuration.
+		/// </summary>
+		static void SetUp() {
+			textManager = new TextManager();
+			fileManager = new FileManager();
+			user = new User("DefaultUsername");
+			run1 = true;
+			run2 = true;
+			run3 = true;
+		}
+
+		/// <summary>
+		/// Initializes the game.
+		/// </summary>
+		static void InitializeGame() {
+			StartScreen(true);
+		}
 
 		#region Screens
+
+		/// <summary>
+		/// The game's content.
+		/// </summary>
+		static void GameScreen() {
+			Console.WriteLine("Game:");
+			while (run1) {
+				SetUp();
+				Console.WriteLine("Function:");
+				string input = Console.ReadLine();
+				InputArrangement(input);
+			}
+		}
 
 		/// <summary>
 		/// The game's start screen.
@@ -202,8 +222,9 @@ namespace Project_Slayer {
 				} 
 				else if (setUpInput == "cmds-test") {
 					Console.Clear();
-					EntityListTest();
-				} else {
+					EntityTesting();
+				} 
+				else {
 					Console.WriteLine("Write an appropiate input: 'start', 'continue', 'help' or 'quit'\n");
 				}
 			}
@@ -234,7 +255,7 @@ namespace Project_Slayer {
 						Console.ReadKey();
 						run1 = false;
 						run2 = false;
-						Game();
+						GameScreen();
 					} else if (opt.ToLower() == "no" || opt.ToLower() == "n") {
 						Console.Clear();
 						continue;
@@ -269,7 +290,7 @@ namespace Project_Slayer {
 						run2 = false;
 						Console.WriteLine("Press any [KEY] to continue.");
 						Console.ReadKey();
-						Game();
+						GameScreen();
 					} catch (ArgumentException e) {
 						Console.WriteLine($"Slight problem; {e.Message}");
 					}
@@ -284,7 +305,6 @@ namespace Project_Slayer {
 				}
 			}
 		}
-
 
 		/// <summary>
 		/// The game's help screens.
@@ -339,7 +359,7 @@ namespace Project_Slayer {
 							run1 = false;
 							run2 = false;
 							Console.Clear();
-							Game();
+							GameScreen();
 						}
 					} 
 					else if (furtherInput == "more" || furtherInput == "m") {
@@ -356,33 +376,14 @@ namespace Project_Slayer {
 
 		#endregion
 
-		/// <summary>
-		/// Set ups the game's initial configuration.
-		/// </summary>
-		static void SetUp() {
-			textManager = new TextManager();
-			fileManager = new FileManager();
-			user = new User("DefaultUsername");
-			run1 = true;
-			run2 = true;
-			run3 = true;
-		}
-
 		#endregion
 
-		#region Sandbox - Testing
-
-		/// <summary>
-		/// Testing the StartScreen & SetUp in the beginning.
-		/// </summary>
-		static void SetUpTest() {
-			StartScreen(true);
-		}
+		#region Sandbox/Debug - Testing
 
 		/// <summary>
 		/// Testing RNG value for different races.
 		/// </summary>
-		static void EntityListTest() {
+		static void EntityTesting() {
 			List<Entity> entityList = new List<Entity>();
 			entityList.Add(new Human());
 			entityList.Add(new Human());
@@ -404,14 +405,10 @@ namespace Project_Slayer {
 
 		static void Main(string[] args) {
 
-			SetUp();
-			//EntityListTest();
-
-			//SetUpTest();
-			//LoadScreen();
+			InitializeGame();
 
 			//Testing
-			Game();
+			//Game();
 
 		}
 	}
