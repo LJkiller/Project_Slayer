@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Project_Slayer {
+
+	/// <summary>
+	/// Represents base data for GoblinLord Class.
+	/// </summary>
 	public class GoblinLord : Boss {
 
 		#region Race Attributes
