@@ -82,11 +82,11 @@ namespace Project_Slayer {
         /// <summary>
         /// The Mob's Hit Points (Health, HP).
         /// </summary>
-        public double HitPoints {
-            get { return Durability; }
+        public int HitPoints {
+            get { return durability; }
             set {
                 if (value > 0) {
-                    HitPoints = value;
+                    durability = value;
                 } else {
                     Death();
                 }

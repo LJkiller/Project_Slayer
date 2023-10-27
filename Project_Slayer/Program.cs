@@ -58,97 +58,97 @@ namespace Project_Slayer {
 		#region TextInput	
 
 		/// <summary>
-		/// A string input arranging into a numerical position.
-		/// Input-filtering to a value in order to call different methods.
+		/// Parses user input and performs corresponding actions.
 		/// </summary>
-		/// <param name="inputString"></param>
+		/// <param name="inputString">The user's input string.</param>
 		static void InputArrangement(string inputString) {
-
-			List<string> inputCount = new List<string>();
-			string empty = "";
-
-			for (int i = 0; i < inputString.Length; i++) {
-				char c = inputString[i];
-				if (c == ' ') {
-					if (!string.IsNullOrEmpty(empty)) {
-						inputCount.Add(empty.ToLower());
-						empty = "";
-					}
-				} 
-				else {
-					empty += c;
-				}
-			}
-			if (!string.IsNullOrEmpty(empty)) {
-				inputCount.Add(empty.ToLower());
-			}
+			List<string> inputCount = inputString.ToLower().Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
 
 			if (inputCount.Count == 0) {
 				Console.WriteLine("Invalid input, please try again. If you need help: [HELP]");
-			} 
+			} else if (inputCount.Count == 1) {
+				string action = inputCount[0];
 
-			//Quick functions.
-			else if (inputCount.Count == 1) {
-				if (inputCount[0] == "save" || inputCount[0] == "s") {
-					Console.WriteLine("Which file do you want to save to?");
-					fileManager.DisplayAllFiles();
-					FileNameInput = Console.ReadLine();
-					Console.WriteLine("Are you sure?\n[YES] or[NO]");
-					while (run2) {
-						string newOpt = Console.ReadLine().ToLower();
-						if (newOpt == "yes" || newOpt == "y") {
-							Console.Clear();
-							fileManager.Save(FileNameInput, user);
-							Console.WriteLine("Continuing to game.");
-							run2 = false;
-						} else if (newOpt == "no" || newOpt == "n") {
-							continue;
-						} else {
-							Console.WriteLine("[YES] or [NO].");
-						}
-					}
-				} 
-				else if (inputCount[0] == "help" || inputCount[0] == "h") {
-					HelpScreen(false);
+				switch (action) {
+					case "save":
+					case "s":
+						SaveFile();
+						break;
+					case "help":
+					case "h":
+						HelpScreen(false);
+						break;
+					case "quit":
+					case "q":
+						QuitGame();
+						break;
+					case "forcedeath":
+						user.Death();
+						break;
+					default:
+						Console.WriteLine("Invalid input, please try again.");
+						break;
 				}
-				else if (inputCount[0] == "quit" || inputCount[0] == "q") {
-					Console.Clear();
-					while (run2) {
-						Console.WriteLine("File name?");
-						fileManager.DisplayAllFiles();
-						FileNameInput = Console.ReadLine();
-						Console.WriteLine("Are you sure?\n[YES] or [NO]");
-						string newOpt = Console.ReadLine().ToLower();
-						if (newOpt == "yes" || newOpt == "y") {
-							fileManager.Save(FileNameInput, user);
-							run1 = false;
-							run2 = false;
-							run3 = false;
-							Console.WriteLine("Press any [KEY] to quit.");
-							Console.ReadKey();
-						}
-						else if (newOpt == "no" || newOpt == "n") {
-							Console.Clear();
-							continue;
-						}
-						else {
-							Console.WriteLine("[YES] or [NO].");
-						}
-					}
-				} 
-				else if (inputCount[0] == "death") {
-					user.Death();
-				}
-				else {
-					Console.WriteLine("Invalid input, please try again.");
-				}
-			} 
-
-			//Functions > 1 input
-			else {
-
+			} else {
+				// Handle functions with more than 1 input here
 			}
 		}
+
+		#region Quick Methods
+
+		/// <summary>
+		/// Method responsible for saving the User's information to a desired file.
+		/// </summary>
+		static void SaveFile() {
+			Console.WriteLine("Which file do you want to save to?");
+			fileManager.DisplayAllFiles();
+			FileNameInput = Console.ReadLine();
+			Console.WriteLine("Are you sure?\n[YES] or [NO]");
+
+			while (run2) {
+				string newOpt = Console.ReadLine().ToLower();
+				if (newOpt == "yes" || newOpt == "y") {
+					Console.Clear();
+					fileManager.Save(FileNameInput, user);
+					Console.WriteLine("Continuing to the game.");
+					run2 = false;
+				} else if (newOpt == "no" || newOpt == "n") {
+					continue;
+				} else {
+					Console.WriteLine("[YES] or [NO].");
+				}
+			}
+		}
+
+		/// <summary>
+		/// Method responsible for quitting the game.
+		/// </summary>
+		static void QuitGame() {
+			Console.Clear();
+			while (run2) {
+				Console.WriteLine("File name?");
+				fileManager.DisplayAllFiles();
+				FileNameInput = Console.ReadLine();
+				Console.WriteLine("Are you sure?\n[YES] or [NO]");
+
+				string newOpt = Console.ReadLine().ToLower();
+				if (newOpt == "yes" || newOpt == "y") {
+					fileManager.Save(FileNameInput, user);
+					run1 = false;
+					run2 = false;
+					run3 = false;
+					Console.WriteLine("Press any [KEY] to quit.");
+					Console.ReadKey();
+				} else if (newOpt == "no" || newOpt == "n") {
+					Console.Clear();
+					continue;
+				} else {
+					Console.WriteLine("[YES] or [NO].");
+				}
+			}
+		}
+
+		#endregion
 
 		#endregion
 
@@ -276,20 +276,21 @@ namespace Project_Slayer {
 		}
 
 		/// <summary>
-		/// Load Screen.
+		/// Load user info screen and allows the user to select a file to load from.
 		/// </summary>
 		static void LoadScreen() {
 			while (run2) {
 				Console.WriteLine("Select your preferred file:");
 				fileManager.DisplayAllFiles();
-				FileNameInput = Console.ReadLine();
+				string fileNameInput = Console.ReadLine();
 
 				Console.WriteLine("[CONTINUE] or [CHANGE]?");
-				string opt = Console.ReadLine();
-				if (opt.ToLower() == "continue") {
+				string option = Console.ReadLine();
+
+				if (option.ToLower() == "continue") {
 					try {
-						user = user.GetUserInfo(FileNameInput);
-						Console.WriteLine("Recieved data from JSON:\n");
+						user = user.GetUserInfo(fileNameInput);
+						Console.WriteLine("Received data from JSON:\n");
 						user.DisplayInfo();
 						run1 = false;
 						run2 = false;
@@ -297,13 +298,12 @@ namespace Project_Slayer {
 						Console.ReadKey();
 						GameScreen();
 					} catch (ArgumentException e) {
-						Console.WriteLine($"Slight problem; {e.Message}");
+						Console.WriteLine($"An issue occurred: {e.Message}");
 					}
-				} 
-				else if (opt.ToLower() == "change") {
+				} else if (option.ToLower() == "change") {
 					Console.Clear();
 					continue;
-				} else if (opt.ToLower() == "quit" || opt.ToLower() == "q") {
+				} else if (option.ToLower() == "quit" || option.ToLower() == "q") {
 					Console.Clear();
 					run1 = false;
 					run2 = false;
@@ -311,73 +311,83 @@ namespace Project_Slayer {
 			}
 		}
 
+		#region HelpScreen 
+
 		/// <summary>
-		/// The game's help screens.
+		/// Help screen allows the user to get game or commands help.
 		/// </summary>
-		static void HelpScreen(bool StartAtGame) {
+		/// <param name="startAtGame"></param>
+		static void HelpScreen(bool startAtGame) {
 			SetUp();
 			Console.WriteLine("What kind of help do you need?\n[GAME] or [COMMANDS].");
-			while (run1) {
+
+			while (true) {
 				string inputHelp = Console.ReadLine().ToLower();
 
 				if (inputHelp == "game") {
 					Console.Clear();
 					textManager.PrintGameHelp();
-					run2 = true;
-				} 
-				else if (inputHelp == "commands" || inputHelp == "cmds") {
+					ShowGameOrMore(startAtGame);
+					break;
+				} else if (inputHelp == "commands" || inputHelp == "cmds") {
 					Console.Clear();
 					textManager.PrintCMDSHelp();
-					run2 = true;
-				} 
-				else {
+					ShowGameOrMore(startAtGame);
+					break;
+				} else {
 					Console.WriteLine("[GAME] or [COMMANDS]");
-					continue;
-				}
-
-				Console.WriteLine("Do you wish to continue to game or check out more?\n[GAME] or [MORE]");
-				while (run2) {
-					string furtherInput = Console.ReadLine().ToLower();
-
-					if (furtherInput == "game" || furtherInput == "g") {
-						if (StartAtGame == true) {
-							run1 = false;
-							run2 = false;
-							Console.Clear();
-							Console.WriteLine("New game or continue?\n[START] or [CONTINUE]");
-							while (run3) {
-								string gameContinuationInput = Console.ReadLine().ToLower();
-								if (gameContinuationInput == "start" || gameContinuationInput == "s") {
-									run3 = false;
-									UserCreationScreen(user);
-								} 
-								else if (gameContinuationInput == "continue" || gameContinuationInput == "c") {
-									run3 = false;
-									LoadScreen();
-								} 
-								else {
-									Console.WriteLine("'start' or 'continue'.");
-								}
-							}
-						}
-						else if (!StartAtGame == true) {
-							run1 = false;
-							run2 = false;
-							Console.Clear();
-							GameScreen();
-						}
-					} 
-					else if (furtherInput == "more" || furtherInput == "m") {
-						Console.Clear();
-						Console.WriteLine("Available options: [GAME], [COMMANDS]");
-						break;
-					} 
-					else {
-						Console.WriteLine("[GAME] or [MORE].");
-					}
 				}
 			}
 		}
+
+		/// <summary>
+		/// Option to continue to game or more help.
+		/// </summary>
+		/// <param name="startAtGame"></param>
+		static void ShowGameOrMore(bool startAtGame) {
+			Console.WriteLine("Do you wish to continue to the game or check out more?\n[GAME] or [MORE]");
+
+			while (true) {
+				string furtherInput = Console.ReadLine().ToLower();
+
+				if (furtherInput == "game" || furtherInput == "g") {
+					Console.Clear();
+					if (startAtGame) {
+						StartOrContinueGame();
+					} else {
+						GameScreen();
+					}
+					break;
+				} else if (furtherInput == "more" || furtherInput == "m") {
+					Console.Clear();
+					Console.WriteLine("Available options: [GAME], [COMMANDS]");
+					break;
+				} else {
+					Console.WriteLine("[GAME] or [MORE].");
+				}
+			}
+		}
+
+		/// <summary>
+		/// Option to start a new game or continue.
+		/// </summary>
+		static void StartOrContinueGame() {
+			Console.WriteLine("New game or continue?\n[START] or [CONTINUE]");
+
+			while (true) {
+				string gameContinuationInput = Console.ReadLine().ToLower();
+				if (gameContinuationInput == "start" || gameContinuationInput == "s") {
+					UserCreationScreen(user);
+					break;
+				} else if (gameContinuationInput == "continue" || gameContinuationInput == "c") {
+					LoadScreen();
+					break;
+				} else {
+					Console.WriteLine("'start' or 'continue'.");
+				}
+			}
+		}
+		#endregion
 
 		#endregion
 
@@ -414,7 +424,7 @@ namespace Project_Slayer {
 
 			//Testing
 			//GameScreen();
-
+			Console.ReadLine();
 		}
 	}
 }
