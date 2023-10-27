@@ -76,7 +76,6 @@ namespace Project_Slayer {
 				Console.WriteLine("User data saved successfully!");
 				Console.WriteLine("Saved data:");
 				user.DisplayInfo();
-				Console.WriteLine(serialized);
 			} catch (ArgumentException e) {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}

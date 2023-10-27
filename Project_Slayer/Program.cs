@@ -111,10 +111,29 @@ namespace Project_Slayer {
 					HelpScreen(false);
 				}
 				else if (inputCount[0] == "quit" || inputCount[0] == "q") {
-					//Put 
-					run1 = false;
-					run2 = false;
-					run3 = false;
+					Console.Clear();
+					while (run2) {
+						Console.WriteLine("File name?");
+						fileManager.DisplayAllFiles();
+						FileNameInput = Console.ReadLine();
+						Console.WriteLine("Are you sure?\n[YES] or [NO]");
+						string newOpt = Console.ReadLine().ToLower();
+						if (newOpt == "yes" || newOpt == "y") {
+							fileManager.Save(FileNameInput, user);
+							run1 = false;
+							run2 = false;
+							run3 = false;
+							Console.WriteLine("Press any [KEY] to quit.");
+							Console.ReadKey();
+						}
+						else if (newOpt == "no" || newOpt == "n") {
+							Console.Clear();
+							continue;
+						}
+						else {
+							Console.WriteLine("[YES] or [NO].");
+						}
+					}
 				} 
 				else {
 					Console.WriteLine("Invalid input, please try again.");
@@ -286,14 +305,19 @@ namespace Project_Slayer {
 							run1 = false;
 							run2 = false;
 							Console.Clear();
-							Console.WriteLine("");
+							Console.WriteLine("New game or continue?\n[START] or [CONTINUE]");
 							while (run3) {
 								string gameContinuationInput = Console.ReadLine().ToLower();
-								if (gameContinuationInput == "") {
+								if (gameContinuationInput == "start" || gameContinuationInput == "s") {
+									run3 = false;
+									UserCreationScreen(user);
+								} 
+								else if (gameContinuationInput == "continue" || gameContinuationInput == "c") {
+									run3 = false;
 									LoadScreen();
 								} 
-								else if (gameContinuationInput == "") {
-									UserCreationScreen(user);
+								else {
+									Console.WriteLine("'start' or 'continue'.");
 								}
 							}
 						}
@@ -375,7 +399,6 @@ namespace Project_Slayer {
 			//Testing
 			Game();
 
-			Console.ReadLine();
 		}
 	}
 }
