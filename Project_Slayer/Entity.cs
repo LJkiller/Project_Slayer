@@ -87,6 +87,10 @@ namespace Project_Slayer {
 			Console.WriteLine("Whaazaa! The Entity should've attacked!");
 		}
 
+		/// <summary>
+		/// Method responsible of an entity's death.
+		/// </summary>
+		public abstract void Death();
 		#endregion
 
 	}

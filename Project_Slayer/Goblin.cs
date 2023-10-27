@@ -61,7 +61,7 @@ namespace Project_Slayer {
 			}
 		}
 		/// <summary>
-		/// The Mob's durability stat (Health Points).
+		/// The Mob's durability stat (Maximum Hit Points).
 		/// </summary>
 		public double Durability {
 			get { return durability; }
@@ -78,7 +78,20 @@ namespace Project_Slayer {
 				agility = rng.Next((int)(minStat*1.3), (int)(maxStat*1.3));
 			}
 		}
-		
+
+		/// <summary>
+		/// The Mob's Hit Points (Health, HP).
+		/// </summary>
+		public double HitPoints {
+			get { return Durability; }
+			set {
+				if (value > 0) {
+					HitPoints = value;
+				} else {
+					Death();
+				}
+			}
+		}
 		#endregion
 
 		#region Information & Initiator

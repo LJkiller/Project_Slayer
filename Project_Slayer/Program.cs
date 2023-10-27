@@ -136,6 +136,9 @@ namespace Project_Slayer {
 						}
 					}
 				} 
+				else if (inputCount[0] == "death") {
+					user.Death();
+				}
 				else {
 					Console.WriteLine("Invalid input, please try again.");
 				}
@@ -410,7 +413,7 @@ namespace Project_Slayer {
 			InitializeGame();
 
 			//Testing
-			//Game();
+			//GameScreen();
 
 		}
 	}

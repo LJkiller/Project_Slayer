@@ -114,6 +114,21 @@ namespace Project_Slayer {
 			}
 		}
 
+
+
+		/// <summary>
+		/// The User's Hit Points (Health, HP).
+		/// </summary>
+		public double HitPoints {
+			get { return Durability; }
+			set {
+				if (value > 0) {
+					HitPoints = value;
+				} else {
+					Death();
+				}
+			}
+		}
 		#endregion
 
 		#region Floor - Enemies - Combat
@@ -369,7 +384,16 @@ namespace Project_Slayer {
 		public void Escape() {
 			Console.WriteLine("You've escaped!");
 		}
-		
+
+		/// <summary>
+		/// Method responsible of User's death.
+		/// </summary>
+		public override void Death() {
+			Console.WriteLine($"The fearless adventurer {UserName} has met their demise, and the tower remains unconquered.\n" +
+				$"Your journey ends here.");
+
+		}
+
 		#endregion
 
 	}
