@@ -140,8 +140,10 @@ namespace Project_Slayer {
 					Console.WriteLine("Invalid input, please try again.");
 				}
 			} 
+
+			//Functions > 1 input
 			else {
-				// Handle the case when there are multiple input parts
+
 			}
 		}
 
