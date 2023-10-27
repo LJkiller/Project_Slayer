@@ -46,5 +46,21 @@ namespace Project_Slayer {
 				$"There are currently {Program.availableFloors} floors available as in this version ({Program.gameVersion}).\n");
 		}
 
+		/// <summary>
+		/// Displayes the game's commands.
+		/// </summary>
+		public void PrintCMDSHelp() {
+			Console.WriteLine(
+				"During game:\n" +
+				"Save: 'save' or 's' (Saving mid game)\n" +
+				"Quit: 'quit' or 'q' (Will lead to save and then quit)\n\n" +
+				"Combat-related:\n" +
+				"Attack: 'attack + [ATTACKTYPE]' (Physical or magical, if nothing => physical attack)\n" +
+				"[ATTACKTYPE] = 'physical' or 'magical' (or 'm')\n" +
+				"Escape: 'escape' or 'esc' (Escape from enemy, restores your health.)\n\n" +
+				"Leveling: 'level + [STAT]' (Levels up your specific stat with something between 1 and 5)\n" +
+				"[STAT] = 'strength', 'mana', 'durability', 'agility'\n");
+		}
+
 	}
 }

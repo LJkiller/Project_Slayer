@@ -35,6 +35,7 @@ namespace Project_Slayer {
 			Console.WriteLine("Game:");
 			while (run1) {
 				Console.WriteLine("Yes.");
+				Console.ReadLine();
 			}
 		}
 		
@@ -51,9 +52,13 @@ namespace Project_Slayer {
 					Console.Clear();
 					textManager.PrintGameHelp();
 					run2 = true;
-				} else if (inputHelp == "commands" || inputHelp == "cmds") {
-					Console.WriteLine("");
-				} else {
+				} 
+				else if (inputHelp == "commands" || inputHelp == "cmds") {
+					Console.Clear();
+					textManager.PrintCMDSHelp();
+					run2 = true;
+				} 
+				else {
 					Console.WriteLine("[GAME] or [COMMANDS]");
 					continue;
 				}
@@ -143,9 +148,11 @@ namespace Project_Slayer {
 					Console.WriteLine("Which file do you want to save to?");
 					FileNameInput = Console.ReadLine();
 					fileManager.Save(FileNameInput, user);
-				} else if (inputCount[0] == "quit" || inputCount[0] == "q") {
+				} 
+				else if (inputCount[0] == "quit" || inputCount[0] == "q") {
 
-				} else {
+				} 
+				else {
 					Console.WriteLine("Invalid input, please try again?");
 				}
 
