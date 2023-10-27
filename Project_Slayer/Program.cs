@@ -31,9 +31,9 @@ namespace Project_Slayer {
 		/// Just holding it for the time being.
 		/// </summary>
 		static void Game() {
-			SetUp();
 			Console.WriteLine("Game:");
 			while (run1) {
+				SetUp();
 				Console.WriteLine("Function:");
 				string input = Console.ReadLine();
 				InputArrangement(input);
@@ -104,8 +104,22 @@ namespace Project_Slayer {
 			else if (inputCount.Count == 1) {
 				if (inputCount[0] == "save" || inputCount[0] == "s") {
 					Console.WriteLine("Which file do you want to save to?");
+					fileManager.DisplayAllFiles();
 					FileNameInput = Console.ReadLine();
-					fileManager.Save(FileNameInput, user);
+					Console.WriteLine("Are you sure?\n[YES] or[NO]");
+					while (run2) {
+						string newOpt = Console.ReadLine().ToLower();
+						if (newOpt == "yes" || newOpt == "y") {
+							Console.Clear();
+							fileManager.Save(FileNameInput, user);
+							Console.WriteLine("Continuing to game.");
+							run2 = false;
+						} else if (newOpt == "no" || newOpt == "n") {
+							continue;
+						} else {
+							Console.WriteLine("[YES] or [NO].");
+						}
+					}
 				} 
 				else if (inputCount[0] == "help" || inputCount[0] == "h") {
 					HelpScreen(false);
