@@ -32,6 +32,11 @@ namespace Project_Slayer {
 		public static int availableFloors = 2;
 		public static string gameVersion = "v0.69.420-b";
 
+		static ConsoleColor UserColor = ConsoleColor.Blue;
+		static ConsoleColor EnemyColor = ConsoleColor.Red;
+		static ConsoleColor UserHealthColor = ConsoleColor.Green;
+		static ConsoleColor EnemyHealthColor = ConsoleColor.DarkYellow;
+		static ConsoleColor DamageColor = ConsoleColor.DarkRed;
 		static string FileNameInput;
 		static bool run1;
 		static bool run2;
@@ -184,14 +189,55 @@ namespace Project_Slayer {
 		/// <summary>
 		/// The game's content.
 		/// </summary>
-		static void GameScreen() {
-			Console.WriteLine("Game:");
+		static void GameScreen(User user) {
+			SetUp();
+			List<Entity> entityCombat = new List<Entity>();
+			Console.Clear();
+
 			while (run1) {
-				SetUp();
-				Console.WriteLine("Function:");
+
+				if (entityCombat.Count < 1) {
+					if (user.FloorLevel == 1 && user.MobCount > 19) {
+						entityCombat.Add(new GoblinLord());
+					} else {
+						entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount));
+					}
+					Console.Write($"Entering combat!\nTake heed ");
+					textManager.PrintColoredText(user.UserName, UserColor);
+					Console.Write(", a hostile ");
+					textManager.PrintColoredText(entityCombat[0].mobName, EnemyColor);
+					Console.Write(" has appeared!\nYou have ");
+					textManager.PrintColoredText(user.HitPoints, UserHealthColor);
+					Console.Write("HP!\nThe ");
+					textManager.PrintColoredText(entityCombat[0].mobName, EnemyColor);
+					Console.Write(" has ");
+					textManager.PrintColoredText(entityCombat[0].durability, EnemyHealthColor);
+					Console.Write("HP!\n");
+				}
+				Console.WriteLine("Your move, brave soul!");
 				string input = Console.ReadLine();
 				InputArrangement(input);
 			}
+		}
+
+		/// <summary>
+		/// Method responsible of creating an entity.
+		/// </summary>
+		/// <param name="floorLevel"></param>
+		/// <param name="mobCount"></param>
+		/// <returns></returns>
+		static Entity SpawnMob(int floorLevel, int mobCount) {
+			if (floorLevel == 0) {
+				return new Human();
+			} else if (floorLevel == 1) {
+				if (mobCount > ((availableFloors * 10) - 1)) {
+					return new GoblinLord();
+				} 
+				else {
+					return new Goblin();
+				}
+			}
+			return null;
 		}
 
 		#endregion
@@ -275,7 +321,7 @@ namespace Project_Slayer {
 		/// </summary>
 		/// <param name="user"></param>
 		static void UserCreationScreen(User user) {
-			while (run2) {
+			while (true) {
 				Console.WriteLine("What do you want to be called? (Max 20 Characters)");
 				string userNameInput = Console.ReadLine();
 
@@ -284,27 +330,55 @@ namespace Project_Slayer {
 					continue;
 				}
 
-				Console.WriteLine("Are you sure?\n[YES] or [NO]");
-				string opt = Console.ReadLine().ToLower();
+				Console.WriteLine("Are you sure?\n[YES] or [NO]?");
+				while (true) {
+					string opt = Console.ReadLine().ToLower();
 
-				if (opt == "yes" || opt == "y") {
-					Console.WriteLine("To which file do you want to save your character?");
-					FileNameInput = Console.ReadLine();
-					user = new User(userNameInput);
-					user.CreateUser(userNameInput, FileNameInput, user);
-					Console.WriteLine("Press any [KEY] to continue.");
-					Console.ReadKey();
-					run1 = false;
-					run2 = false;
-					GameScreen();
-				} else if (opt == "no" || opt == "n") {
-					Console.Clear();
-				} else if (opt == "quit" || opt == "q") {
-					Console.Clear();
-					run1 = false;
-					run2 = false;
-				} else {
-					Console.WriteLine("[YES] or [NO].");
+					if (opt == "yes" || opt == "y") {
+						UserFileScreen(userNameInput);
+					} 
+					else if (opt == "no" || opt == "n") {
+						Console.Clear();
+						break;
+					} 
+					else if (opt == "quit" || opt == "q") {
+						Console.Clear();
+						run1 = false;
+						run2 = false;
+						break;
+					} 
+					else {
+						Console.WriteLine("[YES] or [NO].");
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Represents a screen for selecting a file to save a user's character.
+		/// </summary>
+		/// <param name="userNameInput"></param>
+		static void UserFileScreen(string userNameInput) {
+			while (true) {
+				Console.Clear();
+				Console.WriteLine("To which file do you want to save your character to?");
+				string FileNameInput = Console.ReadLine();
+				Console.WriteLine("Are you sure?\n[YES] or [NO]?");
+				while (true) {
+					string newOpt = Console.ReadLine().ToLower();
+					if (newOpt == "yes" || newOpt == "y") {
+						user = new User(userNameInput);
+						user.CreateUser(userNameInput, FileNameInput, user);
+						Console.WriteLine("Press any [KEY] to continue.");
+						Console.ReadKey();
+						GameScreen(user);
+					} 
+					else if (newOpt == "no" || newOpt == "n") {
+						break;
+					} 
+					else {
+						Console.WriteLine("[YES] or [NO].");
+					}
 				}
 			}
 		}
@@ -317,34 +391,37 @@ namespace Project_Slayer {
 		/// Load user info screen and allows the user to select a file to load from.
 		/// </summary>
 		static void LoadScreen() {
-			while (run2) {
+			while (true) {
 				Console.WriteLine("Select your preferred file:");
 				fileManager.DisplayAllFiles();
 				string fileNameInput = Console.ReadLine();
 
-				Console.WriteLine("[CONTINUE] or [CHANGE]?");
-				string option = Console.ReadLine();
+				Console.WriteLine("Are you sure?\n[YES] or [NO]?");
+				while (run2) {
+					string opt = Console.ReadLine().ToLower();
 
-				if (option.ToLower() == "continue") {
-					try {
-						user = user.GetUserInfo(fileNameInput);
-						Console.WriteLine("Received data from JSON:\n");
-						user.DisplayInfo();
-						run1 = false;
+					if (opt == "yes" || opt == "y") {
+						try {
+							user = user.GetUserInfo(fileNameInput);
+							Console.WriteLine("Received data from JSON:\n");
+							user.DisplayInfo();
+							Console.WriteLine("Press any [KEY] to continue.");
+							Console.ReadKey();
+							GameScreen(user);
+							break;
+						} catch (ArgumentException e) {
+							Console.WriteLine($"An issue occurred: {e.Message}");
+						}
+					} else if (opt == "no" || opt == "n") {
+						Console.Clear();
+						break;
+					} else if (opt == "quit" || opt == "q") {
+						Console.Clear();
 						run2 = false;
-						Console.WriteLine("Press any [KEY] to continue.");
-						Console.ReadKey();
-						GameScreen();
-					} catch (ArgumentException e) {
-						Console.WriteLine($"An issue occurred: {e.Message}");
+						break;
+					} else {
+						Console.WriteLine("[YES] or [NO].");
 					}
-				} else if (option.ToLower() == "change") {
-					Console.Clear();
-					continue;
-				} else if (option.ToLower() == "quit" || option.ToLower() == "q") {
-					Console.Clear();
-					run1 = false;
-					run2 = false;
 				}
 			}
 		}
@@ -395,7 +472,7 @@ namespace Project_Slayer {
 					if (startAtGame) {
 						StartOrContinueGame();
 					} else {
-						GameScreen();
+						GameScreen(user);
 					}
 					break;
 				} else if (furtherInput == "more" || furtherInput == "m") {

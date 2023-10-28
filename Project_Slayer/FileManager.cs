@@ -109,7 +109,7 @@ namespace Project_Slayer {
 						.FirstOrDefault();
 					DateTime lastWriteTime = File.GetLastWriteTime(latestFile);
 
-					Console.WriteLine($"Latest saved file: {lastWriteTime}:\n{Path.GetFileName(latestFile)}");
+					Console.WriteLine($"\nLatest saved file: {lastWriteTime}:\n{Path.GetFileName(latestFile)}");
 				} 
 				else {
 					Console.WriteLine("No matching files found.");

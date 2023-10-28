@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Project_Slayer {
 	//⠀   ⠀   (\__/)
@@ -35,12 +38,18 @@ namespace Project_Slayer {
 		#endregion
 
 		#region Entity Attributes
-		protected string mobName;
 
-		protected int strength;
-		protected int mana;
-		protected int durability;
-		protected int agility;
+		[JsonIgnore]
+		public string mobName { get; protected set; }
+		[JsonIgnore]
+		public int strength { get; protected set; }
+		[JsonIgnore]
+		public int mana { get; protected set; }
+		[JsonIgnore]
+		public int durability { get; protected set; }
+		[JsonIgnore]
+		public int agility { get; protected set; }
+		
 		#endregion
 
 		#region Information & Initiator

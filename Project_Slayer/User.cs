@@ -32,6 +32,7 @@ namespace Project_Slayer {
 	public class User : Entity {
 
 		#region User Attributes
+		private int hitPoints;
 
 		/// <summary>
 		/// The User's name.
@@ -81,7 +82,7 @@ namespace Project_Slayer {
 				if (value <= 0)
 					Death();
 				else
-					durability = value;
+					hitPoints = value;
 			}
 		}
 		
@@ -215,9 +216,9 @@ namespace Project_Slayer {
 
 			HitPoints = 0;
 
-			MobCount = 0;
+			MobCount = 20;
 			BossCount = 0;
-			FloorLevel = 0;
+			FloorLevel = 1;
 			DodgeCount = 0;
 		}
 		

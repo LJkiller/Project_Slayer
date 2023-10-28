@@ -57,5 +57,36 @@ namespace Project_Slayer {
 				"[STAT] = 'strength', 'mana', 'durability', 'agility'\n");
 		}
 
+		/// <summary>
+		/// Method responsible of printing out strings with a different text color.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="color"></param>
+		/// <remarks>
+		/// This method is able to handle numerical values as input, because this is an overloaded method.
+		/// </remarks>
+		public void PrintColoredText(object text, ConsoleColor color) {
+			Console.ForegroundColor = color;
+			Console.Write(text);
+			Console.ResetColor();
+		}
+		/// <summary>
+		/// Prints intergers with a different text color.
+		/// </summary>
+		/// <param name="number"></param>
+		/// <param name="color"></param>
+		public void PrintColoredText(int number, ConsoleColor color) {
+			PrintColoredText(number.ToString(), color);
+		}
+		/// <summary>
+		/// Prints doubles with a different text color.
+		/// </summary>
+		/// <param name="number"></param>
+		/// <param name="color"></param>
+		public void PrintColoredText(double number, ConsoleColor color) {
+			PrintColoredText(number.ToString(), color);
+		}
+
+
 	}
 }
