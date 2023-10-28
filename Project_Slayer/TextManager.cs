@@ -29,6 +29,7 @@ namespace Project_Slayer {
 		/// </summary>
 		public void PrintGameHelp() {
 			PrintTitle();
+
 			Console.WriteLine(
 				"Slayer is a console-based game with an impleted ideal turn-based combat.\n" +
 				"Your goal is to climb tower-levels, floors, and reach the top. You start at floor 0.\n" +
@@ -36,7 +37,8 @@ namespace Project_Slayer {
 				"The bosses appears every second floor, the first one is on floor 1.\n" +
 				"Each entity you SLAY you'll gain coins and exp in order to level up your attributes in order to advance the game\n" +
 				"as you continue climbing.\n" +
-				$"There are currently {Program.availableFloors} floors available as in this version ({Program.gameVersion}).\n");
+				$"There are currently {Program.availableFloors} floors available as in this version ({Program.gameVersion}).\n" +
+				$"Floor 0 to {Program.availableFloors-1}.\n");
 		}
 
 		/// <summary>
