@@ -32,6 +32,7 @@ namespace Project_Slayer {
 	public class User : Entity {
 
 		#region User Attributes
+
 		/// <summary>
 		/// The User's name.
 		/// </summary>
@@ -83,6 +84,7 @@ namespace Project_Slayer {
 					durability = value;
 			}
 		}
+		
 		#endregion
 
 		#region Floor - Enemies - Combat
