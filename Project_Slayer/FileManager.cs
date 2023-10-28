@@ -64,10 +64,10 @@ namespace Project_Slayer {
 			try {
 				string serialized = JsonSerializer.Serialize(user);
 
-				if (File.Exists(fileName)) {
-					Console.WriteLine("\nThe file already exists and will be overwritten.");
+				if (File.Exists(backupFileName) || File.Exists(fileName)) {
+					Console.WriteLine("\nFile found!");
 				} else {
-					Console.WriteLine("\nThe file does not exist. Creating a new file.");
+					Console.WriteLine("\nFile not found. Creating a new file.");
 				}
 
 				File.WriteAllText(fileName, serialized);
@@ -115,7 +115,6 @@ namespace Project_Slayer {
 					Console.WriteLine("No matching files found.");
 				}
 				Console.WriteLine();
-
 			} catch (ArgumentException e) {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}

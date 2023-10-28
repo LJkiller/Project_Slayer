@@ -11,12 +11,17 @@ namespace Project_Slayer {
     /// </summary>
 	class Human : Mob {
 
-		#region Race Attributes
+        #region SetUp
+        //To initialize an emptyUser to access methods.
+        User emptyUser = new User("");
+        #endregion
 
-		/// <summary>
-		/// The Mob's race-name (Name).
-		/// </summary>
-		public string MobName {
+        #region Race Attributes
+
+        /// <summary>
+        /// The Mob's race-name (Name).
+        /// </summary>
+        public string MobName {
             get { return mobName; }
             set {
                 mobName = "Human";
@@ -92,6 +97,7 @@ namespace Project_Slayer {
                 }
             }
         }
+
         #endregion
 
         #region Information & Initiator
@@ -127,6 +133,15 @@ namespace Project_Slayer {
         public override void Attack(string attackType = "physical") {
             Console.WriteLine($"{MobName} has attacked!\nInflicted {Strength} damage!");
 		}
+
+        /// <summary>
+        /// Method responsible of Human's death.
+        /// </summary>
+		public override void Death() {
+			base.Death();
+            emptyUser.Exp += (int)Math.Round(ExpDrop);
+            emptyUser.Coins += (int)Math.Round(CoinDrop);
+        }
 
 		#endregion
 

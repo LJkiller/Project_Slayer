@@ -11,5 +11,16 @@ namespace Project_Slayer {
 	/// </summary>
 	public class Boss : Mob {
 
+		#region SetUp
+		//To initialize an emptyUser to access methods.
+		User emptyUser = new User("");
+		#endregion
+
+		/// <summary>
+		/// Method responsible of a Boss's Death.
+		/// </summary>
+		public override void Death() {
+			emptyUser.BossSlain();
+		}
 	}
 }

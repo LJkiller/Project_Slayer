@@ -11,6 +11,11 @@ namespace Project_Slayer {
 	/// </summary>
 	class Goblin : Mob {
 
+		#region SetUp
+		//To initialize an emptyUser to access methods.
+		User emptyUser = new User("");
+		#endregion
+
 		#region Race Attributes
 
 		/// <summary>
@@ -127,7 +132,15 @@ namespace Project_Slayer {
 		public override void Attack(string attackType = "physical") {
 			Console.WriteLine($"{MobName} has attacked!\nInflicted {Strength} damage!");
 		}
-
+		
+		/// <summary>
+		/// Method responsible of Goblin's death.
+		/// </summary>
+		public override void Death() {
+			base.Death();
+			emptyUser.Exp += (int)Math.Round(ExpDrop);
+			emptyUser.Coins += (int)Math.Round(CoinDrop);
+		}
 		#endregion
 
 	}

@@ -39,6 +39,11 @@ namespace Project_Slayer {
 	/// </summary>
 	public class Mob : Entity {
 
+		#region SetUp
+		//To initialize an emptyUser to access methods.
+		User emptyUser = new User("");
+		#endregion
+
 		#region RNG
 		//Mob stats for rng usage in inherited classes (ex Human).
 		//Use this as base stat, then calculate the values for all different races.
@@ -73,12 +78,17 @@ namespace Project_Slayer {
 
 		}
 
+		#endregion
+
+		#region Method
+
 		/// <summary>
 		/// Method responsible of Mob's death.
 		/// </summary>
 		public override void Death() {
-			Console.WriteLine("Mob is dead.");
+			emptyUser.MobSlain();
 		}
+		
 		#endregion
 
 	}

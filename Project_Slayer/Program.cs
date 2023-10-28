@@ -30,7 +30,7 @@ namespace Project_Slayer {
 		#region Variables
 
 		public static int availableFloors = 2;
-		public static string gameVersion = "v0.6.9-b";
+		public static string gameVersion = "v0.69.420-b";
 
 		static string FileNameInput;
 		static bool run1;
@@ -58,18 +58,20 @@ namespace Project_Slayer {
 		#region TextInput	
 
 		/// <summary>
-		/// Parses user input and performs corresponding actions.
+		/// A string input arranging into a numerical position.
+		/// Input-filtering to a value in order to call different methods.
 		/// </summary>
-		/// <param name="inputString">The user's input string.</param>
+		/// <param name="inputString"></param>
 		static void InputArrangement(string inputString) {
 			List<string> inputCount = inputString.ToLower().Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
 
 			if (inputCount.Count == 0) {
 				Console.WriteLine("Invalid input, please try again. If you need help: [HELP]");
-			} else if (inputCount.Count == 1) {
-				string action = inputCount[0];
-
-				switch (action) {
+			} 
+			//Quick Methods
+			else if (inputCount.Count == 1) {
+				string input = inputCount[0];
+				switch (input) {
 					case "save":
 					case "s":
 						SaveFile();
@@ -89,7 +91,9 @@ namespace Project_Slayer {
 						Console.WriteLine("Invalid input, please try again.");
 						break;
 				}
-			} else {
+			} 
+
+			else {
 				// Handle functions with more than 1 input here
 			}
 		}
@@ -175,6 +179,8 @@ namespace Project_Slayer {
 
 		#region Screens
 
+		#region Game Screen
+
 		/// <summary>
 		/// The game's content.
 		/// </summary>
@@ -188,53 +194,81 @@ namespace Project_Slayer {
 			}
 		}
 
+		#endregion
+
+		#region Start Screen
+
 		/// <summary>
-		/// The game's start screen.
+		/// Displays the start screen and processes user input for starting, continuing, getting help, or quitting the game.
 		/// </summary>
+		/// <param name="displayTitle"></param>
 		static void StartScreen(bool displayTitle) {
 			SetUp();
 			if (displayTitle) {
 				textManager.PrintTitle();
 			}
+
 			Console.WriteLine("Do you want to start a new game?            Write 'S' or 'Start'.");
 			Console.WriteLine("Do you want to continue from a save file?   Write 'C' or 'continue'.");
 			Console.WriteLine("Do you want help?                           Write 'H' or 'help'.");
-			Console.WriteLine("Do you want to quit?                        Write 'Q' or 'quit'.\n");
+			Console.WriteLine("Do you want to quit?                        Write 'Q' or 'quit'.");
+			Console.WriteLine("Check user info?                            Write 'U' or 'check'.");
+			Console.WriteLine("Run entity testing?                         Write 'T' or 'test'.\n");
 
 			while (run1) {
 				string setUpInput = Console.ReadLine().ToLower();
-				if (setUpInput == "start" || setUpInput == "new game") {
+				ProcessStartInput(setUpInput);
+			}
+		}
+
+		/// <summary>
+		/// Method responsible of processing user input at the start of the game.
+		/// </summary>
+		/// <param name="userInput"></param>
+		static void ProcessStartInput(string userInput) {
+			switch (userInput) {
+				case "start":
+				case "s":
 					run1 = false;
 					Console.Clear();
 					UserCreationScreen(user);
-				} 
-				else if (setUpInput == "continue" || setUpInput == "load") {
+					break;
+				case "continue":
+				case "c":
 					run1 = false;
 					Console.Clear();
 					LoadScreen();
-				} 
-				else if (setUpInput == "help" || setUpInput == "h") {
+					break;
+				case "help":
+				case "h":
 					Console.Clear();
 					HelpScreen(true);
-				} 
-				else if (setUpInput == "quit" || setUpInput == "q") {
+					break;
+				case "quit":
+				case "q":
 					run1 = false;
 					Console.Clear();
-				} 
-				else if (setUpInput == "cmds-check" || setUpInput == "check") {
+					break;
+				case "check":
+				case "u":
 					Console.WriteLine();
-					user.CheckUserInfo(user, setUpInput);
-				} 
-				else if (setUpInput == "cmds-test") {
+					user.CheckUserInfo(user, userInput);
+					break;
+				case "test":
+				case "t":
 					Console.Clear();
 					EntityTesting();
-				} 
-				else {
-					Console.WriteLine("Write an appropiate input: 'start', 'continue', 'help' or 'quit'\n");
-				}
+					break;
+				default:
+					Console.WriteLine("Write an appropriate input: 'start', 'continue', 'help', 'quit', 'check', or 'test'\n");
+					break;
 			}
 		}
-		
+
+		#endregion
+
+		#region User Create Screen
+
 		/// <summary>
 		/// Represents a screen for creating a user by gathering necessary information.
 		/// Information is then sent to CreateUser().
@@ -246,34 +280,38 @@ namespace Project_Slayer {
 				string userNameInput = Console.ReadLine();
 
 				if (userNameInput.Length > 20) {
-					Console.WriteLine($"Max 20 characters ({userNameInput.Length} Characters).");
-				} 
-				else {
-					Console.WriteLine("Are you sure?\n[YES] or [NO]");
-					string opt = Console.ReadLine();
-					if (opt.ToLower() == "yes" || opt.ToLower() == "y") {
-						Console.WriteLine("To which file do you want to save your character?");
-						FileNameInput = Console.ReadLine();
-						user = new User(userNameInput);
-						user.CreateUser(userNameInput, FileNameInput, user);
-						Console.WriteLine("Press any [KEY] to continue.");
-						Console.ReadKey();
-						run1 = false;
-						run2 = false;
-						GameScreen();
-					} else if (opt.ToLower() == "no" || opt.ToLower() == "n") {
-						Console.Clear();
-						continue;
-					} else if (opt.ToLower() == "quit" || opt.ToLower() == "q") {
-						Console.Clear();
-						run1 = false;
-						run2 = false;
-					} else {
-						Console.WriteLine("[YES] or [NO].");
-					}
+					Console.WriteLine($"Max 20 characters ({userNameInput.Length} Characters).\n");
+					continue;
+				}
+
+				Console.WriteLine("Are you sure?\n[YES] or [NO]");
+				string opt = Console.ReadLine().ToLower();
+
+				if (opt == "yes" || opt == "y") {
+					Console.WriteLine("To which file do you want to save your character?");
+					FileNameInput = Console.ReadLine();
+					user = new User(userNameInput);
+					user.CreateUser(userNameInput, FileNameInput, user);
+					Console.WriteLine("Press any [KEY] to continue.");
+					Console.ReadKey();
+					run1 = false;
+					run2 = false;
+					GameScreen();
+				} else if (opt == "no" || opt == "n") {
+					Console.Clear();
+				} else if (opt == "quit" || opt == "q") {
+					Console.Clear();
+					run1 = false;
+					run2 = false;
+				} else {
+					Console.WriteLine("[YES] or [NO].");
 				}
 			}
 		}
+
+		#endregion
+
+		#region Load Screen
 
 		/// <summary>
 		/// Load user info screen and allows the user to select a file to load from.
@@ -310,6 +348,8 @@ namespace Project_Slayer {
 				}
 			}
 		}
+
+		#endregion
 
 		#region HelpScreen 
 

@@ -15,13 +15,6 @@ namespace Project_Slayer {
 	public class TextManager {
 
 		/// <summary>
-		/// Displays an error message.
-		/// </summary>
-		public void PrintError() {
-			Console.WriteLine("(._.)\n\n    An Error.");
-		}
-
-		/// <summary>
 		/// Displays the game's title in a stylized text.
 		/// </summary>
 		public void PrintTitle() {
