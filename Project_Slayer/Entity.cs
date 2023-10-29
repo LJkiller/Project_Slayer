@@ -86,6 +86,11 @@ namespace Project_Slayer {
 			return agility;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="damageIncrement"></param>
+		/// <returns></returns>
 		public int EnemyDamaged(int damageIncrement) {
 			durability -= damageIncrement;
 			return durability;

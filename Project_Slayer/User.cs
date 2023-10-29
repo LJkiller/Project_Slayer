@@ -393,13 +393,12 @@ namespace Project_Slayer {
 		/// </summary>
 		/// <param name="attackType"></param>
 		public override void Attack(string attackType, User user, Entity entity) {
-			int mobDurability = entity.GetDurability();
 			switch (attackType) {
 				case "physical":
 				case "phy":
 				case "p":
 					physicalAttackCount++;
-					mobDurability -= base.strength;
+					entity.EnemyDamaged(user.Strength);
 					textManager.PrintColoredText(user.UserName, Program.UserColor);
 					Console.Write(" has attacked!\nInflicted ");
 					textManager.PrintColoredText(user.Strength, Program.DamageColor);
@@ -409,7 +408,7 @@ namespace Project_Slayer {
 				case "magic":
 				case "m":
 					magicalAttackCount++;
-					mobDurability -= base.mana;
+					entity.EnemyDamaged(user.Mana);
 					textManager.PrintColoredText(user.UserName, Program.UserColor);
 					Console.Write(" has attacked!\nInflicted ");
 					textManager.PrintColoredText(user.Strength, Program.DamageColor);
