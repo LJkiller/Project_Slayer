@@ -87,7 +87,7 @@ namespace Project_Slayer {
 						break;
 					case "quit":
 					case "q":
-						QuitGame();
+						QuitGame(user);
 						break;
 					case "forcedeath":
 						user.Death();
@@ -132,7 +132,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible for quitting the game.
 		/// </summary>
-		static void QuitGame() {
+		static void QuitGame(User user) {
 			Console.Clear();
 			while (run2) {
 				Console.WriteLine("File name?");
