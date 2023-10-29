@@ -67,7 +67,7 @@ namespace Project_Slayer {
 		/// Input-filtering to a value in order to call different methods.
 		/// </summary>
 		/// <param name="inputString"></param>
-		static void InputArrangement(string inputString) {
+		static void InputArrangement(string inputString, User user) {
 			List<string> inputCount = inputString.ToLower().Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
 
 			if (inputCount.Count == 0) {
@@ -77,6 +77,10 @@ namespace Project_Slayer {
 			else if (inputCount.Count == 1) {
 				string input = inputCount[0];
 				switch (input) {
+					case "save":
+					case "s":
+						SaveFile(user);
+						break;
 					case "help":
 					case "h":
 						HelpScreen(false);
@@ -96,12 +100,6 @@ namespace Project_Slayer {
 
 			else {
 
-				if (inputCount[0] == "save" && inputCount[1] == "user" 
-					|| inputCount[0] == "s" && inputCount[1] == "user"
-					|| inputCount[0] == "save" && inputCount[1] == $"{user.UserName}"
-					|| inputCount[0] == "s" && inputCount[1] == $"{user.UserName}") {
-					SaveFile(user);
-				}
 			}
 		}
 
@@ -218,7 +216,7 @@ namespace Project_Slayer {
 				}
 				Console.WriteLine("Your move, brave soul!");
 				string input = Console.ReadLine();
-				InputArrangement(input);
+				InputArrangement(input, user);
 			}
 		}
 
