@@ -417,34 +417,37 @@ namespace Project_Slayer {
 			}
 
 			Console.Write("As you lived out your legendary journey, other the people referred to you as the '");
-			if ((PhysicalAttackCount > MagicalAttackCount) && (DodgeCount>50)) {
-				if (PhysicalAttackCount > 50) {
+			if ((PhysicalAttackCount > MagicalAttackCount) && (DodgeCount >= 50)) {
+				if (PhysicalAttackCount >= 50) {
 					textManager.PrintColoredText("Conqueror", ConsoleColor.DarkMagenta);
 				} else {
 					textManager.PrintColoredText("Martial Artist", ConsoleColor.Red);
 				}
 			} 
 			else if (PhysicalAttackCount > MagicalAttackCount) {
-				if (PhysicalAttackCount > 50) {
+				if (PhysicalAttackCount >= 50) {
 					textManager.PrintColoredText("Berserker", ConsoleColor.DarkRed);
 				} else {
 					textManager.PrintColoredText("Brawler", ConsoleColor.Red);
 				}
 			}
-			else if ((MagicalAttackCount > PhysicalAttackCount) && (DodgeCount > 50)) {
-				if (MagicalAttackCount > 50) {
+			else if ((MagicalAttackCount > PhysicalAttackCount) && (DodgeCount >= 50)) {
+				if (MagicalAttackCount >= 50) {
 					textManager.PrintColoredText("Seer", ConsoleColor.Green);
 				} else {
 					textManager.PrintColoredText("Clairvoiant", ConsoleColor.Blue);
 				}
 			}
 			else if (MagicalAttackCount > PhysicalAttackCount) {
-				if (MagicalAttackCount > 50) {
+				if (MagicalAttackCount >= 50) {
 					textManager.PrintColoredText("Archmage", ConsoleColor.DarkMagenta);
 				} else {
 					textManager.PrintColoredText("Conjurer", ConsoleColor.Blue);
 				}
 			} 
+			else if (DodgeCount >= 50) {
+				textManager.PrintColoredText("Zephyr", ConsoleColor.Yellow);
+			}
 			else {
 				textManager.PrintColoredText("Ordinary", ConsoleColor.DarkMagenta);
 			}
@@ -462,7 +465,7 @@ namespace Project_Slayer {
 					Console.WriteLine("Just as life is, people do not get a second change.");
 					WipeData(backupFileName);
 				} else {
-					Console.WriteLine("In the absence of records, a new story is born. One that is unrecorded of your presence");
+					Console.WriteLine("In the absence of records, a new story is born. One that is unrecorded of your presence.");
 				}
 
 			} else {

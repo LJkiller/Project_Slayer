@@ -106,11 +106,11 @@ namespace Project_Slayer {
 			Console.Write($"Entering combat!\nTake heed ");
 			PrintColoredText(user.UserName, Program.UserColor);
 			Console.Write(", a hostile ");
-			PrintColoredText(entity.mobName, Program.EnemyColor);
+			PrintColoredText(entity.GetMobName(), Program.EnemyColor);
 			Console.Write(" has appeared!\nYou have ");
 			PrintColoredText(user.HitPoints, Program.UserHealthColor);
 			Console.Write("HP!\nThe ");
-			PrintColoredText(entity.mobName, Program.EnemyColor);
+			PrintColoredText(entity.GetMobName(), Program.EnemyColor);
 			Console.Write(" has ");
 			PrintColoredText(entity.GetDurability(), Program.EnemyHealthColor);
 			Console.Write("HP!\n");
@@ -125,7 +125,7 @@ namespace Project_Slayer {
 			Console.Write(" has ");
 			PrintColoredText(user.HitPoints, Program.UserHealthColor);
 			Console.Write("HP!\nThe ");
-			PrintColoredText(entity.mobName, Program.EnemyColor);
+			PrintColoredText(entity.GetMobName(), Program.EnemyColor);
 			Console.Write(" has ");
 			PrintColoredText(entity.GetDurability(), Program.EnemyHealthColor);
 			Console.Write("HP!\n");
@@ -137,14 +137,14 @@ namespace Project_Slayer {
 		/// <param name="attackType"></param>
 		public void PrintDamage(Entity entity, string attackType) {
 			if (attackType == "physical") {
-				PrintColoredText(entity.mobName, Program.EnemyColor);
+				PrintColoredText(entity.GetMobName(), Program.EnemyColor);
 				Console.Write(" has attacked!\nInflicted ");
-				PrintColoredText(entity.strength, Program.DamageColor);
+				PrintColoredText(entity.GetStrength(), Program.DamageColor);
 				Console.Write(" damage!\n");
 			} else if (attackType == "magical") {
-				PrintColoredText(entity.mobName, Program.EnemyColor);
+				PrintColoredText(entity.GetMobName(), Program.EnemyColor);
 				Console.Write(" has attacked!\nInflicted ");
-				PrintColoredText(entity.mana, Program.DamageColor);
+				PrintColoredText(entity.GetMana(), Program.DamageColor);
 				Console.Write(" damage!\n");
 			}
 		}

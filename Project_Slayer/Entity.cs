@@ -44,16 +44,33 @@ namespace Project_Slayer {
 
 		#region Entity Attributes
 
-		[JsonIgnore]
-		public string mobName { get; protected set; }
-		[JsonIgnore]
-		public int strength { get; protected set; }
-		[JsonIgnore]
-		public int mana { get; protected set; }
-		protected int durability { get; set; }
-		[JsonIgnore]
-		public int agility { get; protected set; }
+		protected string mobName;
+		protected int strength;
+		protected int mana;
+		protected int durability;
+		protected int agility;
 
+		/// <summary>
+		/// Method responsible of getting mobName.
+		/// </summary>
+		/// <returns></returns>
+		public string GetMobName() {
+			return mobName;
+		}
+		/// <summary>
+		/// Method responsible of getting strength.
+		/// </summary>
+		/// <returns></returns>
+		public int GetStrength() {
+			return strength;
+		}
+		/// <summary>
+		/// Method responsible of getting mana.
+		/// </summary>
+		/// <returns></returns>
+		public int GetMana() {
+			return mana;
+		}
 		/// <summary>
 		/// Method responsible of getting durability.
 		/// </summary>
@@ -61,6 +78,14 @@ namespace Project_Slayer {
 		public int GetDurability() {
 			return durability;
 		}
+		/// <summary>
+		/// Method responsible of getting agility.
+		/// </summary>
+		/// <returns></returns>
+		public int GetAgility() {
+			return agility;
+		}
+
 		#endregion
 
 		#region Information & Initiator
