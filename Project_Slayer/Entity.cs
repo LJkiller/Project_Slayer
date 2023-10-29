@@ -94,7 +94,7 @@ namespace Project_Slayer {
 		/// Displays the information of an Entity.
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// </summary>
-		public virtual void DisplayInfo() {
+		public virtual void DisplayInfo(bool admin) {
 			Console.WriteLine($"{strength,21}: Strength");
 			Console.WriteLine($"{mana,21}: Mana");
 			Console.WriteLine($"{durability,21}: Durability");

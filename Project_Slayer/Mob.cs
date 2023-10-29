@@ -64,9 +64,9 @@ namespace Project_Slayer {
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// Additional info: CoinDrop, ExpDrop.
 		/// </summary>
-		public override void DisplayInfo() {
+		public override void DisplayInfo(bool admin) {
 			Console.WriteLine($"{mobName,21}: Entity");
-			base.DisplayInfo();
+			base.DisplayInfo(false);
 			Console.WriteLine($"{coinDrop,21}: CoinDrop");
 			Console.WriteLine($"{expDrop,21}: ExpDrop");
 		}

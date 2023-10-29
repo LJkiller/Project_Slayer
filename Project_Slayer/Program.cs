@@ -56,7 +56,7 @@ namespace Project_Slayer {
 		/// </summary>
 		/// <param name="entity"></param>
 		static void DisplayEntityInfo(Entity entity) {
-			entity.DisplayInfo();
+			entity.DisplayInfo(false);
 		}
 
 		/// <summary>
@@ -152,6 +152,7 @@ namespace Project_Slayer {
 				string newOpt = Console.ReadLine().ToLower();
 				if (newOpt == "yes" || newOpt == "y") {
 					fileManager.Save(FileNameInput, user);
+					fileManager.SaveFileName(FileNameInput);
 					run1 = false;
 					run2 = false;
 					run3 = false;
@@ -205,15 +206,15 @@ namespace Project_Slayer {
 
 			while (run1) {
 
+				//Checks if there is any mob, if no mob, creates one.
 				if (entityCombat.Count < 1) {
-					if (user.FloorLevel == 1 && user.MobCount > 19) {
-						entityCombat.Add(new GoblinLord());
-					} else {
-						entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount));
-					}
+					entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount, availableFloors));
+					Console.WriteLine($"FloorLevel: {user.GetFloorLevel()}, MobCount: {user.GetMobCount()}, AvailableFloors: {availableFloors}");
 					textManager.PrintNewMobAppearance(user, entityCombat[0]);
+					user.DisplayInfo(true);
 				} 
 				else {
+					//Checks if user is dead, proceeds.
 					if (user.CheckIfDead(user.HitPoints)) {
 						run1 = false;
 						run2 = false;
@@ -228,6 +229,7 @@ namespace Project_Slayer {
 				}
 				Console.WriteLine("Your move, brave soul!");
 
+				//User input is then distributed for functions that change the attack order.
 				string input = Console.ReadLine();
 				Console.WriteLine();
 				if (input.ToLower() == "dodge" || input.ToLower() == "dg") {
@@ -237,6 +239,7 @@ namespace Project_Slayer {
 					user.Escape();
 					entityCombat.RemoveAt(0);
 				} else {
+					//Function that does not disturb the attack order, will proceed as turn-based combat.
 					InputArrangement(input, user, entityCombat[0]);
 					entityCombat[0].Attack("physical", user, entityCombat[0]);
 				}
@@ -249,14 +252,13 @@ namespace Project_Slayer {
 		/// <param name="floorLevel"></param>
 		/// <param name="mobCount"></param>
 		/// <returns></returns>
-		static Entity SpawnMob(int floorLevel, int mobCount) {
+		static Entity SpawnMob(int floorLevel, int mobCount, int availableFloors) {
 			if (floorLevel == 0) {
 				return new Human();
 			} else if (floorLevel == 1) {
-				if (mobCount > ((availableFloors * 10) - 1)) {
+				if (mobCount > (availableFloors * 10 - 1)) {
 					return new GoblinLord();
-				} 
-				else {
+				} else {
 					return new Goblin();
 				}
 			}
@@ -439,7 +441,7 @@ namespace Project_Slayer {
 							fileManager.SaveFileName(FileNameInput);
 							fileManager.BackupFileName(FileNameInput);
 							Console.WriteLine("Received data from JSON:\n");
-							user.DisplayInfo();
+							user.DisplayInfo(false);
 							Console.WriteLine("Press any [KEY] to continue.");
 							Console.ReadKey();
 							run1 = false;

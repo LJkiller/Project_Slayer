@@ -85,7 +85,20 @@ namespace Project_Slayer {
 		public int Exp { get; set; }
 
 		/// <summary>
-		/// Method responsible of checking if the user is dead.
+		/// Method reponsible of checking if the User is dead.
+		/// </summary>
+		/// <param name="HP"></param>
+		/// <returns></returns>
+		public bool CheckIfDead(int HP) {
+			if (HP>0) {
+				return false;
+			} else {
+				return true;
+			}
+
+		}
+		/// <summary>
+		/// Compares CheckIfDead() method is true or false, then takes acition.
 		/// </summary>
 		/// <param name="HP"></param>
 		public void IsDead(int HP) {
@@ -95,14 +108,6 @@ namespace Project_Slayer {
 				textManager.PrintColoredText(UserName, Program.UserColor);
 				Console.Write(" is still standing!\n");
 			}
-		}
-		public bool CheckIfDead(int HP) {
-			if (HP>0) {
-				return false;
-			} else {
-				return true;
-			}
-
 		}
 
 		#endregion
@@ -118,7 +123,7 @@ namespace Project_Slayer {
 		[JsonPropertyName("FloorLevel")]
 		public int FloorLevel {
 			get { return floorLevel; }
-			private set {
+			set {
 				if (MobCount % 10 == 0 && MobCount > 0) {
 					floorLevel = value;
 					FloorChange(floorLevel);
@@ -132,6 +137,14 @@ namespace Project_Slayer {
 		/// <param name="floorLevel"></param>
 		public void FloorChange(int newFloorLevel) {
 			floorLevel = newFloorLevel;
+		}
+
+		/// <summary>
+		/// Method responsible of getting floorLevel.
+		/// </summary>
+		/// <returns></returns>
+		public int GetFloorLevel() {
+			return floorLevel;
 		}
 
 		#endregion
@@ -170,13 +183,28 @@ namespace Project_Slayer {
 				floorLevel++;
 			}
 		}
-
 		/// <summary>
 		/// The number of bosses slain, increases by 1.
 		/// </summary>
 		public void BossSlain() {
 			bossCount++;
 			FloorLevel++;
+		}
+
+
+		/// <summary>
+		/// Method responsible of getting MobCount from User.
+		/// </summary>
+		/// <returns></returns>
+		public int GetMobCount() {
+			return mobCount;
+		}
+		/// <summary>
+		/// Method responsible of getting BossCount from User.
+		/// </summary>
+		/// <returns></returns>
+		public int GetBossCount() {
+			return bossCount;
 		}
 
 		#endregion
@@ -224,7 +252,7 @@ namespace Project_Slayer {
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// Additional info: UserName, MobCount, FloorLevel.
 		/// </summary>
-		public override void DisplayInfo() {
+		public override void DisplayInfo(bool admin) {
 			Console.WriteLine($"{UserName,21}: Username");
 			Console.WriteLine($"{Strength,21}: Strength");
 			Console.WriteLine($"{Mana,21}: Mana");
@@ -234,11 +262,15 @@ namespace Project_Slayer {
 			Console.WriteLine($"{Exp,21}: Exp");
 			Console.WriteLine($"{MobCount,21}: MobCount\n");
 
-			/* No Public Displaying.
-			Console.WriteLine($"{BossCount,21}: BossCount");
-			Console.WriteLine($"{FloorLevel,21}: FloorLevel");
-			Console.WriteLine($"{DodgeCount,21}: DodgeCount\n");
-			*/
+			if (admin) {
+				Console.WriteLine($"{BossCount,21}: BossCount");
+				Console.WriteLine($"{FloorLevel,21}: FloorLevel");
+				Console.WriteLine($"{DodgeCount,21}: DodgeCount\n");
+
+				Console.WriteLine($"{PhysicalAttackCount,21}: PhysicalAttackCount");
+				Console.WriteLine($"{MagicalAttackCount,21}: MagicalAttackCount\n");
+			}
+
 		}
 		
 		/// <summary>
@@ -274,6 +306,10 @@ namespace Project_Slayer {
 				user.HitPoints = durHP;
 				user.Agility = rng.Next(minStat, maxStat);
 
+				user.MobCount = 0;
+				user.BossCount = 0;
+				user.FloorLevel = 0;
+
 				string serialized = JsonSerializer.Serialize(user);
 
 				if (File.Exists(fileName)) {
@@ -286,7 +322,7 @@ namespace Project_Slayer {
 				File.WriteAllText(backupFileName, serialized);
 
 				Console.WriteLine("User data saved successfully.\nUser created successfully.\nYour data:\n");
-				user.DisplayInfo();
+				user.DisplayInfo(false);
 			} catch (ArgumentException e) {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
@@ -476,6 +512,7 @@ namespace Project_Slayer {
 		}
 
 		public void WipeData(string fileName) {
+			Console.WriteLine($"This is the FileName : {fileName}");
 			try {
 				if (File.Exists(fileName)) {
 					File.WriteAllText(fileName, "{}");

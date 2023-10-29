@@ -79,7 +79,7 @@ namespace Project_Slayer {
 
 				Console.WriteLine("User data saved successfully!");
 				Console.WriteLine("Saved data:");
-				user.DisplayInfo();
+				user.DisplayInfo(false);
 			} catch (ArgumentException e) {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
