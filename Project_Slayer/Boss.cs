@@ -17,9 +17,9 @@ namespace Project_Slayer {
 		#endregion
 
 		/// <summary>
-		/// Method responsible of a Boss's Death.
+		/// Method responsible of a Boss's End.
 		/// </summary>
-		public override void Death() {
+		public override void End(bool dead) {
 			emptyUser.BossSlain();
 		}
 	}

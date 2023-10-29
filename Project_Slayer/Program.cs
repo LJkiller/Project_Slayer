@@ -32,11 +32,12 @@ namespace Project_Slayer {
 		public static int availableFloors = 2;
 		public static string gameVersion = "v0.69.420-b";
 
-		static ConsoleColor UserColor = ConsoleColor.Blue;
-		static ConsoleColor EnemyColor = ConsoleColor.Red;
-		static ConsoleColor UserHealthColor = ConsoleColor.Green;
-		static ConsoleColor EnemyHealthColor = ConsoleColor.DarkYellow;
-		static ConsoleColor DamageColor = ConsoleColor.DarkRed;
+		public static ConsoleColor UserColor = ConsoleColor.Blue;
+		public static ConsoleColor EnemyColor = ConsoleColor.Red;
+		public static ConsoleColor UserHealthColor = ConsoleColor.Green;
+		public static ConsoleColor EnemyHealthColor = ConsoleColor.DarkYellow;
+		public static ConsoleColor DamageColor = ConsoleColor.DarkRed;
+
 		static string FileNameInput;
 		static bool run1;
 		static bool run2;
@@ -58,16 +59,12 @@ namespace Project_Slayer {
 			entity.DisplayInfo();
 		}
 
-		#endregion
-
-		#region TextInput	
-
 		/// <summary>
 		/// A string input arranging into a numerical position.
 		/// Input-filtering to a value in order to call different methods.
 		/// </summary>
 		/// <param name="inputString"></param>
-		static void InputArrangement(string inputString, User user) {
+		static void InputArrangement(string inputString, User user, Entity entity) {
 			List<string> inputCount = inputString.ToLower().Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
 
 			if (inputCount.Count == 0) {
@@ -90,16 +87,21 @@ namespace Project_Slayer {
 						QuitGame(user);
 						break;
 					case "forcedeath":
-						user.Death();
+						user.End(true);
+						break;
+					case "forceend":
+						user.End(false);
 						break;
 					default:
-						Console.WriteLine("Invalid input, please try again.");
+						Console.WriteLine("Your move has been forfeited, enemy attacks. If you need help type 'HELP'.");
 						break;
 				}
 			} 
 
 			else {
-
+				if (inputCount[0] == "attack") {
+					user.Attack(inputCount[1], user, entity);
+				}
 			}
 		}
 
@@ -202,21 +204,21 @@ namespace Project_Slayer {
 					} else {
 						entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount));
 					}
-					Console.Write($"Entering combat!\nTake heed ");
-					textManager.PrintColoredText(user.UserName, UserColor);
-					Console.Write(", a hostile ");
-					textManager.PrintColoredText(entityCombat[0].mobName, EnemyColor);
-					Console.Write(" has appeared!\nYou have ");
-					textManager.PrintColoredText(user.HitPoints, UserHealthColor);
-					Console.Write("HP!\nThe ");
-					textManager.PrintColoredText(entityCombat[0].mobName, EnemyColor);
-					Console.Write(" has ");
-					textManager.PrintColoredText(entityCombat[0].durability, EnemyHealthColor);
-					Console.Write("HP!\n");
+					textManager.PrintNewMobAppearance(user, entityCombat[0]);
+				} 
+				else {
+					user.CheckIfDead(user.HitPoints);
+					textManager.PrintAfterRound(user, entityCombat[0]);
 				}
 				Console.WriteLine("Your move, brave soul!");
 				string input = Console.ReadLine();
-				InputArrangement(input, user);
+				Console.WriteLine();
+				if (input.ToLower() == "dodge" || input.ToLower() == "dg") {
+					user.Dodge();
+				} else {
+					InputArrangement(input, user, entityCombat[0]);
+					entityCombat[0].Attack("physical", user, entityCombat[0]);
+				}
 			}
 		}
 
@@ -255,11 +257,11 @@ namespace Project_Slayer {
 			}
 
 			Console.WriteLine("Do you want to start a new game?            Write 'S' or 'Start'.");
-			Console.WriteLine("Do you want to continue from a save file?   Write 'C' or 'continue'.");
-			Console.WriteLine("Do you want help?                           Write 'H' or 'help'.");
-			Console.WriteLine("Do you want to quit?                        Write 'Q' or 'quit'.");
-			Console.WriteLine("Check user info?                            Write 'U' or 'check'.");
-			Console.WriteLine("Run entity testing?                         Write 'T' or 'test'.\n");
+			Console.WriteLine("Do you want to continue from a save file?   Write 'C' or 'Continue'.");
+			Console.WriteLine("Do you want help?                           Write 'H' or 'Help'.");
+			Console.WriteLine("Do you want to quit?                        Write 'Q' or 'Quit'.");
+			Console.WriteLine("Check user info?                            Write 'U' or 'Check'.");
+			Console.WriteLine("Run entity testing?                         Write 'T' or 'Test'.\n");
 
 			while (run1) {
 				string setUpInput = Console.ReadLine().ToLower();
@@ -335,7 +337,7 @@ namespace Project_Slayer {
 					string opt = Console.ReadLine().ToLower();
 
 					if (opt == "yes" || opt == "y") {
-						UserFileScreen(userNameInput);
+						CreationFileScreen(userNameInput);
 					} 
 					else if (opt == "no" || opt == "n") {
 						Console.Clear();
@@ -358,7 +360,7 @@ namespace Project_Slayer {
 		/// Represents a screen for selecting a file to save a user's character.
 		/// </summary>
 		/// <param name="userNameInput"></param>
-		static void UserFileScreen(string userNameInput) {
+		static void CreationFileScreen(string userNameInput) {
 			while (true) {
 				Console.Clear();
 				Console.WriteLine("To which file do you want to save your character to?");
@@ -420,15 +422,18 @@ namespace Project_Slayer {
 						} catch (ArgumentException e) {
 							Console.WriteLine($"An issue occurred: {e.Message}");
 						}
-					} else if (opt == "no" || opt == "n") {
+					} 
+					else if (opt == "no" || opt == "n") {
 						Console.Clear();
 						break;
-					} else if (opt == "quit" || opt == "q") {
+					} 
+					else if (opt == "quit" || opt == "q") {
 						Console.Clear();
 						run1 = false;
 						run2 = false;
 						run3 = false;
-					} else {
+					} 
+					else {
 						Console.WriteLine("[YES] or [NO].");
 					}
 				}
@@ -455,12 +460,14 @@ namespace Project_Slayer {
 					textManager.PrintGameHelp();
 					ShowGameOrMore(startAtGame);
 					break;
-				} else if (inputHelp == "commands" || inputHelp == "cmds") {
+				} 
+				else if (inputHelp == "commands" || inputHelp == "cmds") {
 					Console.Clear();
 					textManager.PrintCMDSHelp();
 					ShowGameOrMore(startAtGame);
 					break;
-				} else {
+				} 
+				else {
 					Console.WriteLine("[GAME] or [COMMANDS]");
 				}
 			}
@@ -485,11 +492,13 @@ namespace Project_Slayer {
 						break;
 					}
 					break;
-				} else if (furtherInput == "more" || furtherInput == "m") {
+				} 
+				else if (furtherInput == "more" || furtherInput == "m") {
 					Console.Clear();
 					Console.WriteLine("Available options: [GAME], [COMMANDS]");
 					break;
-				} else {
+				} 
+				else {
 					Console.WriteLine("[GAME] or [MORE].");
 				}
 			}
@@ -506,10 +515,12 @@ namespace Project_Slayer {
 				if (gameContinuationInput == "start" || gameContinuationInput == "s") {
 					UserCreationScreen(user);
 					break;
-				} else if (gameContinuationInput == "continue" || gameContinuationInput == "c") {
+				} 
+				else if (gameContinuationInput == "continue" || gameContinuationInput == "c") {
 					LoadScreen();
 					break;
-				} else {
+				} 
+				else {
 					Console.WriteLine("'start' or 'continue'.");
 				}
 			}
@@ -543,14 +554,25 @@ namespace Project_Slayer {
 			}
 		}
 
+		/// <summary>
+		/// Testing colors.
+		/// </summary>
+		static void ColorTesting() {
+			for (ConsoleColor color = ConsoleColor.Black; color <= ConsoleColor.White; color++) {
+				Console.BackgroundColor = color;
+				Console.WriteLine($"This is {color}");
+			}
+		}
 		#endregion
 
 		static void Main(string[] args) {
 
+			//ColorTesting();
+
 			InitializeGame();
 
 			//Testing
-			//GameScreen();
+			//GameScreen(user);
 			Console.ReadLine();
 		}
 	}

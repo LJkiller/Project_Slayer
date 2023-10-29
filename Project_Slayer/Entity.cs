@@ -28,6 +28,11 @@ namespace Project_Slayer {
 		// __________
 		//(👍 ͡❛ ▭ ͡❛)👍 En(tit)y
 
+		#region Setup 
+		//To initialize different classes to access methods.
+		TextManager textManager = new TextManager();
+		#endregion
+
 		#region RNG
 		//Mob and User stats for rng usage in inherited classes (ex Human).
 		//Use this as base stat, then calculate the values for mobs and user.
@@ -45,11 +50,17 @@ namespace Project_Slayer {
 		public int strength { get; protected set; }
 		[JsonIgnore]
 		public int mana { get; protected set; }
-		[JsonIgnore]
-		public int durability { get; protected set; }
+		protected int durability { get; set; }
 		[JsonIgnore]
 		public int agility { get; protected set; }
-		
+
+		/// <summary>
+		/// Method responsible of getting durability.
+		/// </summary>
+		/// <returns></returns>
+		public int GetDurability() {
+			return durability;
+		}
 		#endregion
 
 		#region Information & Initiator
@@ -89,17 +100,24 @@ namespace Project_Slayer {
 			}
 		}
 
-		/// <summary>
-		/// Method responsible of attacking.
+		/// Attacks opponent and inflicts damage. 
+		/// Damage is scaled by Strength or Mana.
 		/// </summary>
-		public virtual void Attack(string attackType) {
-			Console.WriteLine("Whaazaa! The Entity should've attacked!");
+		/// <param name="attackType"></param>
+		public virtual void Attack(string attackType, User user, Entity entity) {
+			if (attackType == "physical") {
+				user.HitPoints -= (int)Math.Round((double)entity.strength);
+				textManager.PrintDamage(entity, attackType);
+			} else if (attackType == "magical") {
+				user.HitPoints -= (int)Math.Round((double)entity.mana);
+				textManager.PrintDamage(entity, attackType);
+			}
 		}
 
 		/// <summary>
 		/// Method responsible of an entity's death.
 		/// </summary>
-		public abstract void Death();
+		public abstract void End(bool dead);
 		#endregion
 
 	}

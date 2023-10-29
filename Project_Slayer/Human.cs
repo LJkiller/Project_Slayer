@@ -12,7 +12,7 @@ namespace Project_Slayer {
 	class Human : Mob {
 
         #region SetUp
-        //To initialize an emptyUser to access methods.
+        //To initialize different classes to access methods.
         User emptyUser = new User("");
         #endregion
 
@@ -93,7 +93,7 @@ namespace Project_Slayer {
                 if (value > 0) {
                     durability = value;
                 } else {
-                    Death();
+                    End(true);
                 }
             }
         }
@@ -126,20 +126,10 @@ namespace Project_Slayer {
         #region Methods
 
         /// <summary>
-        /// Attacks opponent and inflicts damage. 
-        /// Damage is scaled by Strength or Mana.
-        /// </summary>
-        /// <param name="attackType"></param>
-        public override void Attack(string attackType = "physical") {
-            emptyUser.HitPoints -= (int)Math.Round(Strength);
-            Console.WriteLine($"{MobName} has attacked!\nInflicted {Strength} damage!");
-		}
-
-        /// <summary>
         /// Method responsible of Human's death.
         /// </summary>
-		public override void Death() {
-			base.Death();
+		public override void End(bool dead) {
+			base.End(true);
             emptyUser.Exp += (int)Math.Round(ExpDrop);
             emptyUser.Coins += (int)Math.Round(CoinDrop);
         }

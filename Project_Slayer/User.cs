@@ -31,6 +31,11 @@ namespace Project_Slayer {
 	/// </summary>
 	public class User : Entity {
 
+		#region Setup 
+		//To initialize different classes to access methods.
+		TextManager textManager = new TextManager();
+		#endregion
+
 		#region User Attributes
 
 		/// <summary>
@@ -78,13 +83,16 @@ namespace Project_Slayer {
 		[JsonPropertyName("Exp")]
 		public int Exp { get; set; }
 
-
-
-		public void SetHitPoints(int value) {
-			if (value <= 0) {
-				Death();
+		/// <summary>
+		/// Method responsible of checking if the user is dead.
+		/// </summary>
+		/// <param name="HP"></param>
+		public void CheckIfDead(int HP) {
+			if (HP <= 0) {
+				End(true);
 			} else {
-				HitPoints = value;
+				textManager.PrintColoredText(UserName, Program.UserColor);
+				Console.Write(" is still standing!\n");
 			}
 		}
 
@@ -166,6 +174,8 @@ namespace Project_Slayer {
 
 		#region Combat
 		private int dodgeCount;
+		private int physicalAttackCount;
+		private int magicalAttackCount;
 
 		/// <summary>
 		/// The number of times the user has dodged.
@@ -175,6 +185,24 @@ namespace Project_Slayer {
 			get { return dodgeCount; }
 			set { dodgeCount = value; }
 		}
+
+		/// <summary>
+		/// The number of times the user has magically attacker.
+		/// </summary>
+		[JsonPropertyName("PhysicalAttackCount")]
+		public int PhysicalAttackCount {
+			get { return physicalAttackCount; }
+			set { physicalAttackCount = value; }
+		}
+		/// <summary>
+		/// The number of times the user has magically attacker.
+		/// </summary>
+		[JsonPropertyName("MagicalAttackCount")]
+		public int MagicalAttackCount {
+			get { return magicalAttackCount; }
+			set { magicalAttackCount = value; }
+		}
+
 
 		#endregion
 
@@ -339,8 +367,33 @@ namespace Project_Slayer {
 		/// Damage is scaled by Strength or Mana.
 		/// </summary>
 		/// <param name="attackType"></param>
-		public override void Attack(string attackType = "physical") {
-			Console.WriteLine($"Whazaa, a {attackType} attack!");
+		public override void Attack(string attackType, User user, Entity entity) {
+			int mobDurability = entity.GetDurability();
+			switch (attackType) {
+				case "physical":
+				case "phy":
+				case "p":
+					physicalAttackCount++;
+					mobDurability -= strength;
+					textManager.PrintColoredText(user.UserName, Program.UserColor);
+					Console.Write(" has attacked!\nInflicted ");
+					textManager.PrintColoredText(user.Strength, Program.DamageColor);
+					Console.Write(" damage!\n\n");
+					break;
+				case "magical":
+				case "magic":
+				case "m":
+					magicalAttackCount++;
+					mobDurability -= mana;
+					textManager.PrintColoredText(user.UserName, Program.UserColor);
+					Console.Write(" has attacked!\nInflicted ");
+					textManager.PrintColoredText(user.Strength, Program.DamageColor);
+					Console.Write(" damage!\n\n");
+					break;
+				default:
+					Console.WriteLine("You've failed your attack.");
+					break;
+			}
 		}
 
 		/// <summary>
@@ -361,9 +414,46 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of User's death.
 		/// </summary>
-		public override void Death() {
-			Console.WriteLine($"The fearless adventurer {UserName} has met their demise, and the tower remains unconquered.\n" +
-				$"Your journey ends here.");
+		public override void End(bool dead) {
+			Console.Clear();
+			if (dead) {
+				Console.WriteLine($"The fearless adventurer {UserName} has met their demise, and the tower remains unconquered.\n" +
+					$"Your journey ends here.");
+			} else {
+				Console.WriteLine($"The fearless adventurer {UserName} has conquered the tower and stands atop of the world." +
+					$"Your journey end here.");
+			}
+
+			Console.Write("As you lived out your legendary journey, other the people referred to you as the '");
+			if ((PhysicalAttackCount > MagicalAttackCount) && (DodgeCount>50)) {
+				if (PhysicalAttackCount > 50) {
+					textManager.PrintColoredText("Conqueror", ConsoleColor.DarkMagenta);
+				} else {
+					textManager.PrintColoredText("Martial Artist", ConsoleColor.Red);
+				}
+			} 
+			else if (PhysicalAttackCount > MagicalAttackCount) {
+				if (PhysicalAttackCount > 50) {
+					textManager.PrintColoredText("Berserker", ConsoleColor.DarkRed);
+				} else {
+					textManager.PrintColoredText("Brawler", ConsoleColor.Red);
+				}
+			}
+			else if ((MagicalAttackCount > PhysicalAttackCount) && (DodgeCount > 50)) {
+				if (MagicalAttackCount > 50) {
+					textManager.PrintColoredText("Seer", ConsoleColor.Green);
+				} else {
+					textManager.PrintColoredText("Clairvoiant", ConsoleColor.Blue);
+				}
+			}
+			else if (MagicalAttackCount > PhysicalAttackCount) {
+				if (MagicalAttackCount > 50) {
+					textManager.PrintColoredText("Archmage", ConsoleColor.DarkMagenta);
+				} else {
+					textManager.PrintColoredText("Conjurer", ConsoleColor.Blue);
+				}
+			}
+			Console.Write("'.\n");
 			Console.ReadLine();
 		}
 

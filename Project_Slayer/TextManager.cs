@@ -14,6 +14,8 @@ namespace Project_Slayer {
 	/// </summary>
 	public class TextManager {
 
+		#region Screens
+
 		/// <summary>
 		/// Displays the game's title in a stylized text.
 		/// </summary>
@@ -57,6 +59,10 @@ namespace Project_Slayer {
 				"[STAT] = 'strength', 'mana', 'durability', 'agility'\n");
 		}
 
+		#endregion
+
+		#region Text Changes
+
 		/// <summary>
 		/// Method responsible of printing out strings with a different text color.
 		/// </summary>
@@ -87,6 +93,63 @@ namespace Project_Slayer {
 			PrintColoredText(number.ToString(), color);
 		}
 
+		#endregion
+
+		#region During Game
+
+		/// <summary>
+		/// Method responsible of printing out what mob appears alongside how much HP User has and mob has.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <param name="entity"></param>
+		public void PrintNewMobAppearance(User user, Entity entity) {
+			Console.Write($"Entering combat!\nTake heed ");
+			PrintColoredText(user.UserName, Program.UserColor);
+			Console.Write(", a hostile ");
+			PrintColoredText(entity.mobName, Program.EnemyColor);
+			Console.Write(" has appeared!\nYou have ");
+			PrintColoredText(user.HitPoints, Program.UserHealthColor);
+			Console.Write("HP!\nThe ");
+			PrintColoredText(entity.mobName, Program.EnemyColor);
+			Console.Write(" has ");
+			PrintColoredText(entity.GetDurability(), Program.EnemyHealthColor);
+			Console.Write("HP!\n");
+		}
+		/// <summary>
+		/// Method responsible of printing out the health of User and Mob after each round.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <param name="entity"></param>
+		public void PrintAfterRound(User user, Entity entity) {
+			PrintColoredText(user.UserName, Program.UserColor);
+			Console.Write(" has ");
+			PrintColoredText(user.HitPoints, Program.UserHealthColor);
+			Console.Write("HP!\nThe ");
+			PrintColoredText(entity.mobName, Program.EnemyColor);
+			Console.Write(" has ");
+			PrintColoredText(entity.GetDurability(), Program.EnemyHealthColor);
+			Console.Write("HP!\n");
+		}
+		/// <summary>
+		/// Method responsible of printing damage inflicted
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="attackType"></param>
+		public void PrintDamage(Entity entity, string attackType) {
+			if (attackType == "physical") {
+				PrintColoredText(entity.mobName, Program.EnemyColor);
+				Console.Write(" has attacked!\nInflicted ");
+				PrintColoredText(entity.strength, Program.DamageColor);
+				Console.Write(" damage!\n");
+			} else if (attackType == "magical") {
+				PrintColoredText(entity.mobName, Program.EnemyColor);
+				Console.Write(" has attacked!\nInflicted ");
+				PrintColoredText(entity.mana, Program.DamageColor);
+				Console.Write(" damage!\n");
+			}
+		}
+
+		#endregion
 
 	}
 }
