@@ -53,6 +53,8 @@ namespace Project_Slayer {
 	/// </summary>
 	public class FileManager {
 
+		#region User related
+
 		/// <summary>
 		/// Saves the user's data into a json-file.
 		/// </summary>
@@ -62,7 +64,8 @@ namespace Project_Slayer {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
-				user.HitPoints = user.Durability;
+				int durability = user.GetDurability();
+				user.HitPoints = durability;
 				string serialized = JsonSerializer.Serialize(user);
 
 				if (File.Exists(backupFileName) || File.Exists(fileName)) {
@@ -81,6 +84,10 @@ namespace Project_Slayer {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
 		}
+
+		#endregion
+
+		#region Purely Files
 
 		/// <summary>
 		/// Displays all save files and backup files.
@@ -120,6 +127,46 @@ namespace Project_Slayer {
 				Console.WriteLine($"\nSomething went wrong! {e.Message}");
 			}
 		}
-	
+
+		#endregion
+
+		#region FileName Management
+		private string savedFileName;
+		private string backupFileName;
+
+		/// <summary>
+		/// Stores the primary file name.
+		/// </summary>
+		/// <param name="fileNameInput"></param>
+		public void SaveFileName(string fileNameInput) {
+			string fileName = $"SaveFile-{fileNameInput}.json";
+			savedFileName = fileName;
+		}
+		/// <summary>
+		/// Stores the backup file name.
+		/// </summary>
+		/// <param name="fileNameInput"></param>
+		public void BackupFileName(string fileNameInput) {
+			string fileName = $"SaveFile-{fileNameInput}-Backup.json";
+			backupFileName = fileName;
+		}
+
+		/// <summary>
+		/// Retrieves the saved file name.
+		/// </summary>
+		/// <returns></returns>
+		public string GetSavedFileName() {
+			return savedFileName;
+		}
+
+		/// <summary>
+		/// Retrieves the save file name.
+		/// </summary>
+		/// <returns></returns>
+		public string GetBackupFileName() {
+			return backupFileName;
+		}
+
+		#endregion
 	}
 }

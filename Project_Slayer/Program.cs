@@ -38,7 +38,7 @@ namespace Project_Slayer {
 		public static ConsoleColor EnemyHealthColor = ConsoleColor.DarkYellow;
 		public static ConsoleColor DamageColor = ConsoleColor.DarkRed;
 
-		static string FileNameInput;
+		public static string FileNameInput;
 		static bool run1;
 		static bool run2;
 		static bool run3;
@@ -88,9 +88,15 @@ namespace Project_Slayer {
 						break;
 					case "forcedeath":
 						user.HitPoints = 0;
+						run1 = false;
+						run2 = false;
+						run3 = false;
 						break;
 					case "forceend":
 						user.End(false);
+						run1 = false;
+						run2 = false;
+						run3 = false;
 						break;
 					default:
 						Console.WriteLine("Your move has been forfeited, enemy attacks. If you need help type 'HELP'.");
@@ -121,6 +127,7 @@ namespace Project_Slayer {
 				if (newOpt == "yes" || newOpt == "y") {
 					Console.Clear();
 					fileManager.Save(FileNameInput, user);
+					fileManager.SaveFileName(FileNameInput);
 					Console.WriteLine("Continuing to the game.");
 					run2 = false;
 				} else if (newOpt == "no" || newOpt == "n") {
@@ -207,7 +214,16 @@ namespace Project_Slayer {
 					textManager.PrintNewMobAppearance(user, entityCombat[0]);
 				} 
 				else {
-					user.CheckIfDead(user.HitPoints);
+					if (user.CheckIfDead(user.HitPoints)) {
+						run1 = false;
+						run2 = false;
+						run3 = false;
+						user.IsDead(user.HitPoints);
+						break;
+					}
+					else if (user.CheckIfDead(user.HitPoints) == false) {
+						user.IsDead(user.HitPoints);
+					}
 					textManager.PrintAfterRound(user, entityCombat[0]);
 				}
 				Console.WriteLine("Your move, brave soul!");
@@ -284,7 +300,7 @@ namespace Project_Slayer {
 				case "s":
 					run1 = false;
 					Console.Clear();
-					UserCreationScreen(user);
+					UserCreationScreen();
 					break;
 				case "continue":
 				case "c":
@@ -327,7 +343,7 @@ namespace Project_Slayer {
 		/// Information is then sent to CreateUser().
 		/// </summary>
 		/// <param name="user"></param>
-		static void UserCreationScreen(User user) {
+		static void UserCreationScreen() {
 			while (true) {
 				Console.WriteLine("What do you want to be called? (Max 20 Characters)");
 				string userNameInput = Console.ReadLine();
@@ -376,6 +392,8 @@ namespace Project_Slayer {
 					if (newOpt == "yes" || newOpt == "y") {
 						user = new User(userNameInput);
 						user.CreateUser(userNameInput, FileNameInput, user);
+						fileManager.SaveFileName(FileNameInput);
+						fileManager.BackupFileName(FileNameInput);
 						Console.WriteLine("Press any [KEY] to continue.");
 						Console.ReadKey();
 						GameScreen(user);
@@ -402,11 +420,11 @@ namespace Project_Slayer {
 			while (run2) {
 				Console.WriteLine("Select your preferred file:");
 				fileManager.DisplayAllFiles();
-				string fileNameInput = Console.ReadLine();
+				FileNameInput = Console.ReadLine();
 
 				Console.WriteLine("Are you sure?\n[YES] or [NO]?"); 
 
-				if (fileNameInput.ToLower() == "quit" || fileNameInput.ToLower() == "q") {
+				if (FileNameInput.ToLower() == "quit" || FileNameInput.ToLower() == "q") {
 					Console.Clear();
 					run1 = false;
 					run2 = false;
@@ -417,11 +435,16 @@ namespace Project_Slayer {
 
 					if (opt == "yes" || opt == "y") {
 						try {
-							user = user.GetUserInfo(fileNameInput);
+							user = user.GetUserInfo(FileNameInput);
+							fileManager.SaveFileName(FileNameInput);
+							fileManager.BackupFileName(FileNameInput);
 							Console.WriteLine("Received data from JSON:\n");
 							user.DisplayInfo();
 							Console.WriteLine("Press any [KEY] to continue.");
 							Console.ReadKey();
+							run1 = false;
+							run2 = false;
+							run3 = false;
 							GameScreen(user);
 							break;
 						} catch (ArgumentException e) {
@@ -518,7 +541,7 @@ namespace Project_Slayer {
 			while (true) {
 				string gameContinuationInput = Console.ReadLine().ToLower();
 				if (gameContinuationInput == "start" || gameContinuationInput == "s") {
-					UserCreationScreen(user);
+					UserCreationScreen();
 					break;
 				} 
 				else if (gameContinuationInput == "continue" || gameContinuationInput == "c") {

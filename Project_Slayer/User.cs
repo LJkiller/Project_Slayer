@@ -34,6 +34,7 @@ namespace Project_Slayer {
 		#region Setup 
 		//To initialize different classes to access methods.
 		TextManager textManager = new TextManager();
+		FileManager fileManager = new FileManager();
 		#endregion
 
 		#region User Attributes
@@ -50,27 +51,6 @@ namespace Project_Slayer {
 		/// </summary>
 		[JsonPropertyName("HP")]
 		public int HitPoints { get; set; }
-
-		/// <summary>
-		/// The User's strength stat (Physical Attack Power).
-		/// </summary>
-		[JsonPropertyName("Strength")]
-		public int Strength { get; set; }
-		/// <summary>
-		/// The User's mana stat (Magical Attack Power).
-		/// </summary>
-		[JsonPropertyName("Mana")]
-		public int Mana { get; set; }
-		/// <summary>
-		/// The User's durability stat (Health Points).
-		/// </summary>
-		[JsonPropertyName("Durability")]
-		public int Durability { get; set; }
-		/// <summary>
-		/// The User's agility stat.
-		/// </summary>
-		[JsonPropertyName("Agility")]
-		public int Agility { get; set; }
 		
 		/// <summary>
 		/// The User's amount of coins.
@@ -87,13 +67,21 @@ namespace Project_Slayer {
 		/// Method responsible of checking if the user is dead.
 		/// </summary>
 		/// <param name="HP"></param>
-		public void CheckIfDead(int HP) {
+		public void IsDead(int HP) {
 			if (HP <= 0) {
 				End(true);
 			} else {
 				textManager.PrintColoredText(UserName, Program.UserColor);
 				Console.Write(" is still standing!\n");
 			}
+		}
+		public bool CheckIfDead(int HP) {
+			if (HP>0) {
+				return false;
+			} else {
+				return true;
+			}
+
 		}
 
 		#endregion
@@ -231,26 +219,6 @@ namespace Project_Slayer {
 			Console.WriteLine($"{DodgeCount,21}: DodgeCount\n");
 			*/
 		}
-
-		/// <summary>
-		/// Default attribute holder.
-		/// </summary>
-		private void SetDefaultAttributes() {
-			UserName = "DefaultEntity";
-			Strength = 0;
-			Mana = 0;
-			Durability = 0;
-			Agility = 0;
-			Coins = 0;
-			Exp = 0;
-
-			HitPoints = Durability;
-
-			MobCount = 20;
-			BossCount = 0;
-			FloorLevel = 1;
-			DodgeCount = 0;
-		}
 		
 		/// <summary>
 		/// Initializes new instance of User class.
@@ -278,12 +246,14 @@ namespace Project_Slayer {
 				//RNG stats:
 				int durHP = rng.Next((int)(minStat * 10), (int)(maxStat * 10));
 
-				user.UserName = usernameInput;
-				user.Strength = rng.Next(minStat, maxStat);
-				user.Mana = rng.Next(minStat, maxStat);
-				user.Durability = durHP;
-				user.HitPoints = durHP;
-				user.Agility = rng.Next(minStat, maxStat);
+				UserName = usernameInput;
+				Strength = rng.Next(minStat, maxStat);
+				Mana = rng.Next(minStat, maxStat);
+				Durability = durHP;
+				HitPoints = durHP;
+				Agility = rng.Next(minStat, maxStat);
+				Coins = 0; // Initialize to 0
+				Exp = 0;   // Initialize to 0
 
 				string serialized = JsonSerializer.Serialize(user);
 
@@ -374,7 +344,7 @@ namespace Project_Slayer {
 				case "phy":
 				case "p":
 					physicalAttackCount++;
-					mobDurability -= strength;
+					mobDurability -= base.Strength;
 					textManager.PrintColoredText(user.UserName, Program.UserColor);
 					Console.Write(" has attacked!\nInflicted ");
 					textManager.PrintColoredText(user.Strength, Program.DamageColor);
@@ -384,7 +354,7 @@ namespace Project_Slayer {
 				case "magic":
 				case "m":
 					magicalAttackCount++;
-					mobDurability -= mana;
+					mobDurability -= base.Mana;
 					textManager.PrintColoredText(user.UserName, Program.UserColor);
 					Console.Write(" has attacked!\nInflicted ");
 					textManager.PrintColoredText(user.Strength, Program.DamageColor);
@@ -414,13 +384,14 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of User's death.
 		/// </summary>
-		public override void End(bool dead) {
+		public override void End(bool dead = false, User user = null) {
 			Console.Clear();
 			if (dead) {
 				Console.Write("The fearless adventurer ");
 				textManager.PrintColoredText(UserName, Program.UserColor) ;
 				Console.Write(" has met their demise, and the tower remains unconquered.\nYour journey ends here.\n");
-			} else {
+			} 
+			else {
 				Console.Write("The fearless adventurer ");
 				textManager.PrintColoredText(UserName, Program.UserColor);
 				Console.Write(" has conquered the tower and stands atop of the world.\nYour journey ends here.\n");
@@ -461,11 +432,39 @@ namespace Project_Slayer {
 			Console.Write("'.\n");
 
 			if (dead) {
-				Console.WriteLine("Just as life is, you do not get a second change.");
+				string savedFileName = fileManager.GetSavedFileName();
+				string backupFileName = fileManager.GetBackupFileName();
+
+				if (!string.IsNullOrEmpty(savedFileName)) {
+					WipeData(savedFileName);
+					Console.WriteLine("Just as life is, people do not get a second change.");
+					//Send to new function, wiping data.
+				} else if (!string.IsNullOrEmpty(backupFileName)) {
+					Console.WriteLine("Just as life is, people do not get a second change.");
+					WipeData(backupFileName);
+				} else {
+					Console.WriteLine("In the absence of records, a new story is born. One that is unrecorded of your presence");
+				}
+
 			} else {
 				Console.WriteLine("Your legendary journey has ended, but your journey as a person has only begun.");
 			}
-			Console.ReadLine();
+			Console.WriteLine("Press any [KEY] to quit.");
+			Console.ReadKey();
+		}
+
+		public void WipeData(string fileName) {
+			try {
+				if (File.Exists(fileName)) {
+					File.WriteAllText(fileName, "{}");
+
+					Console.WriteLine($"Your journey '{fileName}' has ended");
+				} else {
+					Console.WriteLine($"In the absence of records, a new story is born. One that is unrecorded of your presence");
+				}
+			} catch (ArgumentException e) {
+				Console.WriteLine($"\nSomething went wrong! {e.Message}");
+			}
 		}
 
 		#endregion

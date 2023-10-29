@@ -19,16 +19,6 @@ namespace Project_Slayer {
         #region Race Attributes
 
         /// <summary>
-        /// The Mob's race-name (Name).
-        /// </summary>
-        public string MobName {
-            get { return mobName; }
-            set {
-                mobName = "Human";
-            }
-        }
-
-        /// <summary>
         /// The Mob's coin drop value.
         /// </summary>
         public double CoinDrop {
@@ -48,52 +38,15 @@ namespace Project_Slayer {
         }
 
         /// <summary>
-        /// The Mob's strength stat (Physical Attack Power).
-        /// </summary>
-        public double Strength {
-            get { return strength; }
-            set {
-                strength = rng.Next(minStat, maxStat);
-            }
-        }
-        /// <summary>
-        /// The Mob's mana stat (Magical Attack Power).
-        /// </summary>
-        public double Mana {
-            get { return mana; }
-            set {
-                mana = rng.Next(minStat, maxStat);
-            }
-        }
-        /// <summary>
-        /// The Mob's durability stat (Maximum Hits Points).
-        /// </summary>
-        public double Durability {
-            get { return durability; }
-            set {
-                durability = rng.Next((int)(minStat*10), (int)(maxStat*10));
-            }
-        }
-        /// <summary>
-        /// The Mob's agility stat.
-        /// </summary>
-        public double Agility {
-            get { return agility; }
-            set {
-                agility = rng.Next(minStat, maxStat);
-            }
-        }
-
-        /// <summary>
         /// The Mob's Hit Points (Health, HP).
         /// </summary>
         public int HitPoints {
-            get { return durability; }
+            get { return base.Durability; }
             set {
                 if (value > 0) {
-                    durability = value;
+                    base.Durability = value;
                 } else {
-                    End(true);
+                    End(true, null);
                 }
             }
         }
@@ -103,24 +56,20 @@ namespace Project_Slayer {
         #region Information & Initiator
 
         /// <summary>
-        /// Default attribute holder.
-        /// </summary>
-        private void SetDefaultAttributes() {
-            MobName = "DefaultHuman";
-            CoinDrop = 0;
-            ExpDrop = 0;
-            Strength = 0;
-            Mana = 0;
-            Durability = 0;
-            Agility = 0;
-        }
-        /// <summary>
         /// Initializes new instance of Human class.
         /// </summary>
-        public Human() : base() {
-            SetDefaultAttributes();
-        }
+        public Human() {
+            MobName = "Human";
+            Random rng = new Random();
 
+            Strength = rng.Next(minStat, maxStat);
+            Mana = rng.Next(minStat, maxStat);
+            Durability = rng.Next((int)(minStat * 10), (int)(maxStat * 10));
+            Agility = rng.Next(minStat, maxStat); 
+
+            CoinDrop = rng.Next(minDropStat, maxDropStat);
+            ExpDrop = rng.Next(minDropStat, maxDropStat);
+        }
         #endregion
 
         #region Methods
@@ -128,10 +77,10 @@ namespace Project_Slayer {
         /// <summary>
         /// Method responsible of Human's death.
         /// </summary>
-		public override void End(bool dead) {
-			base.End(true);
-            emptyUser.Exp += (int)Math.Round(ExpDrop);
-            emptyUser.Coins += (int)Math.Round(CoinDrop);
+		public override void End(bool dead, User user) {
+			base.End(dead, user);
+            user.Exp += (int)Math.Round(ExpDrop);
+            user.Coins += (int)Math.Round(CoinDrop);
         }
 
 		#endregion

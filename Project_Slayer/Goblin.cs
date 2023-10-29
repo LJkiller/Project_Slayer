@@ -19,16 +19,6 @@ namespace Project_Slayer {
 		#region Race Attributes
 
 		/// <summary>
-		/// The Mob's race-name (Name).
-		/// </summary>
-		public string MobName {
-			get { return mobName; }
-			set {
-				mobName = "Goblin";
-			}
-		}
-
-		/// <summary>
 		/// The Mob's coin drop value.
 		/// </summary>
 		public double CoinDrop {
@@ -48,50 +38,13 @@ namespace Project_Slayer {
 		}
 
 		/// <summary>
-		/// The Mob's strength stat (Physical Attack Power).
-		/// </summary>
-		public double Strength {
-			get { return strength; }
-			set {
-				strength = rng.Next((int)(minStat*1.2), (int)(maxStat*1.2));
-			}
-		}
-		/// <summary>
-		/// The Mob's mana stat (Magical Attack Power).
-		/// </summary>
-		public double Mana {
-			get { return mana; }
-			set {
-				mana = rng.Next((int)(minStat*0.7), (int)(maxStat*0.7));
-			}
-		}
-		/// <summary>
-		/// The Mob's durability stat (Maximum Hit Points).
-		/// </summary>
-		public double Durability {
-			get { return durability; }
-			set {
-				durability = rng.Next((int)(minStat*6), (int)(maxStat*6));
-			}
-		}
-		/// <summary>
-		/// The Mob's agiity stat.
-		/// </summary>
-		public double Agility {
-			get { return agility; }
-			set {
-				agility = rng.Next((int)(minStat*1.3), (int)(maxStat*1.3));
-			}
-		}
-
-		/// <summary>
 		/// The Mob's Hit Points (Health, HP).
 		/// </summary>
 		public int HitPoints {
-			get { return durability; }
+			get { return base.Durability; }
 			set {
 				if (value > 0) {
-					durability = value;
+					base.Durability = value;
 				} else {
 					End(true);
 				}
@@ -102,22 +55,19 @@ namespace Project_Slayer {
 		#region Information & Initiator
 
 		/// <summary>
-		/// Default attribute holder.
-		/// </summary>
-		private void SetDefaultAttributes() {
-			MobName = "DefaultGoblin";
-			CoinDrop = 0;
-			ExpDrop = 0;
-			Strength = 0;
-			Mana = 0;
-			Durability = 0;
-			Agility = 0;
-		}
-		/// <summary>
 		/// Initializes new instance of Goblin class.
 		/// </summary>
 		public Goblin() : base() {
-			SetDefaultAttributes();
+			MobName = "Goblin";
+			Random rng = new Random();
+
+			Strength = rng.Next((int)(minStat * 1.2), (int)(maxStat * 1.2));
+			Mana = rng.Next((int)(minStat * 0.7), (int)(maxStat * 0.7));
+			Durability = rng.Next((int)(minStat * 6), (int)(maxStat * 6));
+			Agility = rng.Next((int)(minStat * 1.3), (int)(maxStat * 1.3));
+
+			CoinDrop = rng.Next(minDropStat, maxDropStat);
+			ExpDrop = rng.Next(minDropStat, maxDropStat);
 		}
 
 		#endregion
@@ -127,8 +77,8 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of Goblin's death.
 		/// </summary>
-		public override void End(bool dead) {
-			base.End(dead);
+		public override void End(bool dead = false, User user = null) {
+			base.End(dead, user);
 			emptyUser.Exp += (int)Math.Round(ExpDrop);
 			emptyUser.Coins += (int)Math.Round(CoinDrop);
 		}

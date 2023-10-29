@@ -19,8 +19,12 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of a Boss's End.
 		/// </summary>
-		public override void End(bool dead) {
-			emptyUser.BossSlain();
+		public override void End(bool dead = false, User user = null) {
+			if (dead == true) {
+				user.BossSlain();
+			} else {
+
+			}
 		}
 	}
 }

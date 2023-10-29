@@ -65,7 +65,7 @@ namespace Project_Slayer {
 		/// Additional info: CoinDrop, ExpDrop.
 		/// </summary>
 		public override void DisplayInfo() {
-			Console.WriteLine($"{mobName,21}: Entity");
+			Console.WriteLine($"{MobName,21}: Entity");
 			base.DisplayInfo();
 			Console.WriteLine($"{coinDrop,21}: CoinDrop");
 			Console.WriteLine($"{expDrop,21}: ExpDrop");
@@ -85,8 +85,10 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of Mob's death.
 		/// </summary>
-		public override void End(bool dead) {
-			emptyUser.MobSlain();
+		public override void End(bool dead = false, User user = null) {
+			if (dead == true) {
+				user.MobSlain();
+			}
 		}
 		
 		#endregion
