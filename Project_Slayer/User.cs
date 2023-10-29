@@ -417,11 +417,13 @@ namespace Project_Slayer {
 		public override void End(bool dead) {
 			Console.Clear();
 			if (dead) {
-				Console.WriteLine($"The fearless adventurer {UserName} has met their demise, and the tower remains unconquered.\n" +
-					$"Your journey ends here.");
+				Console.Write("The fearless adventurer ");
+				textManager.PrintColoredText(UserName, Program.UserColor) ;
+				Console.Write(" has met their demise, and the tower remains unconquered.\nYour journey ends here.\n");
 			} else {
-				Console.WriteLine($"The fearless adventurer {UserName} has conquered the tower and stands atop of the world." +
-					$"Your journey end here.");
+				Console.Write("The fearless adventurer ");
+				textManager.PrintColoredText(UserName, Program.UserColor);
+				Console.Write(" has conquered the tower and stands atop of the world.\nYour journey ends here.\n");
 			}
 
 			Console.Write("As you lived out your legendary journey, other the people referred to you as the '");
@@ -452,8 +454,17 @@ namespace Project_Slayer {
 				} else {
 					textManager.PrintColoredText("Conjurer", ConsoleColor.Blue);
 				}
+			} 
+			else {
+				textManager.PrintColoredText("Ordinary", ConsoleColor.DarkMagenta);
 			}
 			Console.Write("'.\n");
+
+			if (dead) {
+				Console.WriteLine("Just as life is, you do not get a second change.");
+			} else {
+				Console.WriteLine("Your legendary journey has ended, but your journey as a person has only begun.");
+			}
 			Console.ReadLine();
 		}
 

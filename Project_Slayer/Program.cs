@@ -87,7 +87,7 @@ namespace Project_Slayer {
 						QuitGame(user);
 						break;
 					case "forcedeath":
-						user.End(true);
+						user.HitPoints = 0;
 						break;
 					case "forceend":
 						user.End(false);
