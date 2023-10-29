@@ -131,6 +131,7 @@ namespace Project_Slayer {
         /// </summary>
         /// <param name="attackType"></param>
         public override void Attack(string attackType = "physical") {
+            emptyUser.HitPoints -= (int)Math.Round(Strength);
             Console.WriteLine($"{MobName} has attacked!\nInflicted {Strength} damage!");
 		}
 

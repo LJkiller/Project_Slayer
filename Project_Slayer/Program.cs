@@ -77,10 +77,6 @@ namespace Project_Slayer {
 			else if (inputCount.Count == 1) {
 				string input = inputCount[0];
 				switch (input) {
-					case "save":
-					case "s":
-						SaveFile();
-						break;
 					case "help":
 					case "h":
 						HelpScreen(false);
@@ -99,7 +95,13 @@ namespace Project_Slayer {
 			} 
 
 			else {
-				// Handle functions with more than 1 input here
+
+				if (inputCount[0] == "save" && inputCount[1] == "user" 
+					|| inputCount[0] == "s" && inputCount[1] == "user"
+					|| inputCount[0] == "save" && inputCount[1] == $"{user.UserName}"
+					|| inputCount[0] == "s" && inputCount[1] == $"{user.UserName}") {
+					SaveFile(user);
+				}
 			}
 		}
 
@@ -108,7 +110,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible for saving the User's information to a desired file.
 		/// </summary>
-		static void SaveFile() {
+		static void SaveFile(User user) {
 			Console.WriteLine("Which file do you want to save to?");
 			fileManager.DisplayAllFiles();
 			FileNameInput = Console.ReadLine();
@@ -372,6 +374,7 @@ namespace Project_Slayer {
 						Console.WriteLine("Press any [KEY] to continue.");
 						Console.ReadKey();
 						GameScreen(user);
+						break;
 					} 
 					else if (newOpt == "no" || newOpt == "n") {
 						break;
@@ -391,13 +394,20 @@ namespace Project_Slayer {
 		/// Load user info screen and allows the user to select a file to load from.
 		/// </summary>
 		static void LoadScreen() {
-			while (true) {
+			while (run2) {
 				Console.WriteLine("Select your preferred file:");
 				fileManager.DisplayAllFiles();
 				string fileNameInput = Console.ReadLine();
 
-				Console.WriteLine("Are you sure?\n[YES] or [NO]?");
-				while (run2) {
+				Console.WriteLine("Are you sure?\n[YES] or [NO]?"); 
+
+				if (fileNameInput.ToLower() == "quit" || fileNameInput.ToLower() == "q") {
+					Console.Clear();
+					run1 = false;
+					run2 = false;
+					run3 = false;
+				}
+				while (run3) {
 					string opt = Console.ReadLine().ToLower();
 
 					if (opt == "yes" || opt == "y") {
@@ -417,8 +427,9 @@ namespace Project_Slayer {
 						break;
 					} else if (opt == "quit" || opt == "q") {
 						Console.Clear();
+						run1 = false;
 						run2 = false;
-						break;
+						run3 = false;
 					} else {
 						Console.WriteLine("[YES] or [NO].");
 					}
@@ -473,6 +484,7 @@ namespace Project_Slayer {
 						StartOrContinueGame();
 					} else {
 						GameScreen(user);
+						break;
 					}
 					break;
 				} else if (furtherInput == "more" || furtherInput == "m") {

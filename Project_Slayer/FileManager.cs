@@ -62,6 +62,7 @@ namespace Project_Slayer {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
+				user.HitPoints = user.Durability;
 				string serialized = JsonSerializer.Serialize(user);
 
 				if (File.Exists(backupFileName) || File.Exists(fileName)) {

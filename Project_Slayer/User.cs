@@ -30,15 +30,26 @@ namespace Project_Slayer {
 	/// Represents the base data for User Class.
 	/// </summary>
 	public class User : Entity {
+		private static List<User> users = new List<User>();
+
+		public static User FindUserByUsername(string username) {
+			return users.FirstOrDefault(user => user.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
+		}
 
 		#region User Attributes
-		private int hitPoints;
 
 		/// <summary>
 		/// The User's name.
 		/// </summary>
 		[JsonPropertyName("UserName")]
 		public string UserName { get; set; }
+
+
+		/// <summary>
+		/// The User's Hit Points (Health, HP).
+		/// </summary>
+		[JsonPropertyName("HP")]
+		public int HitPoints { get; set; }
 
 		/// <summary>
 		/// The User's strength stat (Physical Attack Power).
@@ -72,20 +83,16 @@ namespace Project_Slayer {
 		[JsonPropertyName("Exp")]
 		public int Exp { get; set; }
 
-		/// <summary>
-		/// The User's Hit Points (Health, HP).
-		/// </summary>
-		[JsonIgnore]
-		public int HitPoints {
-			get { return durability; }
-			set {
-				if (value <= 0)
-					Death();
-				else
-					hitPoints = value;
+
+
+		public void SetHitPoints(int value) {
+			if (value <= 0) {
+				Death();
+			} else {
+				HitPoints = value;
 			}
 		}
-		
+
 		#endregion
 
 		#region Floor - Enemies - Combat
@@ -214,7 +221,7 @@ namespace Project_Slayer {
 			Coins = 0;
 			Exp = 0;
 
-			HitPoints = 0;
+			HitPoints = Durability;
 
 			MobCount = 20;
 			BossCount = 0;
@@ -245,11 +252,14 @@ namespace Project_Slayer {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
-				// Initialize the user object with random stats
+				//RNG stats:
+				int durHP = rng.Next((int)(minStat * 10), (int)(maxStat * 10));
+
 				user.UserName = usernameInput;
 				user.Strength = rng.Next(minStat, maxStat);
 				user.Mana = rng.Next(minStat, maxStat);
-				user.Durability = rng.Next((int)(minStat * 10), (int)(maxStat * 10));
+				user.Durability = durHP;
+				user.HitPoints = durHP;
 				user.Agility = rng.Next(minStat, maxStat);
 
 				string serialized = JsonSerializer.Serialize(user);
