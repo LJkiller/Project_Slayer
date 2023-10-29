@@ -408,7 +408,7 @@ namespace Project_Slayer {
 		/// Escapes from the current opponent, resores your health to 100%.
 		/// </summary>
 		public void Escape() {
-			Console.WriteLine("You've escaped!\nHealth is restored!\nA new encounter begins.");
+			Console.WriteLine("You've escaped!\nHealth is restored!\n");
 		}
 
 		/// <summary>

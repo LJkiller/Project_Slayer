@@ -211,10 +211,15 @@ namespace Project_Slayer {
 					textManager.PrintAfterRound(user, entityCombat[0]);
 				}
 				Console.WriteLine("Your move, brave soul!");
+
 				string input = Console.ReadLine();
 				Console.WriteLine();
 				if (input.ToLower() == "dodge" || input.ToLower() == "dg") {
 					user.Dodge();
+				} else if (input.ToLower() == "escape" || input.ToLower() == "esc") {
+					Console.Clear();
+					user.Escape();
+					entityCombat.RemoveAt(0);
 				} else {
 					InputArrangement(input, user, entityCombat[0]);
 					entityCombat[0].Attack("physical", user, entityCombat[0]);
