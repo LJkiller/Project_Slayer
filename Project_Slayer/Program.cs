@@ -212,6 +212,11 @@ namespace Project_Slayer {
 
 				//Checks if there is any mob, if no mob, creates one.
 				if (entityCombat.Count < 1) {
+					//Restores health.
+					int healthRestoration = (user.Durability - user.HitPoints);
+					user.RestoreHealth(healthRestoration);
+					Console.WriteLine("Durability " + healthRestoration);
+					//Adds mob.
 					entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount, availableFloors));
 					Console.WriteLine($"FloorLevel: {user.GetFloorLevel()}, MobCount: {user.GetMobCount()}");
 					textManager.PrintNewMobAppearance(user, entityCombat[0]);

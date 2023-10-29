@@ -191,7 +191,6 @@ namespace Project_Slayer {
 			FloorLevel++;
 		}
 
-
 		/// <summary>
 		/// Method responsible of getting MobCount from User.
 		/// </summary>
@@ -205,6 +204,14 @@ namespace Project_Slayer {
 		/// <returns></returns>
 		public int GetBossCount() {
 			return bossCount;
+		}
+
+		/// <summary>
+		/// Method responsible of restoring User's health.
+		/// </summary>
+		/// <param name="health"></param>
+		public void RestoreHealth(int health) {
+			HitPoints += health;
 		}
 
 		#endregion
