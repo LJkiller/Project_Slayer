@@ -127,8 +127,8 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of GoblinLord's death.
 		/// </summary>
-		public override void End(bool dead = false, User user = null) {
-			base.End(dead, user);
+		public override void End(bool dead = false) {
+			base.End(dead);
 			emptyUser.Exp += (int)Math.Round(ExpDrop);
 			emptyUser.Coins += (int)Math.Round(CoinDrop);
 		}

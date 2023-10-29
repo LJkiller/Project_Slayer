@@ -108,6 +108,10 @@ namespace Project_Slayer {
 				if (inputCount[0] == "attack") {
 					user.Attack(inputCount[1], user, entity);
 				}
+				else if (inputCount[0] == "admin" && inputCount[1] == "kill") {
+					entity.End(true);
+					entity.EnemyDamaged(entity.GetDurability());
+				}
 			}
 		}
 
@@ -209,23 +213,31 @@ namespace Project_Slayer {
 				//Checks if there is any mob, if no mob, creates one.
 				if (entityCombat.Count < 1) {
 					entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount, availableFloors));
-					Console.WriteLine($"FloorLevel: {user.GetFloorLevel()}, MobCount: {user.GetMobCount()}, AvailableFloors: {availableFloors}");
+					Console.WriteLine($"FloorLevel: {user.GetFloorLevel()}, MobCount: {user.GetMobCount()}");
 					textManager.PrintNewMobAppearance(user, entityCombat[0]);
-					user.DisplayInfo(true);
 				} 
 				else {
-					//Checks if user is dead, proceeds.
-					if (user.CheckIfDead(user.HitPoints)) {
-						run1 = false;
-						run2 = false;
-						run3 = false;
-						user.IsDead(user.HitPoints);
-						break;
+					//Checks the entity's durability, if it's dead or not.
+					if (entityCombat[0].GetDurability() == 0) {
+						entityCombat.RemoveAt(0);
+						user.MobSlain();
+						Console.Clear();
+						continue;
+					} 
+					else {
+						//Checks if user is dead, proceeds.
+						if (user.CheckIfDead(user.HitPoints)) {
+							run1 = false;
+							run2 = false;
+							run3 = false;
+							user.IsDead(user.HitPoints);
+							break;
+						} 
+						else if (user.CheckIfDead(user.HitPoints) == false) {
+							user.IsDead(user.HitPoints);
+						}
+						textManager.PrintAfterRound(user, entityCombat[0]);
 					}
-					else if (user.CheckIfDead(user.HitPoints) == false) {
-						user.IsDead(user.HitPoints);
-					}
-					textManager.PrintAfterRound(user, entityCombat[0]);
 				}
 				Console.WriteLine("Your move, brave soul!");
 

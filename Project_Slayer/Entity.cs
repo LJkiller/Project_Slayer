@@ -86,6 +86,11 @@ namespace Project_Slayer {
 			return agility;
 		}
 
+		public int EnemyDamaged(int damageIncrement) {
+			durability -= damageIncrement;
+			return durability;
+		}
+
 		#endregion
 
 		#region Information & Initiator
@@ -142,7 +147,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of an entity's death.
 		/// </summary>
-		public abstract void End(bool dead = false, User user = null);
+		public abstract void End(bool dead = false);
 		#endregion
 
 	}

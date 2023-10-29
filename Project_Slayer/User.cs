@@ -439,7 +439,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of User's death.
 		/// </summary>
-		public override void End(bool dead = false, User user = null) {
+		public override void End(bool dead = false) {
 			Console.Clear();
 			if (dead) {
 				Console.Write("The fearless adventurer ");

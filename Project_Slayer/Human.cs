@@ -72,6 +72,11 @@ namespace Project_Slayer {
             get { return base.durability; }
             set {
                 base.durability = rng.Next((int)(minStat * 10), (int)(maxStat * 10));
+                if (value > 0) {
+                    durability = (int)value;
+                } else {
+                    End(true);
+                }
             }
         }
         /// <summary>
@@ -81,20 +86,6 @@ namespace Project_Slayer {
             get { return base.agility; }
             set {
                 base.agility = rng.Next(minStat, maxStat);
-            }
-        }
-
-        /// <summary>
-        /// The Mob's Hit Points (Health, HP).
-        /// </summary>
-        public int HitPoints {
-            get { return base.durability; }
-            set {
-                if (value > 0) {
-                    base.durability = value;
-                } else {
-                    End(true, null);
-                }
             }
         }
 
@@ -128,10 +119,10 @@ namespace Project_Slayer {
         /// <summary>
         /// Method responsible of Human's death.
         /// </summary>
-		public override void End(bool dead, User user) {
-            base.End(dead, user);
-            user.Exp += (int)Math.Round(ExpDrop);
-            user.Coins += (int)Math.Round(CoinDrop);
+		public override void End(bool dead) {
+            base.End(dead);
+            emptyUser.Exp += (int)Math.Round(ExpDrop);
+            emptyUser.Coins += (int)Math.Round(CoinDrop);
         }
 
         #endregion

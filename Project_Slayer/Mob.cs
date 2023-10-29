@@ -85,9 +85,9 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of Mob's death.
 		/// </summary>
-		public override void End(bool dead = false, User user = null) {
+		public override void End(bool dead = false) {
 			if (dead == true) {
-				user.MobSlain();
+				emptyUser.MobSlain();
 			}
 		}
 
