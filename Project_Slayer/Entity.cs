@@ -44,27 +44,22 @@ namespace Project_Slayer {
 
 		#region Entity Attributes
 
-		[JsonPropertyName("MobName")]
-		public string MobName { get; protected set; }
-		[JsonPropertyOrder(1)]
-		[JsonPropertyName("Strength")]
-		public int Strength { get; protected set; }
-		[JsonPropertyOrder(2)]
-		[JsonPropertyName("Mana")]
-		public int Mana { get; protected set; }
-		[JsonPropertyOrder(3)]
-		[JsonPropertyName("Durability")]
-		protected int Durability { get; set; }
-		[JsonPropertyOrder(4)]
-		[JsonPropertyName("Agility")]
-		public int Agility { get; protected set; }
+		[JsonIgnore]
+		public string mobName { get; protected set; }
+		[JsonIgnore]
+		public int strength { get; protected set; }
+		[JsonIgnore]
+		public int mana { get; protected set; }
+		protected int durability { get; set; }
+		[JsonIgnore]
+		public int agility { get; protected set; }
 
 		/// <summary>
 		/// Method responsible of getting durability.
 		/// </summary>
 		/// <returns></returns>
 		public int GetDurability() {
-			return Durability;
+			return durability;
 		}
 		#endregion
 
@@ -75,10 +70,10 @@ namespace Project_Slayer {
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// </summary>
 		public virtual void DisplayInfo() {
-			Console.WriteLine($"{Strength,21}: Strength");
-			Console.WriteLine($"{Mana,21}: Mana");
-			Console.WriteLine($"{Durability,21}: Durability");
-			Console.WriteLine($"{Agility,21}: Agility");
+			Console.WriteLine($"{strength,21}: Strength");
+			Console.WriteLine($"{mana,21}: Mana");
+			Console.WriteLine($"{durability,21}: Durability");
+			Console.WriteLine($"{agility,21}: Agility");
 		}
 
 		/// <summary>
@@ -111,10 +106,10 @@ namespace Project_Slayer {
 		/// <param name="attackType"></param>
 		public virtual void Attack(string attackType, User user, Entity entity) {
 			if (attackType == "physical") {
-				user.HitPoints -= (int)Math.Round((double)entity.Strength);
+				user.HitPoints -= (int)Math.Round((double)entity.strength);
 				textManager.PrintDamage(entity, attackType);
 			} else if (attackType == "magical") {
-				user.HitPoints -= (int)Math.Round((double)entity.Mana);
+				user.HitPoints -= (int)Math.Round((double)entity.mana);
 				textManager.PrintDamage(entity, attackType);
 			}
 		}

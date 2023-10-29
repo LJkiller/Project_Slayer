@@ -51,6 +51,27 @@ namespace Project_Slayer {
 		/// </summary>
 		[JsonPropertyName("HP")]
 		public int HitPoints { get; set; }
+
+		/// <summary>
+		/// The User's strength stat (Physical Attack Power).
+		/// </summary>
+		[JsonPropertyName("Strength")]
+		public int Strength { get; set; }
+		/// <summary>
+		/// The User's mana stat (Magical Attack Power).
+		/// </summary>
+		[JsonPropertyName("Mana")]
+		public int Mana { get; set; }
+		/// <summary>
+		/// The User's durability stat (Health Points).
+		/// </summary>
+		[JsonPropertyName("Durability")]
+		public int Durability { get; set; }
+		/// <summary>
+		/// The User's agility stat.
+		/// </summary>
+		[JsonPropertyName("Agility")]
+		public int Agility { get; set; }
 		
 		/// <summary>
 		/// The User's amount of coins.
@@ -246,14 +267,12 @@ namespace Project_Slayer {
 				//RNG stats:
 				int durHP = rng.Next((int)(minStat * 10), (int)(maxStat * 10));
 
-				UserName = usernameInput;
-				Strength = rng.Next(minStat, maxStat);
-				Mana = rng.Next(minStat, maxStat);
-				Durability = durHP;
-				HitPoints = durHP;
-				Agility = rng.Next(minStat, maxStat);
-				Coins = 0; // Initialize to 0
-				Exp = 0;   // Initialize to 0
+				user.UserName = usernameInput;
+				user.Strength = rng.Next(minStat, maxStat);
+				user.Mana = rng.Next(minStat, maxStat);
+				user.Durability = durHP;
+				user.HitPoints = durHP;
+				user.Agility = rng.Next(minStat, maxStat);
 
 				string serialized = JsonSerializer.Serialize(user);
 
@@ -344,7 +363,7 @@ namespace Project_Slayer {
 				case "phy":
 				case "p":
 					physicalAttackCount++;
-					mobDurability -= base.Strength;
+					mobDurability -= base.strength;
 					textManager.PrintColoredText(user.UserName, Program.UserColor);
 					Console.Write(" has attacked!\nInflicted ");
 					textManager.PrintColoredText(user.Strength, Program.DamageColor);
@@ -354,7 +373,7 @@ namespace Project_Slayer {
 				case "magic":
 				case "m":
 					magicalAttackCount++;
-					mobDurability -= base.Mana;
+					mobDurability -= base.mana;
 					textManager.PrintColoredText(user.UserName, Program.UserColor);
 					Console.Write(" has attacked!\nInflicted ");
 					textManager.PrintColoredText(user.Strength, Program.DamageColor);

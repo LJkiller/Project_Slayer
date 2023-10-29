@@ -65,7 +65,7 @@ namespace Project_Slayer {
 		/// Additional info: CoinDrop, ExpDrop.
 		/// </summary>
 		public override void DisplayInfo() {
-			Console.WriteLine($"{MobName,21}: Entity");
+			Console.WriteLine($"{mobName,21}: Entity");
 			base.DisplayInfo();
 			Console.WriteLine($"{coinDrop,21}: CoinDrop");
 			Console.WriteLine($"{expDrop,21}: ExpDrop");
@@ -90,7 +90,7 @@ namespace Project_Slayer {
 				user.MobSlain();
 			}
 		}
-		
+
 		#endregion
 
 	}
