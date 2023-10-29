@@ -30,11 +30,6 @@ namespace Project_Slayer {
 	/// Represents the base data for User Class.
 	/// </summary>
 	public class User : Entity {
-		private static List<User> users = new List<User>();
-
-		public static User FindUserByUsername(string username) {
-			return users.FirstOrDefault(user => user.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
-		}
 
 		#region User Attributes
 
