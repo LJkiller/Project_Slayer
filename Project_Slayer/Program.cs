@@ -89,11 +89,14 @@ namespace Project_Slayer {
 						break;
 					case "help":
 					case "h":
-						HelpScreen(false);
+						HelpScreen(false, user);
 						break;
 					case "quit":
 					case "q":
 						QuitGame(user);
+						run1 = false;
+						run2 = false;
+						run3 = false;
 						break;
 					case "check":
 						user.CheckUserInfo(user, "");
@@ -313,7 +316,7 @@ namespace Project_Slayer {
 		static Entity SpawnMob(int floorLevel, int mobCount) {
 
 			//Use this as debug, to be certain about the conditions.
-			Console.WriteLine($"Floor: {floorLevel}, Mob Count: {mobCount}, Required Mob Count: 19");
+			//Console.WriteLine($"Floor: {floorLevel}, Mob Count: {mobCount}, Required Mob Count: 19");
 
 			if (floorLevel == 0) {
 				return new Human();
@@ -378,7 +381,7 @@ namespace Project_Slayer {
 				case "help":
 				case "h":
 					Console.Clear();
-					HelpScreen(true);
+					HelpScreen(true, user);
 					break;
 				case "quit":
 				case "q":
@@ -540,7 +543,8 @@ namespace Project_Slayer {
 		/// Help screen allows the user to get game or commands help.
 		/// </summary>
 		/// <param name="startAtGame">Bool to be compared if HelpScreen is called from the start of the gaem or during game.</param>
-		static void HelpScreen(bool startAtGame) {
+		/// <param name="user">The User object transfering information across game.</param>
+		static void HelpScreen(bool startAtGame, User user = null) {
 			SetUp();
 			Console.WriteLine("What kind of help do you need?\n[GAME] or [COMMANDS].");
 
@@ -551,15 +555,13 @@ namespace Project_Slayer {
 				if (inputHelp == "game") {
 					Console.Clear();
 					textManager.PrintGameHelp();
-					ShowGameOrMore(startAtGame);
+					ShowGameOrMore(startAtGame, user);
 					break;
-				} 
-				else if (inputHelp == "commands" || inputHelp == "cmds") {
+				} else if (inputHelp == "commands" || inputHelp == "cmds") {
 					Console.Clear();
 					textManager.PrintCMDSHelp();
-					ShowGameOrMore(startAtGame);
-					break;
-				} 
+					ShowGameOrMore(startAtGame, user);
+				}
 				else {
 					Console.WriteLine("[GAME] or [COMMANDS]");
 				}
@@ -570,7 +572,7 @@ namespace Project_Slayer {
 		/// Option to continue to game or more help.
 		/// </summary>
 		/// <param name="startAtGame">Bool to be compared if HelpScreen is called from the start of the gaem or during game.</param>
-		static void ShowGameOrMore(bool startAtGame) {
+		static void ShowGameOrMore(bool startAtGame, User user) {
 			Console.WriteLine("Do you wish to continue to the game or check out more?\n[GAME] or [MORE]");
 
 			//Options
@@ -589,8 +591,7 @@ namespace Project_Slayer {
 				} 
 				else if (furtherInput == "more" || furtherInput == "m") {
 					Console.Clear();
-					Console.WriteLine("Available options: [GAME], [COMMANDS]");
-					break;
+					HelpScreen(false, user);
 				} 
 				else {
 					Console.WriteLine("[GAME] or [MORE].");
@@ -657,10 +658,34 @@ namespace Project_Slayer {
 			//ColorTesting();
 
 			InitializeGame();
-
-			//Testing
-			//GameScreen(user);
-			Console.ReadLine();
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//███████╗██╗░░░██╗░█████╗░██╗░░██╗  ██╗████████╗  ░██╗░░░░░░░██╗███████╗  ██████╗░░█████╗░██╗░░░░░██╗░░░░░
+	//██╔════╝██║░░░██║██╔══██╗██║░██╔╝  ██║╚══██╔══╝  ░██║░░██╗░░██║██╔════╝  ██╔══██╗██╔══██╗██║░░░░░██║░░░░░
+	//█████╗░░██║░░░██║██║░░╚═╝█████═╝░  ██║░░░██║░░░  ░╚██╗████╗██╔╝█████╗░░  ██████╦╝███████║██║░░░░░██║░░░░░
+	//██╔══╝░░██║░░░██║██║░░██╗██╔═██╗░  ██║░░░██║░░░  ░░████╔═████║░██╔══╝░░  ██╔══██╗██╔══██║██║░░░░░██║░░░░░
+	//██║░░░░░╚██████╔╝╚█████╔╝██║░╚██╗  ██║░░░██║░░░  ░░╚██╔╝░╚██╔╝░███████╗  ██████╦╝██║░░██║███████╗███████╗
+	//╚═╝░░░░░░╚═════╝░░╚════╝░╚═╝░░╚═╝  ╚═╝░░░╚═╝░░░  ░░░╚═╝░░░╚═╝░░╚══════╝  ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝

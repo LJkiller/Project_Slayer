@@ -101,7 +101,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of Mob's death.
 		/// </summary>
-		/// <param name="dead">Bool to compare if the mob has died.</param>
+		/// <param name="dead">Bool to compare if the mob has died.</param>d
 		public override void End(bool dead = false) {
 			if (dead == true) {
 				emptyUser.MobSlain();
