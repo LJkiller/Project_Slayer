@@ -37,8 +37,9 @@ namespace Project_Slayer {
 				"Your goal is to climb tower-levels, floors, and reach the top. You start at floor 0.\n" +
 				"There are 10 entities per floor, with a stronger variation of a creature, a named creature, a boss.\n" +
 				"The bosses appears every second floor, the first one is on floor 1.\n" +
-				"Each entity you SLAY you'll gain coins and exp in order to level up your attributes in order to advance the game\n" +
-				"as you continue climbing.\n" +
+				"Each entity you SLAY will let you traverse the tower floor level.\n" +
+				"Once you've explored the entirety of current floor by killing 10 entities.\n" +
+				"You will feel an uexplainable phenomenom that will decide your new peak level.\n" +
 				$"There are currently {Program.availableFloors} floors available as in this version ({Program.gameVersion}).\n" +
 				$"Floor 0 to {Program.availableFloors-1}.\n");
 		}
@@ -55,9 +56,7 @@ namespace Project_Slayer {
 				"Attack: 'attack + [ATTACKTYPE]' (Physical or magical, if nothing => physical attack)\n" +
 				"[ATTACKTYPE] = 'physical' or 'magical' (or 'm')\n" +
 				"Dodge: 'dodge' or 'dg' (dodges the enemy's attack, neither user nor enemy take damage).\n" +
-				"Escape: 'escape' or 'esc' (Escape from enemy, restores your health.)\n\n" +
-				"Leveling: 'level + [STAT]' (Levels up your specific stat with something between 1 and 5)\n" +
-				"[STAT] = 'strength', 'mana', 'durability', 'agility'\n");
+				"Escape: 'escape' or 'esc' (Escape from enemy, restores your health.)\n");
 		}
 
 		#endregion
@@ -148,6 +147,23 @@ namespace Project_Slayer {
 				PrintColoredText(entity.GetMana(), Program.DamageColor);
 				Console.Write(" damage!\n");
 			}
+		}
+
+		/// <summary>
+		/// Method responsible of printing out what the User gets after killing an opponent.
+		/// </summary>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="entity">The Entity object to be handled in the method.</param>
+		public void PrintLoot(User user, Entity entity) {
+			Console.Write("You've conquered the ");
+			PrintColoredText(entity.GetMobName(), Program.EnemyColor);
+			Console.Write("! You've earned ");
+			user.Coins += entity.GetMobCoinDrop();
+			user.Exp += entity.GetMobExpDrop();
+			PrintColoredText($"{entity.GetMobCoinDrop()} Coins", Program.CoinColor);
+			Console.Write(" and ");
+			PrintColoredText($"{entity.GetMobExpDrop()} XP", Program.ExpColor);
+			Console.Write("!\n");
 		}
 
 		#endregion

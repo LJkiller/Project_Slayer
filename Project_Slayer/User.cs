@@ -413,6 +413,24 @@ namespace Project_Slayer {
 		}
 
 		/// <summary>
+		/// Method responsible of increasing the User's stats randomly.
+		/// Roundabout to the concept of leveling.
+		/// </summary>
+		/// <param name="user">The User object to be handled in the method.</param>
+		public void LevelUpOnNewFloor(User user) {
+			Console.WriteLine("You've reached a new peak!");
+			Random rng = new Random();
+
+			user.Strength += rng.Next(5, 15);
+			user.Mana += rng.Next(5, 15);
+			user.Durability += rng.Next(50, 100);
+			user.Agility += rng.Next(5, 15);
+
+			Console.WriteLine("Your new peak!");
+			user.DisplayInfo(false);
+		}
+
+		/// <summary>
 		/// Attacks opponent and inflicts damage. 
 		/// Damage is scaled by Strength or Mana.
 		/// </summary>

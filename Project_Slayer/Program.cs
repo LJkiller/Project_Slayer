@@ -223,19 +223,39 @@ namespace Project_Slayer {
 			SetUp();
 			//Creates a list to make handling enemies easier.
 			List<Entity> entityCombat = new List<Entity>();
+			int previousFloorLevel = 0;
 			Console.Clear();
 
 			while (run1) {
+				int currentFloorLevel = user.GetFloorLevel();
 
 				//Checks if there is any mob, if no mob, creates one.
 				if (entityCombat.Count < 1) {
+
+					//Check if game should end.
+					if (user.MobCount == 20 && user.FloorLevel == 1) {
+						user.End(false);
+						run1 = false;
+						run2 = false;
+						run3 = false;
+						break;
+					}
+
 					//Restores health. Makes it obselete for HP to be saved with JsonFile.
 					int healthRestoration = (user.Durability - user.HitPoints);
 					user.RestoreHealth(healthRestoration);
 					//Adds mob.
 					entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount, availableFloors));
+
+					//Leveling Roundabout.
+					if (currentFloorLevel > previousFloorLevel) {
+						user.LevelUpOnNewFloor(user);
+						previousFloorLevel = currentFloorLevel;
+					}
+
 					//Use to check if somehting actually happens.
 					Console.WriteLine($"FloorLevel: {user.GetFloorLevel()}, MobCount: {user.GetMobCount()}");
+
 					textManager.PrintNewMobAppearance(user, entityCombat[0]);
 				} 
 				else {
@@ -243,15 +263,9 @@ namespace Project_Slayer {
 					if (entityCombat[0].GetDurability() == 0) {
 						user.MobSlain();
 						Console.Clear();
-						Console.Write("You've conquered the ");
-						textManager.PrintColoredText(entityCombat[0].GetMobName(), EnemyColor);
-						Console.Write("! You've earned ");
-						user.Coins += entityCombat[0].GetMobCoinDrop();
-						user.Exp += entityCombat[0].GetMobExpDrop();
-						textManager.PrintColoredText($"{entityCombat[0].GetMobCoinDrop()} Coins", CoinColor);
-						Console.Write(" and ");
-						textManager.PrintColoredText($"{entityCombat[0].GetMobExpDrop()} XP", ExpColor);
-						Console.Write("!\n");
+						//Coins and EXP doesn't work.
+						//textManager.PrintLoot(user, entityCombat[0]);
+						//Making a roundabout.
 						entityCombat.RemoveAt(0);
 						continue;
 					} 
@@ -296,13 +310,16 @@ namespace Project_Slayer {
 		/// <param name="mobCount">The User's mobCount</param>
 		/// <returns>Returns a new entity instance, or returns null.</returns>
 		static Entity SpawnMob(int floorLevel, int mobCount, int availableFloors) {
-			int actualFloor = floorLevel + 1;
-			int requiredMobCount = (actualFloor * (10 * availableFloors)) - 2;
+			int requiredMobCountGoblin = 20;
+
+
+			//Use this as debug, to be certain about the conditions.
+			Console.WriteLine($"Floor: {floorLevel}, Mob Count: {mobCount}, Required Mob Count: {requiredMobCountGoblin}");
 
 			if (floorLevel == 0) {
 				return new Human();
 			} else if (floorLevel == 1) {
-				if (mobCount > requiredMobCount) {
+				if (mobCount == requiredMobCountGoblin) {
 					return new GoblinLord();
 				} else {
 					return new Goblin();
