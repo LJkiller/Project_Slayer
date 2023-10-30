@@ -56,10 +56,11 @@ namespace Project_Slayer {
 		#region User related
 
 		/// <summary>
-		/// Saves the user's data into a json-file.
+		/// Saves the user's data into a json-file with a specified file name.
 		/// </summary>
-		/// <param name="fileName"></param>
-		/// <param name="user"></param>
+		/// <param name="fileName">String to be handled as the User's file name.</param>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <exception cref="ArgumentException">Thrown when an error occurs during the saving process.</exception>
 		public void Save(string fileNameInput, User user) {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
@@ -90,8 +91,9 @@ namespace Project_Slayer {
 		#region Purely Files
 
 		/// <summary>
-		/// Displays all save files and backup files.
+		/// Displays all save files and backup files in the current directory.
 		/// </summary>
+		/// <exception cref="ArgumentException">Thrown when error occurs during the process of displaying files.</exception>
 		public void DisplayAllFiles() {
 			string filePath = AppDomain.CurrentDomain.BaseDirectory;
 			string[] saveFiles = Directory.GetFiles(filePath, "SaveFile-*.json");
@@ -137,7 +139,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Stores the primary file name.
 		/// </summary>
-		/// <param name="fileNameInput"></param>
+		/// <param name="fileNameInput">String to be handled as the User's file name.</param>
 		public void SaveFileName(string fileNameInput) {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			savedFileName = fileName;
@@ -145,7 +147,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Stores the backup file name.
 		/// </summary>
-		/// <param name="fileNameInput"></param>
+		/// <param name="fileNameInput">String to be handled as the User's backup file name.</param>
 		public void BackupFileName(string fileNameInput) {
 			string fileName = $"SaveFile-{fileNameInput}-Backup.json";
 			backupFileName = fileName;
@@ -154,7 +156,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Retrieves the saved file name.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The saved file name as a string.</returns>
 		public string GetSavedFileName() {
 			return savedFileName;
 		}
@@ -162,7 +164,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Retrieves the save file name.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The backup file name as a string.</returns>
 		public string GetBackupFileName() {
 			return backupFileName;
 		}

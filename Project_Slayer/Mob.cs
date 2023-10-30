@@ -64,6 +64,7 @@ namespace Project_Slayer {
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// Additional info: CoinDrop, ExpDrop.
 		/// </summary>
+		/// <param name="admin">Bool to compare if it's an admin execution.</param>
 		public override void DisplayInfo(bool admin) {
 			Console.WriteLine($"{mobName,21}: Entity");
 			base.DisplayInfo(false);
@@ -85,6 +86,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of Mob's death.
 		/// </summary>
+		/// <param name="dead">Bool to compare if the mob has died.</param>
 		public override void End(bool dead = false) {
 			if (dead == true) {
 				emptyUser.MobSlain();

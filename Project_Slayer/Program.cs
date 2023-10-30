@@ -54,7 +54,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Displays information about an Entity by calling its DisplayInfo-method.
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <param name="entity">The entity objekt to be handled in the method.</param>
 		static void DisplayEntityInfo(Entity entity) {
 			entity.DisplayInfo(false);
 		}
@@ -63,13 +63,15 @@ namespace Project_Slayer {
 		/// A string input arranging into a numerical position.
 		/// Input-filtering to a value in order to call different methods.
 		/// </summary>
-		/// <param name="inputString"></param>
+		/// <param name="inputString">The string input to be handled in the method.</param>
 		static void InputArrangement(string inputString, User user, Entity entity) {
+			//Takes the inputString and convers it into a list to be handled easier.
 			List<string> inputCount = inputString.ToLower().Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
 
 			if (inputCount.Count == 0) {
 				Console.WriteLine("Invalid input, please try again. If you need help: [HELP]");
 			} 
+			
 			//Quick Methods
 			else if (inputCount.Count == 1) {
 				string input = inputCount[0];
@@ -78,6 +80,9 @@ namespace Project_Slayer {
 					case "s":
 						SaveFile(user);
 						break;
+					case "attack":
+						user.Attack("physical",user, entity);
+						break;
 					case "help":
 					case "h":
 						HelpScreen(false);
@@ -85,6 +90,9 @@ namespace Project_Slayer {
 					case "quit":
 					case "q":
 						QuitGame(user);
+						break;
+					case "check":
+						user.CheckUserInfo(user, "");
 						break;
 					case "forcedeath":
 						user.HitPoints = 0;
@@ -104,13 +112,20 @@ namespace Project_Slayer {
 				}
 			} 
 
+			//Longer methods
 			else {
 				if (inputCount[0] == "attack") {
 					user.Attack(inputCount[1], user, entity);
 				}
-				else if (inputCount[0] == "admin" && inputCount[1] == "kill") {
-					entity.End(true);
-					entity.EnemyDamaged(entity.GetDurability());
+				//Commands that can be executed as admins.
+				else if (inputCount[0] == "admin") {
+					if (inputCount[1] == "kill") {
+						entity.End(true);
+						entity.EnemyDamaged(entity.GetDurability());
+					}
+				} 
+				else if (inputCount[0] == "check" && inputCount[1] == "admin") {
+					user.CheckUserInfo(user, inputCount[1]);
 				}
 			}
 		}
@@ -120,12 +135,14 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible for saving the User's information to a desired file.
 		/// </summary>
+		/// <param name="user">The User object to be handled in the method.</param>
 		static void SaveFile(User user) {
 			Console.WriteLine("Which file do you want to save to?");
 			fileManager.DisplayAllFiles();
 			FileNameInput = Console.ReadLine();
 			Console.WriteLine("Are you sure?\n[YES] or [NO]");
 
+			//Proceed or not.
 			while (run2) {
 				string newOpt = Console.ReadLine().ToLower();
 				if (newOpt == "yes" || newOpt == "y") {
@@ -145,6 +162,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible for quitting the game.
 		/// </summary>
+		/// <param name="user">The User object to be handled in the method.</param>
 		static void QuitGame(User user) {
 			Console.Clear();
 			while (run2) {
@@ -153,6 +171,7 @@ namespace Project_Slayer {
 				FileNameInput = Console.ReadLine();
 				Console.WriteLine("Are you sure?\n[YES] or [NO]");
 
+				//Proceed or not.
 				string newOpt = Console.ReadLine().ToLower();
 				if (newOpt == "yes" || newOpt == "y") {
 					fileManager.Save(FileNameInput, user);
@@ -190,7 +209,7 @@ namespace Project_Slayer {
 		}
 
 		/// <summary>
-		/// Initializes the game.
+		/// Initializes the game instance.
 		/// </summary>
 		static void InitializeGame() {
 			StartScreen(true);
@@ -203,8 +222,10 @@ namespace Project_Slayer {
 		/// <summary>
 		/// The game's content.
 		/// </summary>
+		/// <param name="user">The User object to be handled in the method.</param>
 		static void GameScreen(User user) {
 			SetUp();
+			//Creates a list to make handling enemies easier.
 			List<Entity> entityCombat = new List<Entity>();
 			Console.Clear();
 
@@ -212,10 +233,9 @@ namespace Project_Slayer {
 
 				//Checks if there is any mob, if no mob, creates one.
 				if (entityCombat.Count < 1) {
-					//Restores health.
+					//Restores health. Makes it obselete for HP to be saved with JsonFile.
 					int healthRestoration = (user.Durability - user.HitPoints);
 					user.RestoreHealth(healthRestoration);
-					Console.WriteLine("Durability " + healthRestoration);
 					//Adds mob.
 					entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount, availableFloors));
 					Console.WriteLine($"FloorLevel: {user.GetFloorLevel()}, MobCount: {user.GetMobCount()}");
@@ -224,9 +244,13 @@ namespace Project_Slayer {
 				else {
 					//Checks the entity's durability, if it's dead or not.
 					if (entityCombat[0].GetDurability() == 0) {
-						entityCombat.RemoveAt(0);
 						user.MobSlain();
 						Console.Clear();
+						Console.Write("You've conquered the ");
+						textManager.PrintColoredText(entityCombat[0].GetMobName(), EnemyColor);
+						Console.Write("! You've earned\n");
+						//Add loot here
+						entityCombat.RemoveAt(0);
 						continue;
 					} 
 					else {
@@ -266,14 +290,17 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of creating an entity.
 		/// </summary>
-		/// <param name="floorLevel"></param>
-		/// <param name="mobCount"></param>
-		/// <returns></returns>
+		/// <param name="floorLevel">The User's floorLevel</param>
+		/// <param name="mobCount">The User's mobCount</param>
+		/// <returns>Returns a new entity instance, or returns null.</returns>
 		static Entity SpawnMob(int floorLevel, int mobCount, int availableFloors) {
+			int actualFloor = floorLevel + 1;
+			int requiredMobCount = (actualFloor * (10 * availableFloors)) - 2;
+
 			if (floorLevel == 0) {
 				return new Human();
 			} else if (floorLevel == 1) {
-				if (mobCount > (availableFloors * 10 - 1)) {
+				if (mobCount > requiredMobCount) {
 					return new GoblinLord();
 				} else {
 					return new Goblin();
@@ -289,7 +316,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Displays the start screen and processes user input for starting, continuing, getting help, or quitting the game.
 		/// </summary>
-		/// <param name="displayTitle"></param>
+		/// <param name="displayTitle">Bool to be compared if it should display the game's title.</param>
 		static void StartScreen(bool displayTitle) {
 			SetUp();
 			if (displayTitle) {
@@ -312,7 +339,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of processing user input at the start of the game.
 		/// </summary>
-		/// <param name="userInput"></param>
+		/// <param name="userInput">String to be compared of what proceeding action should be taken.</param>
 		static void ProcessStartInput(string userInput) {
 			switch (userInput) {
 				case "start":
@@ -337,11 +364,6 @@ namespace Project_Slayer {
 					run1 = false;
 					Console.Clear();
 					break;
-				case "check":
-				case "u":
-					Console.WriteLine();
-					user.CheckUserInfo(user, userInput);
-					break;
 				case "test":
 				case "t":
 					Console.Clear();
@@ -359,9 +381,8 @@ namespace Project_Slayer {
 
 		/// <summary>
 		/// Represents a screen for creating a user by gathering necessary information.
-		/// Information is then sent to CreateUser().
+		/// Information is then sent to CreationFileScreen().
 		/// </summary>
-		/// <param name="user"></param>
 		static void UserCreationScreen() {
 			while (true) {
 				Console.WriteLine("What do you want to be called? (Max 20 Characters)");
@@ -398,8 +419,9 @@ namespace Project_Slayer {
 
 		/// <summary>
 		/// Represents a screen for selecting a file to save a user's character.
+		/// Information is then sent to CreateUser();
 		/// </summary>
-		/// <param name="userNameInput"></param>
+		/// <param name="userNameInput">String to be handled as the User's username.</param>
 		static void CreationFileScreen(string userNameInput) {
 			while (true) {
 				Console.Clear();
@@ -435,14 +457,15 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Load user info screen and allows the user to select a file to load from.
 		/// </summary>
+		/// <exception cref="ArgumentException">Thrown when file is not found or has invalid data.</exception>
 		static void LoadScreen() {
 			while (run2) {
 				Console.WriteLine("Select your preferred file:");
 				fileManager.DisplayAllFiles();
 				FileNameInput = Console.ReadLine();
 
+				//Proceed or not.
 				Console.WriteLine("Are you sure?\n[YES] or [NO]?"); 
-
 				if (FileNameInput.ToLower() == "quit" || FileNameInput.ToLower() == "q") {
 					Console.Clear();
 					run1 = false;
@@ -452,6 +475,7 @@ namespace Project_Slayer {
 				while (run3) {
 					string opt = Console.ReadLine().ToLower();
 
+					//Proceed or not.
 					if (opt == "yes" || opt == "y") {
 						try {
 							user = user.GetUserInfo(FileNameInput);
@@ -494,12 +518,13 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Help screen allows the user to get game or commands help.
 		/// </summary>
-		/// <param name="startAtGame"></param>
+		/// <param name="startAtGame">Bool to be compared if HelpScreen is called from the start of the gaem or during game.</param>
 		static void HelpScreen(bool startAtGame) {
 			SetUp();
 			Console.WriteLine("What kind of help do you need?\n[GAME] or [COMMANDS].");
 
-			while (true) {
+			//Options
+			while (run2) {
 				string inputHelp = Console.ReadLine().ToLower();
 
 				if (inputHelp == "game") {
@@ -523,10 +548,11 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Option to continue to game or more help.
 		/// </summary>
-		/// <param name="startAtGame"></param>
+		/// <param name="startAtGame">Bool to be compared if HelpScreen is called from the start of the gaem or during game.</param>
 		static void ShowGameOrMore(bool startAtGame) {
 			Console.WriteLine("Do you wish to continue to the game or check out more?\n[GAME] or [MORE]");
 
+			//Options
 			while (true) {
 				string furtherInput = Console.ReadLine().ToLower();
 
@@ -557,6 +583,7 @@ namespace Project_Slayer {
 		static void StartOrContinueGame() {
 			Console.WriteLine("New game or continue?\n[START] or [CONTINUE]");
 
+			//Options
 			while (true) {
 				string gameContinuationInput = Console.ReadLine().ToLower();
 				if (gameContinuationInput == "start" || gameContinuationInput == "s") {
@@ -584,6 +611,7 @@ namespace Project_Slayer {
 		/// Testing RNG value for different races.
 		/// </summary>
 		static void EntityTesting() {
+			//Creates a list of entities.
 			List<Entity> entityList = new List<Entity>();
 			entityList.Add(new Human());
 			entityList.Add(new Human());
@@ -601,15 +629,6 @@ namespace Project_Slayer {
 			}
 		}
 
-		/// <summary>
-		/// Testing colors.
-		/// </summary>
-		static void ColorTesting() {
-			for (ConsoleColor color = ConsoleColor.Black; color <= ConsoleColor.White; color++) {
-				Console.BackgroundColor = color;
-				Console.WriteLine($"This is {color}");
-			}
-		}
 		#endregion
 
 		static void Main(string[] args) {

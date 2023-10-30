@@ -24,7 +24,7 @@ namespace Project_Slayer {
 	/// <summary>
 	/// Represents the base data for Entity Class.
 	/// </summary>
-	public abstract class Entity : IDrawable {
+	public abstract class Entity {
 		// __________
 		//(👍 ͡❛ ▭ ͡❛)👍 En(tit)y
 
@@ -53,44 +53,44 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of getting mobName.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The Entity's mobName.</returns>
 		public string GetMobName() {
 			return mobName;
 		}
 		/// <summary>
 		/// Method responsible of getting strength.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The Entity's strength.</returns>
 		public int GetStrength() {
 			return strength;
 		}
 		/// <summary>
 		/// Method responsible of getting mana.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The Entity's mana.</returns>
 		public int GetMana() {
 			return mana;
 		}
 		/// <summary>
 		/// Method responsible of getting durability.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The Entity's durability.</returns>
 		public int GetDurability() {
 			return durability;
 		}
 		/// <summary>
 		/// Method responsible of getting agility.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The Entity's agility.</returns>
 		public int GetAgility() {
 			return agility;
 		}
 
 		/// <summary>
-		/// 
+		/// Method responsible of lowering the enemy's health.
 		/// </summary>
-		/// <param name="damageIncrement"></param>
-		/// <returns></returns>
+		/// <param name="damageIncrement">The value of the User's attack. Scaled by either 'strength' or 'mana'.</param>
+		/// <returns>The new value of entity's durability/health.</returns>
 		public int EnemyDamaged(int damageIncrement) {
 			durability -= damageIncrement;
 			return durability;
@@ -104,6 +104,7 @@ namespace Project_Slayer {
 		/// Displays the information of an Entity.
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// </summary>
+		/// <param name="admin">Bool to compare if its an admin execution.</param>
 		public virtual void DisplayInfo(bool admin) {
 			Console.WriteLine($"{strength,21}: Strength");
 			Console.WriteLine($"{mana,21}: Mana");
@@ -123,22 +124,13 @@ namespace Project_Slayer {
 		#region Methods
 
 		/// <summary>
-		/// Method responsible of rendering the Entity in the game.
-		/// A "Square".
-		/// </summary>
-		public void Draw() {
-			for (int i = 0; i < 5; i++) {
-				for (int j = 0; j < 5; j++) {
-					Console.Write('*');
-				}
-				Console.WriteLine();
-			}
-		}
-
 		/// Attacks opponent and inflicts damage. 
 		/// Damage is scaled by Strength or Mana.
 		/// </summary>
-		/// <param name="attackType"></param>
+		/// <param name="attackType">String to be compared of what attack is executed.</param>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="entity">The entity object to be handled in the method.</param>
+		/// <exception cref="ArgumentException">Thrown when the attackType is not valid. Has to be either 'physical' or 'magical'.</exception>
 		public virtual void Attack(string attackType, User user, Entity entity) {
 			if (attackType == "physical") {
 				user.HitPoints -= (int)Math.Round((double)entity.strength);
@@ -146,13 +138,17 @@ namespace Project_Slayer {
 			} else if (attackType == "magical") {
 				user.HitPoints -= (int)Math.Round((double)entity.mana);
 				textManager.PrintDamage(entity, attackType);
+			} else {
+				throw new ArgumentException("Invalid attackType. The attackType must be either 'physical' or 'magical'.");
 			}
 		}
 
 		/// <summary>
 		/// Method responsible of an entity's death.
 		/// </summary>
+		/// <param name="dead">Bool to compare if the Entity is dead.</param>
 		public abstract void End(bool dead = false);
+		
 		#endregion
 
 	}

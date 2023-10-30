@@ -49,11 +49,12 @@ namespace Project_Slayer {
 		public void PrintCMDSHelp() {
 			Console.WriteLine(
 				"During game:\n" +
-				"Save: 'save' or 'save' (Saving mid game)\n" +
+				"Save: 'save' (Saving mid game)\n" +
 				"Quit: 'quit' or 'q' (Will lead to save and then quit)\n\n" +
 				"Combat-related:\n" +
 				"Attack: 'attack + [ATTACKTYPE]' (Physical or magical, if nothing => physical attack)\n" +
 				"[ATTACKTYPE] = 'physical' or 'magical' (or 'm')\n" +
+				"Dodge: 'dodge' or 'dg' (dodges the enemy's attack, neither user nor enemy take damage).\n" +
 				"Escape: 'escape' or 'esc' (Escape from enemy, restores your health.)\n\n" +
 				"Leveling: 'level + [STAT]' (Levels up your specific stat with something between 1 and 5)\n" +
 				"[STAT] = 'strength', 'mana', 'durability', 'agility'\n");
@@ -66,8 +67,8 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of printing out strings with a different text color.
 		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="color"></param>
+		/// <param name="text">String to be printed.</param>
+		/// <param name="color">The color of the text.</param>
 		/// <remarks>
 		/// This method is able to handle numerical values as input, because this is an overloaded method.
 		/// </remarks>
@@ -79,16 +80,16 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Prints intergers with a different text color.
 		/// </summary>
-		/// <param name="number"></param>
-		/// <param name="color"></param>
+		/// <param name="number">Int to be printed.</param>
+		/// <param name="color">The color of the number.</param>
 		public void PrintColoredText(int number, ConsoleColor color) {
 			PrintColoredText(number.ToString(), color);
 		}
 		/// <summary>
 		/// Prints doubles with a different text color.
 		/// </summary>
-		/// <param name="number"></param>
-		/// <param name="color"></param>
+		/// <param name="number">Double to be printed.</param>
+		/// <param name="color">The color of the number.</param>
 		public void PrintColoredText(double number, ConsoleColor color) {
 			PrintColoredText(number.ToString(), color);
 		}
@@ -100,8 +101,8 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of printing out what mob appears alongside how much HP User has and mob has.
 		/// </summary>
-		/// <param name="user"></param>
-		/// <param name="entity"></param>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="entity">The Entity object to be handled in the method.</param>
 		public void PrintNewMobAppearance(User user, Entity entity) {
 			Console.Write($"Entering combat!\nTake heed ");
 			PrintColoredText(user.UserName, Program.UserColor);
@@ -118,8 +119,8 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of printing out the health of User and Mob after each round.
 		/// </summary>
-		/// <param name="user"></param>
-		/// <param name="entity"></param>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="entity">The Entity object to be handled in the method.</param>
 		public void PrintAfterRound(User user, Entity entity) {
 			PrintColoredText(user.UserName, Program.UserColor);
 			Console.Write(" has ");
@@ -131,10 +132,10 @@ namespace Project_Slayer {
 			Console.Write("HP!\n");
 		}
 		/// <summary>
-		/// Method responsible of printing damage inflicted
+		/// Method responsible of printing damage inflicted.
 		/// </summary>
-		/// <param name="entity"></param>
-		/// <param name="attackType"></param>
+		/// <param name="entity">The Entity object to be handled in the method.</param>
+		/// <param name="attackType">String to be compared of what attack is executed.</param>
 		public void PrintDamage(Entity entity, string attackType) {
 			if (attackType == "physical") {
 				PrintColoredText(entity.GetMobName(), Program.EnemyColor);

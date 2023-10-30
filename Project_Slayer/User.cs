@@ -84,11 +84,13 @@ namespace Project_Slayer {
 		[JsonPropertyName("Exp")]
 		public int Exp { get; set; }
 
+
+
 		/// <summary>
 		/// Method reponsible of checking if the User is dead.
 		/// </summary>
-		/// <param name="HP"></param>
-		/// <returns></returns>
+		/// <param name="HP">The User's HitPoints (Health).</param>
+		/// <returns>True or false depending on health</returns>
 		public bool CheckIfDead(int HP) {
 			if (HP>0) {
 				return false;
@@ -98,9 +100,9 @@ namespace Project_Slayer {
 
 		}
 		/// <summary>
-		/// Compares CheckIfDead() method is true or false, then takes acition.
+		/// Compares CheckIfDead() method's result and takes action accordingly.
 		/// </summary>
-		/// <param name="HP"></param>
+		/// <param name="HP">The User's HitPoints (Health).</param>
 		public void IsDead(int HP) {
 			if (HP <= 0) {
 				End(true);
@@ -124,25 +126,18 @@ namespace Project_Slayer {
 		public int FloorLevel {
 			get { return floorLevel; }
 			set {
+				//If MobCount exceeds 10, it will increase floorLevel by 1.
 				if (MobCount % 10 == 0 && MobCount > 0) {
 					floorLevel = value;
-					FloorChange(floorLevel);
+					floorLevel++;
 				}
 			}
 		}
 
 		/// <summary>
-		/// Method responsible for changing floors.
-		/// </summary>
-		/// <param name="floorLevel"></param>
-		public void FloorChange(int newFloorLevel) {
-			floorLevel = newFloorLevel;
-		}
-
-		/// <summary>
 		/// Method responsible of getting floorLevel.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>FloorLevel</returns>
 		public int GetFloorLevel() {
 			return floorLevel;
 		}
@@ -175,7 +170,7 @@ namespace Project_Slayer {
 		}
 
 		/// <summary>
-		/// The number of enemy slain, increases by 1.
+		/// Method responsible of adding the number of enemies slain, increases by 1.
 		/// </summary>
 		public void MobSlain() {
 			mobCount++;
@@ -184,7 +179,7 @@ namespace Project_Slayer {
 			}
 		}
 		/// <summary>
-		/// The number of bosses slain, increases by 1.
+		/// Method responsible of adding the number of bosses slain, increases by 1.
 		/// </summary>
 		public void BossSlain() {
 			bossCount++;
@@ -194,14 +189,14 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of getting MobCount from User.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>MobCount</returns>
 		public int GetMobCount() {
 			return mobCount;
 		}
 		/// <summary>
 		/// Method responsible of getting BossCount from User.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>BossCount</returns>
 		public int GetBossCount() {
 			return bossCount;
 		}
@@ -209,7 +204,7 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of restoring User's health.
 		/// </summary>
-		/// <param name="health"></param>
+		/// <param name="health">The necessary heatlh to restore the User's HitPoints to the fullest.</param>
 		public void RestoreHealth(int health) {
 			HitPoints += health;
 		}
@@ -218,6 +213,7 @@ namespace Project_Slayer {
 
 		#region Combat
 		private int dodgeCount;
+		private int escapeCount;
 		private int physicalAttackCount;
 		private int magicalAttackCount;
 
@@ -228,6 +224,14 @@ namespace Project_Slayer {
 		public int DodgeCount {
 			get { return dodgeCount; }
 			set { dodgeCount = value; }
+		}
+		/// <summary>
+		/// The number of times the user has escaped.
+		/// </summary>
+		[JsonPropertyName("EscapeCount")]
+		public int EscapeCount {
+			get { return escapeCount; }
+			set { escapeCount = value; }
 		}
 
 		/// <summary>
@@ -247,7 +251,6 @@ namespace Project_Slayer {
 			set { magicalAttackCount = value; }
 		}
 
-
 		#endregion
 
 		#endregion
@@ -259,6 +262,7 @@ namespace Project_Slayer {
 		/// Entity, Strength, Mana, Durability, Agility.
 		/// Additional info: UserName, MobCount, FloorLevel.
 		/// </summary>
+		/// <param name="admin">Bool to compare if its an admin execution.</param>
 		public override void DisplayInfo(bool admin) {
 			Console.WriteLine($"{UserName,21}: Username");
 			Console.WriteLine($"{Strength,21}: Strength");
@@ -279,11 +283,15 @@ namespace Project_Slayer {
 			}
 
 		}
-		
+
 		/// <summary>
-		/// Initializes new instance of User class.
+		/// Initializes a new instance of the User class.
 		/// </summary>
-		/// <param name="initialUserName"></param>
+		/// <param name="userName">The User's UserName.</param>
+		/// <remarks>
+		/// Additional info:
+		/// - This constructor sets the UserName property.
+		/// </remarks>
 		[JsonConstructor]
 		public User(string userName) {
 			this.UserName = userName;
@@ -296,14 +304,15 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Creates the user and saves the data into a json-file.
 		/// </summary>
-		/// <param name="usernameInput"></param>
-		/// <param name="fileNameInput"></param>
-		/// <param name="User"></param>
+		/// <param name="usernameInput">String to be handled as the User's username.</param>
+		/// <param name="fileNameInput">String to be handled as the User's file name.</param>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <exception cref="ArgumentException">Thrown when a file with the same name already exists and would be overwritten.</exception>
 		public void CreateUser(string usernameInput, string fileNameInput, User user) {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			try {
-				//RNG stats:
+				//RNG stat setters:
 				int durHP = rng.Next((int)(minStat * 10), (int)(maxStat * 10));
 
 				user.UserName = usernameInput;
@@ -338,36 +347,43 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Get User info (load user) from Json-file.
 		/// </summary>
-		/// <param name="fileNameInput"></param>
-		/// <returns>The user information loaded from the JSON file.</returns>
+		/// <param name="fileNameInput">String to be handled as the User's file name</param>
+		/// <returns>The User's information loaded from the JSON file.</returns>
+		/// <exception cref="FileNotFoundException">Thrown when both the primary and backup files are not found.</exception>
+		/// <exception cref="JsonException">Thrown when there is an issue with JSON data deserialization.</exception>
 		public User GetUserInfo(string fileNameInput) {
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
 			string serializedData = null;
 
+			//Check if the file exists, through primary and backup.
 			if (File.Exists(fileName)) {
 				Console.WriteLine("\nFile found!");
 				serializedData = File.ReadAllText(fileName);
 			} else if (File.Exists(backupFileName)) {
 				Console.WriteLine("\nFile not found. Using backup!");
 				serializedData = File.ReadAllText(backupFileName);
-			} else {
+			} 
+			//If both files do not exist, return null.
+			else {
 				Console.WriteLine("File not found! Cannot load user.");
 				return null;
 			}
 
 			try {
 				return JsonSerializer.Deserialize<User>(serializedData);
-			} catch (Exception e) {
+			} catch (JsonException e) {
 				Console.WriteLine($"An error occurred while loading user data: {e.Message}");
 				return null;
 			}
 		}
 
 		/// <summary>
-			/// Method resonsible of checking a user's stats.
-			/// </summary>
-			/// <param name="user"></param>
+		/// Method resonsible of checking a user's stats.
+		/// </summary>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="input">Additional input to specify the level of detail in the displayed information.</param>
+		/// <exception cref="ArgumentException">Thrown if the user object is null.</exception>
 		public void CheckUserInfo(User user, string input) {
 			try {
 				if (user != null) {
@@ -379,15 +395,17 @@ namespace Project_Slayer {
 					Console.WriteLine($"{user.Coins,21}: Coins");
 					Console.WriteLine($"{user.Exp,21}: Exp");
 					Console.WriteLine($"{user.FloorLevel,21}: FloorLevel\n");
+					Console.WriteLine($"{user.MobCount,21}: MobCount");
 
-					if (input == "cmds-check") {
-						Console.WriteLine($"{user.MobCount,21}: MobCount");
-						Console.WriteLine($"{user.MobCount,21}: BossCount");
-						Console.WriteLine($"{user.DodgeCount,21}: DodgeCount\n");
+					if (input == "admin") {
+						Console.WriteLine($"{user.BossCount,21}: BossCount");
+						Console.WriteLine($"{user.DodgeCount,21}: DodgeCount");
+						Console.WriteLine($"{user.PhysicalAttackCount,21}: PhysicalAttackCount");
+						Console.WriteLine($"{user.MagicalAttackCount,21}: MagicalAttackCount\n");
 					}
 
 				} else {
-					Console.WriteLine("The user object is not initialized.");
+					Console.WriteLine("The User object is not initialized.");
 				}
 			} catch (ArgumentException e) {
 				Console.WriteLine($"Something went wrong! {e.Message}");
@@ -398,7 +416,9 @@ namespace Project_Slayer {
 		/// Attacks opponent and inflicts damage. 
 		/// Damage is scaled by Strength or Mana.
 		/// </summary>
-		/// <param name="attackType"></param>
+		/// <param name="attackType">String to be compared of what attack is executed. Has to be either 'physical' or 'magical'.</param>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="entity">The Entity object to be handled in the method.</param>
 		public override void Attack(string attackType, User user, Entity entity) {
 			switch (attackType) {
 				case "physical":
@@ -422,13 +442,13 @@ namespace Project_Slayer {
 					Console.Write(" damage!\n\n");
 					break;
 				default:
-					Console.WriteLine("You've failed your attack.");
+					Console.WriteLine("You've failed your attack. Has to be either 'physical' or 'magical'.");
 					break;
 			}
 		}
 
 		/// <summary>
-		/// Perfectly dodges your opponent's incoming attack.
+		/// Method responsible of dodging your opponent's incoming attack.
 		/// </summary>
 		public void Dodge() {
 			Console.WriteLine("You're fast enough to outmaneuver your enemy!");
@@ -436,15 +456,18 @@ namespace Project_Slayer {
 		}
 
 		/// <summary>
-		/// Escapes from the current opponent, resores your health to 100%.
+		/// Method responsible of escaping from the current opponent, restores your health to 100%.
 		/// </summary>
 		public void Escape() {
+			escapeCount++;
 			Console.WriteLine("You've escaped!\nHealth is restored!\n");
 		}
 
 		/// <summary>
-		/// Method responsible of User's death.
+		/// Method responsible of the User's fate, either in victory or defeat.
+		/// If the User is dead, this method will be wiping data.
 		/// </summary>
+		/// <param name="dead">Bool to compare if the User has died.</param>
 		public override void End(bool dead = false) {
 			Console.Clear();
 			if (dead) {
@@ -517,8 +540,12 @@ namespace Project_Slayer {
 			Console.ReadKey();
 		}
 
+		/// <summary>
+		/// Method reponsible of wiping the User's data at the end of the game (if the user has died).
+		/// </summary>
+		/// <param name="fileName">String to be handled as the User's file name.</param>
+		/// <exception cref="ArgumentException">Thrown if the user object is null.</exception>
 		public void WipeData(string fileName) {
-			Console.WriteLine($"This is the FileName : {fileName}");
 			try {
 				if (File.Exists(fileName)) {
 					File.WriteAllText(fileName, "{}");

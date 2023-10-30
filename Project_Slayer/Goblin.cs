@@ -127,11 +127,31 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of Goblin's death.
 		/// </summary>
-		public override void End(bool dead = false) {
-			base.End(dead);
-			emptyUser.Exp += (int)Math.Round(ExpDrop);
-			emptyUser.Coins += (int)Math.Round(CoinDrop);
+		public override void End(bool isDead) {
+			base.End(isDead);
+			if (isDead) {
+				int experienceGained = (int)Math.Round(GetExpDrop());
+				int coinsGained = (int)Math.Round(GetCoinDrop());
+				emptyUser.Exp += experienceGained;
+				emptyUser.Coins += coinsGained;
+			}
 		}
+
+		/// <summary>
+		/// Method responsible of getting CoinDrop.
+		/// </summary>
+		/// <returns>CoinDrop</returns>
+		public double GetCoinDrop() {
+			return CoinDrop;
+		}
+		/// <summary>
+		/// Method responsible of getting ExpDrop.
+		/// </summary>
+		/// <returns>ExpDrop</returns>
+		public double GetExpDrop() {
+			return ExpDrop;
+		}
+
 		#endregion
 
 	}
