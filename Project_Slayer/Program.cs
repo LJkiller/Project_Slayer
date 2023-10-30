@@ -231,9 +231,8 @@ namespace Project_Slayer {
 
 				//Checks if there is any mob, if no mob, creates one.
 				if (entityCombat.Count < 1) {
-
 					//Check if game should end.
-					if (user.MobCount == 20 && user.FloorLevel == 1) {
+					if (user.MobCount >= 20 && user.FloorLevel > 1) {
 						user.End(false);
 						run1 = false;
 						run2 = false;
@@ -245,7 +244,7 @@ namespace Project_Slayer {
 					int healthRestoration = (user.Durability - user.HitPoints);
 					user.RestoreHealth(healthRestoration);
 					//Adds mob.
-					entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount, availableFloors));
+					entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount));
 
 					//Leveling Roundabout.
 					if (currentFloorLevel > previousFloorLevel) {
@@ -260,7 +259,7 @@ namespace Project_Slayer {
 				} 
 				else {
 					//Checks the entity's durability, if it's dead or not.
-					if (entityCombat[0].GetDurability() == 0) {
+					if (entityCombat[0].GetDurability() <= 0) {
 						user.MobSlain();
 						Console.Clear();
 						//Coins and EXP doesn't work.
@@ -309,17 +308,15 @@ namespace Project_Slayer {
 		/// <param name="floorLevel">The User's floorLevel</param>
 		/// <param name="mobCount">The User's mobCount</param>
 		/// <returns>Returns a new entity instance, or returns null.</returns>
-		static Entity SpawnMob(int floorLevel, int mobCount, int availableFloors) {
-			int requiredMobCountGoblin = 20;
-
+		static Entity SpawnMob(int floorLevel, int mobCount) {
 
 			//Use this as debug, to be certain about the conditions.
-			Console.WriteLine($"Floor: {floorLevel}, Mob Count: {mobCount}, Required Mob Count: {requiredMobCountGoblin}");
+			Console.WriteLine($"Floor: {floorLevel}, Mob Count: {mobCount}, Required Mob Count: 19");
 
 			if (floorLevel == 0) {
 				return new Human();
 			} else if (floorLevel == 1) {
-				if (mobCount == requiredMobCountGoblin) {
+				if (mobCount+1 == 20) {
 					return new GoblinLord();
 				} else {
 					return new Goblin();
