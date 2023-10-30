@@ -41,6 +41,13 @@ namespace Project_Slayer {
 		#endregion
 
 		/// <summary>
+		/// Initializes new instance of Boss class.
+		/// </summary>
+		public Boss() {
+
+		}
+
+		/// <summary>
 		/// Method responsible of a Boss's End.
 		/// </summary>
 		/// <param name="dead">Bool to compare if the Boss has died.</param>
@@ -50,8 +57,6 @@ namespace Project_Slayer {
 		public override void End(bool dead = false, User user = null, FileManager fileManager = null) {
 			if (dead == true) {
 				emptyUser.BossSlain();
-			} else {
-
 			}
 		}
 	
