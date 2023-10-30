@@ -84,19 +84,6 @@ namespace Project_Slayer {
 			}
 		}
 
-		/// <summary>
-		/// The Mob's Hit Points (Health, HP).
-		/// </summary>
-		public int HitPoints {
-			get { return base.durability; }
-			set {
-				if (value > 0) {
-					base.durability = value;
-				} else {
-					End(true);
-				}
-			}
-		}
 		#endregion
 
 		#region Information & Initiator
