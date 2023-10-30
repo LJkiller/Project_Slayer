@@ -101,8 +101,10 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of Mob's death.
 		/// </summary>
-		/// <param name="dead">Bool to compare if the mob has died.</param>d
-		public override void End(bool dead = false) {
+		/// <param name="dead">Bool to compare if the mob has died.</param>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="fileManager">The FileManager object to be transfering information.</param>
+		public override void End(bool dead = false, User user = null, FileManager fileManager = null) {
 			if (dead == true) {
 				emptyUser.MobSlain();
 			}

@@ -81,7 +81,7 @@ namespace Project_Slayer {
 					case "save":
 					case "s":
 						Console.Clear();
-						SaveFile(user);
+						SaveFile(user, fileManager);
 						user.RestoreHealth(healthRestoration);
 						break;
 					case "attack":
@@ -93,7 +93,7 @@ namespace Project_Slayer {
 						break;
 					case "quit":
 					case "q":
-						QuitGame(user);
+						QuitGame(user, fileManager);
 						run1 = false;
 						run2 = false;
 						run3 = false;
@@ -105,7 +105,7 @@ namespace Project_Slayer {
 						user.HitPoints = 0;
 						break;
 					case "forceend":
-						user.End(false);
+						user.End(false, user, fileManager);
 						break;
 					default:
 						Console.WriteLine("Your move has been forfeited, enemy attacks. If you need help type 'HELP'.");
@@ -137,7 +137,8 @@ namespace Project_Slayer {
 		/// Method responsible for saving the User's information to a desired file.
 		/// </summary>
 		/// <param name="user">The User object to be handled in the method.</param>
-		static void SaveFile(User user) {
+		/// <param name="fileManager">The fileManager object to be handled in the method.</param>
+		static void SaveFile(User user, FileManager fileManager) {
 			Console.WriteLine("Which file do you want to save to?");
 			fileManager.DisplayAllFiles();
 			FileNameInput = Console.ReadLine();
@@ -150,6 +151,7 @@ namespace Project_Slayer {
 					Console.Clear();
 					fileManager.Save(FileNameInput, user);
 					fileManager.SaveFileName(FileNameInput);
+					fileManager.BackupFileName(FileNameInput);
 					Console.WriteLine("Continuing to the game.");
 					run2 = false;
 				} else if (newOpt == "no" || newOpt == "n") {
@@ -164,7 +166,8 @@ namespace Project_Slayer {
 		/// Method responsible for quitting the game.
 		/// </summary>
 		/// <param name="user">The User object to be handled in the method.</param>
-		static void QuitGame(User user) {
+		/// <param name="fileManager">The fileManager object to be handled in the method.</param>
+		static void QuitGame(User user, FileManager fileManager) {
 			Console.Clear();
 			while (run2) {
 				Console.WriteLine("File name?");
@@ -224,7 +227,7 @@ namespace Project_Slayer {
 		/// The game's content.
 		/// </summary>
 		/// <param name="user">The User object to be handled in the method.</param>
-		static void GameScreen(User user) {
+		static void GameScreen(User user, FileManager fileManager) {
 			SetUp();
 			//Creates a list to make handling enemies easier.
 			List<Entity> entityCombat = new List<Entity>();
@@ -239,7 +242,7 @@ namespace Project_Slayer {
 				if (entityCombat.Count < 1) {
 					//Check if game should end.
 					if (user.MobCount >= 20 && user.FloorLevel > 1) {
-						user.End(false);
+						user.End(false, user, fileManager);
 						run1 = false;
 						run2 = false;
 						run3 = false;
@@ -279,11 +282,11 @@ namespace Project_Slayer {
 							run1 = false;
 							run2 = false;
 							run3 = false;
-							user.IsDead(user.HitPoints);
+							user.IsDead(user.HitPoints, user, fileManager) ;
 							break;
 						} 
 						else if (user.CheckIfDead(user.HitPoints) == false) {
-							user.IsDead(user.HitPoints);
+							user.IsDead(user.HitPoints, user, fileManager);
 						}
 						textManager.PrintAfterRound(user, entityCombat[0]);
 					}
@@ -370,13 +373,13 @@ namespace Project_Slayer {
 				case "s":
 					run1 = false;
 					Console.Clear();
-					UserCreationScreen();
+					UserCreationScreen(fileManager);
 					break;
 				case "continue":
 				case "c":
 					run1 = false;
 					Console.Clear();
-					LoadScreen();
+					LoadScreen(fileManager);
 					break;
 				case "help":
 				case "h":
@@ -407,7 +410,9 @@ namespace Project_Slayer {
 		/// Represents a screen for creating a user by gathering necessary information.
 		/// Information is then sent to CreationFileScreen().
 		/// </summary>
-		static void UserCreationScreen() {
+		/// <param name="fileManager">The FileManager object to be transfering information</param>
+		static void UserCreationScreen(FileManager fileManager) {
+			bool isStopped = false;
 			while (true) {
 				Console.WriteLine("What do you want to be called? (Max 20 Characters)");
 				string userNameInput = Console.ReadLine();
@@ -422,7 +427,9 @@ namespace Project_Slayer {
 					string opt = Console.ReadLine().ToLower();
 
 					if (opt == "yes" || opt == "y") {
-						CreationFileScreen(userNameInput);
+						CreationFileScreen(userNameInput, fileManager);
+						isStopped = true;
+						break;
 					} 
 					else if (opt == "no" || opt == "n") {
 						Console.Clear();
@@ -438,6 +445,12 @@ namespace Project_Slayer {
 						Console.WriteLine("[YES] or [NO].");
 					}
 				}
+				if (isStopped) {
+					break;
+
+
+
+				}
 			}
 		}
 
@@ -446,7 +459,9 @@ namespace Project_Slayer {
 		/// Information is then sent to CreateUser();
 		/// </summary>
 		/// <param name="userNameInput">String to be handled as the User's username.</param>
-		static void CreationFileScreen(string userNameInput) {
+		/// <param name="fileManager">The fileManager object to be transfering information</param>
+		static void CreationFileScreen(string userNameInput, FileManager fileManager) {
+			bool isStopped = false;
 			while (true) {
 				Console.Clear();
 				Console.WriteLine("To which file do you want to save your character to?");
@@ -461,7 +476,8 @@ namespace Project_Slayer {
 						fileManager.BackupFileName(FileNameInput);
 						Console.WriteLine("Press any [KEY] to continue.");
 						Console.ReadKey();
-						GameScreen(user);
+						GameScreen(user, fileManager);
+						isStopped = true;
 						break;
 					} 
 					else if (newOpt == "no" || newOpt == "n") {
@@ -470,6 +486,9 @@ namespace Project_Slayer {
 					else {
 						Console.WriteLine("[YES] or [NO].");
 					}
+				}
+				if (isStopped) {
+					break;
 				}
 			}
 		}
@@ -481,8 +500,9 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Load user info screen and allows the user to select a file to load from.
 		/// </summary>
+		/// <param name="fileManager">The FilemManager object to be transfering information.</param>
 		/// <exception cref="ArgumentException">Thrown when file is not found or has invalid data.</exception>
-		static void LoadScreen() {
+		static void LoadScreen(FileManager fileManager) {
 			while (run2) {
 				Console.WriteLine("Select your preferred file:");
 				fileManager.DisplayAllFiles();
@@ -512,7 +532,7 @@ namespace Project_Slayer {
 							run1 = false;
 							run2 = false;
 							run3 = false;
-							GameScreen(user);
+							GameScreen(user, fileManager);
 							break;
 						} catch (ArgumentException e) {
 							Console.WriteLine($"An issue occurred: {e.Message}");
@@ -584,7 +604,7 @@ namespace Project_Slayer {
 					if (startAtGame) {
 						StartOrContinueGame();
 					} else {
-						GameScreen(user);
+						GameScreen(user, fileManager);
 						break;
 					}
 					break;
@@ -609,11 +629,11 @@ namespace Project_Slayer {
 			while (true) {
 				string gameContinuationInput = Console.ReadLine().ToLower();
 				if (gameContinuationInput == "start" || gameContinuationInput == "s") {
-					UserCreationScreen();
+					UserCreationScreen(fileManager);
 					break;
 				} 
 				else if (gameContinuationInput == "continue" || gameContinuationInput == "c") {
-					LoadScreen();
+					LoadScreen(fileManager);
 					break;
 				} 
 				else {

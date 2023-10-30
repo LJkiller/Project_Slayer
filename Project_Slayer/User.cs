@@ -103,9 +103,10 @@ namespace Project_Slayer {
 		/// Compares CheckIfDead() method's result and takes action accordingly.
 		/// </summary>
 		/// <param name="HP">The User's HitPoints (Health).</param>
-		public void IsDead(int HP) {
+		/// <param name="user">The User object to be handled in the method.</param>
+		public void IsDead(int HP, User user, FileManager fileManager) {
 			if (HP <= 0) {
-				End(true);
+				End(true, user, fileManager);
 			} else {
 				textManager.PrintColoredText(UserName, Program.UserColor);
 				Console.Write(" is still standing!\n");
@@ -285,6 +286,29 @@ namespace Project_Slayer {
 		}
 
 		/// <summary>
+		/// Resets the User's attributes.
+		/// </summary>
+		public void ResetAttributes() {
+			UserName = "DefaultUser";
+			HitPoints = 0;
+			strength = 0;
+			mana = 0;
+			durability = 0;
+			agility = 0;
+
+			Coins = 0;
+			Exp = 0;
+
+			floorLevel = 0;
+			mobCount = 0;
+			bossCount = 0;
+
+			dodgeCount = 0;
+			escapeCount = 0;
+			physicalAttackCount = 0;
+			magicalAttackCount = 0;
+	}
+		/// <summary>
 		/// Initializes a new instance of the User class.
 		/// </summary>
 		/// <param name="userName">The User's UserName.</param>
@@ -423,7 +447,7 @@ namespace Project_Slayer {
 
 			user.Strength += rng.Next(5, 15);
 			user.Mana += rng.Next(5, 15);
-			user.Durability += rng.Next(50, 100);
+			user.Durability += rng.Next(25, 50);
 			user.Agility += rng.Next(5, 15);
 
 			Console.WriteLine("Your new peak!");
@@ -486,8 +510,13 @@ namespace Project_Slayer {
 		/// If the User is dead, this method will be wiping data.
 		/// </summary>
 		/// <param name="dead">Bool to compare if the User has died.</param>
-		public override void End(bool dead = false) {
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="fileManager">The FileManager object to be transfering information.</param>
+		public override void End(bool dead = false, User user = null, FileManager fileManager = null) {
 			Console.Clear();
+			string savedFileName = fileManager.GetSavedFileName() ;
+			string backupFileName = fileManager.GetBackupFileName();
+
 			if (dead) {
 				Console.Write("The fearless adventurer ");
 				textManager.PrintColoredText(UserName, Program.UserColor) ;
@@ -537,16 +566,11 @@ namespace Project_Slayer {
 			Console.Write("'.\n");
 
 			if (dead) {
-				string savedFileName = fileManager.GetSavedFileName();
-				string backupFileName = fileManager.GetBackupFileName();
 
 				if (!string.IsNullOrEmpty(savedFileName)) {
-					WipeData(savedFileName);
+					WipeData(savedFileName, backupFileName, user);
 					Console.WriteLine("Just as life is, people do not get a second change.");
 					//Send to new function, wiping data.
-				} else if (!string.IsNullOrEmpty(backupFileName)) {
-					Console.WriteLine("Just as life is, people do not get a second change.");
-					WipeData(backupFileName);
 				} else {
 					Console.WriteLine("In the absence of records, a new story is born. One that is unrecorded of your presence.");
 				}
@@ -554,6 +578,7 @@ namespace Project_Slayer {
 			} 
 			else {
 				Console.WriteLine("Your legendary journey has ended, but your journey as a person has only begun.");
+				fileManager.Save(savedFileName, user);
 			}
 			Console.WriteLine("Press any [KEY] to quit.");
 			Console.ReadKey();
@@ -562,14 +587,19 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method reponsible of wiping the User's data at the end of the game (if the user has died).
 		/// </summary>
-		/// <param name="fileName">String to be handled as the User's file name.</param>
+		/// <param name="fileName1">String to be handled as the User's file name.</param>
+		/// <param name="fileName2">String to be handled as the User's file name.</param>
+		/// <param name="user">The User object to be handled in the method.</param>
 		/// <exception cref="ArgumentException">Thrown if the user object is null.</exception>
-		public void WipeData(string fileName) {
+		public void WipeData(string fileName1, string fileName2, User user) {
 			try {
-				if (File.Exists(fileName)) {
-					File.WriteAllText(fileName, "{}");
+				user.ResetAttributes();
 
-					Console.WriteLine($"Your journey '{fileName}' has ended");
+				if (File.Exists(fileName1) && File.Exists(fileName2)) {
+					File.WriteAllText(fileName1, "{}");
+					File.WriteAllText(fileName2, "{}");
+
+					Console.WriteLine($"Your journey '{fileName1}' has ended");
 				} else {
 					Console.WriteLine($"In the absence of records, a new story is born. One that is unrecorded of your presence");
 				}

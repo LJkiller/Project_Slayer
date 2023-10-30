@@ -127,7 +127,10 @@ namespace Project_Slayer {
 		/// <summary>
 		/// Method responsible of Goblin's death.
 		/// </summary>
-		public override void End(bool isDead) {
+		/// <param name="isDead">Bool to compare if Goblin has died.</param>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="fileManager">The FileManager object to be transfering information.</param>
+		public override void End(bool isDead, User user = null, FileManager fileManager = null) {
 			base.End(isDead);
 			if (isDead) {
 				int experienceGained = (int)Math.Round(GetExpDrop());

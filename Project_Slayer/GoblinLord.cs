@@ -71,7 +71,7 @@ namespace Project_Slayer {
 		public double Durability {
 			get { return base.durability; }
 			set {
-				base.durability = rng.Next((int)(minStat * 6*3), (int)(maxStat * 6*3));
+				base.durability = rng.Next((int)(minStat * 7*3), (int)(maxStat * 7*3));
 			}
 		}
 		/// <summary>
@@ -125,9 +125,12 @@ namespace Project_Slayer {
 		#region Methods
 
 		/// <summary>
-		/// Method responsible of Human's death.
+		/// Method responsible of GoblinLord's death.
 		/// </summary>
-		public override void End(bool isDead) {
+		/// <param name="isDead">Bool to compare if GoblinLord has died.</param>
+		/// <param name="user">The User object to be handled in the method.</param>
+		/// <param name="fileManager">The FileManager object to be transfering information.</param>
+		public override void End(bool isDead, User user = null, FileManager fileManager = null) {
 			base.End(isDead);
 			if (isDead) {
 				int experienceGained = (int)Math.Round(GetExpDrop());

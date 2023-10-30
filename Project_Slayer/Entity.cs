@@ -180,7 +180,7 @@ namespace Project_Slayer {
 		/// Method responsible of an entity's death.
 		/// </summary>
 		/// <param name="dead">Bool to compare if the Entity is dead.</param>
-		public abstract void End(bool dead = false);
+		public abstract void End(bool dead = false, User user = null, FileManager fileManager = null);
 		
 		#endregion
 
