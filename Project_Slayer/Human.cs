@@ -129,21 +129,6 @@ namespace Project_Slayer {
             }
         }
 
-        /// <summary>
-        /// Method responsible of getting CoinDrop.
-        /// </summary>
-        /// <returns>CoinDrop</returns>
-        public double GetCoinDrop() {
-            return CoinDrop;
-        }
-        /// <summary>
-		/// Method responsible of getting ExpDrop.
-		/// </summary>
-		/// <returns>ExpDrop</returns>
-        public double GetExpDrop() {
-            return ExpDrop;
-        }
-
         #endregion
 
     }

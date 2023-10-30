@@ -37,6 +37,8 @@ namespace Project_Slayer {
 		public static ConsoleColor UserHealthColor = ConsoleColor.Green;
 		public static ConsoleColor EnemyHealthColor = ConsoleColor.DarkYellow;
 		public static ConsoleColor DamageColor = ConsoleColor.DarkRed;
+		public static ConsoleColor CoinColor = ConsoleColor.Yellow;
+		public static ConsoleColor ExpColor = ConsoleColor.Green;
 
 		public static string FileNameInput;
 		static bool run1;
@@ -96,15 +98,9 @@ namespace Project_Slayer {
 						break;
 					case "forcedeath":
 						user.HitPoints = 0;
-						run1 = false;
-						run2 = false;
-						run3 = false;
 						break;
 					case "forceend":
 						user.End(false);
-						run1 = false;
-						run2 = false;
-						run3 = false;
 						break;
 					default:
 						Console.WriteLine("Your move has been forfeited, enemy attacks. If you need help type 'HELP'.");
@@ -238,6 +234,7 @@ namespace Project_Slayer {
 					user.RestoreHealth(healthRestoration);
 					//Adds mob.
 					entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount, availableFloors));
+					//Use to check if somehting actually happens.
 					Console.WriteLine($"FloorLevel: {user.GetFloorLevel()}, MobCount: {user.GetMobCount()}");
 					textManager.PrintNewMobAppearance(user, entityCombat[0]);
 				} 
@@ -248,8 +245,13 @@ namespace Project_Slayer {
 						Console.Clear();
 						Console.Write("You've conquered the ");
 						textManager.PrintColoredText(entityCombat[0].GetMobName(), EnemyColor);
-						Console.Write("! You've earned\n");
-						//Add loot here
+						Console.Write("! You've earned ");
+						user.Coins += entityCombat[0].GetMobCoinDrop();
+						user.Exp += entityCombat[0].GetMobExpDrop();
+						textManager.PrintColoredText($"{entityCombat[0].GetMobCoinDrop()} Coins", CoinColor);
+						Console.Write(" and ");
+						textManager.PrintColoredText($"{entityCombat[0].GetMobExpDrop()} XP", ExpColor);
+						Console.Write("!\n");
 						entityCombat.RemoveAt(0);
 						continue;
 					} 

@@ -31,6 +31,15 @@ namespace Project_Slayer {
 		#region Setup 
 		//To initialize different classes to access methods.
 		TextManager textManager = new TextManager();
+		private Mob mobInstance;
+
+		/// <summary>
+		/// Gets or sets the associated Mob instance for this Entity.
+		/// </summary>
+		public Mob MobInstance {
+			get { return mobInstance; }
+			set { mobInstance = value; }
+		}
 		#endregion
 
 		#region RNG
@@ -96,6 +105,23 @@ namespace Project_Slayer {
 			return durability;
 		}
 
+		/// <summary>
+		/// Method responsible of getting mob ExpDrop.
+		/// </summary>
+		/// <param name="mob">The Mob object to be handled in the method.</param>
+		/// <returns>experience points drop value.</returns>
+		public int GetMobExpDrop() {
+			return mobInstance != null ? (int)mobInstance.GetExpDrop() : 0;
+		}
+		/// <summary>
+		/// Method responsible of getting mob CoinDrop.
+		/// </summary>
+		/// <param name="mob">The Mob object to be handled in the method.</param>
+		/// <returns>coin drop value.</returns>
+		public int GetMobCoinDrop() {
+			return mobInstance != null ? (int)mobInstance.GetCoinDrop() : 0;
+		}
+
 		#endregion
 
 		#region Information & Initiator
@@ -116,7 +142,14 @@ namespace Project_Slayer {
 		/// Initializes new instance of Entity class.
 		/// </summary>
 		public Entity() {
-
+			mobInstance = null;
+		}
+		/// <summary>
+		/// Initializes new instance of Entity class, associated with Mob instance.
+		/// </summary>
+		/// <param name="mobInstance">The Mob object to associate with this Entity.</param>
+		public Entity(Mob mobInstance) {
+			this.mobInstance = mobInstance;
 		}
 
 		#endregion

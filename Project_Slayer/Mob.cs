@@ -55,6 +55,21 @@ namespace Project_Slayer {
 		//Additional mob stats.
 		protected double coinDrop;
 		protected double expDrop;
+
+		/// <summary>
+		/// Method responsible of getting CoinDrop.
+		/// </summary>
+		/// <returns>CoinDrop</returns>
+		public double GetCoinDrop() {
+			return coinDrop;
+		}
+		/// <summary>
+		/// Method responsible of getting ExpDrop.
+		/// </summary>
+		/// <returns>ExpDrop</returns>
+		public double GetExpDrop() {
+			return expDrop;
+		}
 		#endregion
 
 		#region Information & Initiator

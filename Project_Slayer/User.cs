@@ -533,7 +533,8 @@ namespace Project_Slayer {
 					Console.WriteLine("In the absence of records, a new story is born. One that is unrecorded of your presence.");
 				}
 
-			} else {
+			} 
+			else {
 				Console.WriteLine("Your legendary journey has ended, but your journey as a person has only begun.");
 			}
 			Console.WriteLine("Press any [KEY] to quit.");
