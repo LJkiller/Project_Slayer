@@ -50,7 +50,7 @@ namespace Project_Slayer {
 		public void PrintCMDSHelp() {
 			Console.WriteLine(
 				"During game:\n" +
-				"Save: 'save' (Saving mid game)\n" +
+				"Save: 'save' (Saving mid game, consumes health.)\n" +
 				"Quit: 'quit' or 'q' (Will lead to save and then quit)\n\n" +
 				"Combat-related:\n" +
 				"Attack: 'attack + [ATTACKTYPE]' (Physical or magical, if nothing => physical attack)\n" +

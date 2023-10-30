@@ -352,9 +352,9 @@ namespace Project_Slayer {
 		/// <exception cref="FileNotFoundException">Thrown when both the primary and backup files are not found.</exception>
 		/// <exception cref="JsonException">Thrown when there is an issue with JSON data deserialization.</exception>
 		public User GetUserInfo(string fileNameInput) {
+			string serializedData = null;
 			string fileName = $"SaveFile-{fileNameInput}.json";
 			string backupFileName = $"SaveFile-{fileNameInput}-Backup.json";
-			string serializedData = null;
 
 			//Check if the file exists, through primary and backup.
 			if (File.Exists(fileName)) {

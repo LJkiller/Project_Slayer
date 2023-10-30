@@ -66,7 +66,7 @@ namespace Project_Slayer {
 		/// Input-filtering to a value in order to call different methods.
 		/// </summary>
 		/// <param name="inputString">The string input to be handled in the method.</param>
-		static void InputArrangement(string inputString, User user, Entity entity) {
+		static void InputArrangement(string inputString, User user, Entity entity, int healthRestoration) {
 			//Takes the inputString and convers it into a list to be handled easier.
 			List<string> inputCount = inputString.ToLower().Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
 
@@ -80,7 +80,9 @@ namespace Project_Slayer {
 				switch (input) {
 					case "save":
 					case "s":
+						Console.Clear();
 						SaveFile(user);
+						user.RestoreHealth(healthRestoration);
 						break;
 					case "attack":
 						user.Attack("physical",user, entity);
@@ -228,6 +230,7 @@ namespace Project_Slayer {
 
 			while (run1) {
 				int currentFloorLevel = user.GetFloorLevel();
+				int healthRestoration = (user.Durability - user.HitPoints);
 
 				//Checks if there is any mob, if no mob, creates one.
 				if (entityCombat.Count < 1) {
@@ -241,7 +244,6 @@ namespace Project_Slayer {
 					}
 
 					//Restores health. Makes it obselete for HP to be saved with JsonFile.
-					int healthRestoration = (user.Durability - user.HitPoints);
 					user.RestoreHealth(healthRestoration);
 					//Adds mob.
 					entityCombat.Add(SpawnMob(user.FloorLevel, user.MobCount));
@@ -296,7 +298,7 @@ namespace Project_Slayer {
 					entityCombat.RemoveAt(0);
 				} else {
 					//Function that does not disturb the attack order, will proceed as turn-based combat.
-					InputArrangement(input, user, entityCombat[0]);
+					InputArrangement(input, user, entityCombat[0], healthRestoration);
 					entityCombat[0].Attack("physical", user, entityCombat[0]);
 				}
 			}
@@ -342,9 +344,12 @@ namespace Project_Slayer {
 			Console.WriteLine("Do you want to start a new game?            Write 'S' or 'Start'.");
 			Console.WriteLine("Do you want to continue from a save file?   Write 'C' or 'Continue'.");
 			Console.WriteLine("Do you want help?                           Write 'H' or 'Help'.");
-			Console.WriteLine("Do you want to quit?                        Write 'Q' or 'Quit'.");
-			Console.WriteLine("Check user info?                            Write 'U' or 'Check'.");
-			Console.WriteLine("Run entity testing?                         Write 'T' or 'Test'.\n");
+			Console.WriteLine("Do you want to quit?                        Write 'Q' or 'Quit'.\n");
+
+			//These two should not be displayed at the current moment.
+			//Each of these displayed methods are still usable, just hidden.
+			//Console.WriteLine("Check user info?                            Write 'U' or 'Check'.");
+			//Console.WriteLine("Run entity testing?                         Write 'T' or 'Test'.\n");
 
 			while (run1) {
 				string setUpInput = Console.ReadLine().ToLower();
